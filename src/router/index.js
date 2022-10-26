@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import TaskAddView from '../views/TaskAddView.vue';
 
 Vue.use(VueRouter);
 
@@ -8,7 +8,11 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    component: TaskAddView,
+    meta: {
+      title: 'Task Add',
+      titleLong: 'Task Add Long',
+    },
   },
   {
     path: '/about',
