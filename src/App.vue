@@ -11,9 +11,7 @@
           <!-- Main workspace -->
           <v-main style="height: 100%">
             <app-bar @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"/>
-            <!--
-            <h5 class="px-2 py-1 yellow">Zapisz błędy do loga</h5>
-            -->
+            <!-- <h5 class="px-2 py-1 yellow">Usuń v-card</h5> -->
             <router-view
               @isProcessing="isProcessing = $event"
               @showMessage="showMessageDialog"
@@ -92,29 +90,28 @@ export default {
     },
   }),
   created() {
-    this.showMessageDialog('test', 'testing');
-    if (!localStorage.getItem('userInfo')) {
-      if (this.$route.name !== 'Login' && this.$route.name !== 'Register') {
-        this.$router.replace({ name: 'Login' });
-      }
-      return;
-    }
+    // if (!localStorage.getItem('userInfo')) {
+    //   if (this.$route.name !== 'Login' && this.$route.name !== 'Register') {
+    //     this.$router.replace({ name: 'Login' });
+    //   }
+    //   return;
+    // }
 
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-    // require login each day
-    const loginTimestamp = new Date(parseInt(userInfo.timestamp, 10));
-    if ((!loginTimestamp || loginTimestamp.getDate() !== new Date().getDate())
-    && this.$route.name !== 'Login'
-    && this.$route.name !== 'Register') {
-      this.$router.replace({ name: 'Login' });
-      return;
-    }
+    // // require login each day
+    // const loginTimestamp = new Date(parseInt(userInfo.timestamp, 10));
+    // if ((!loginTimestamp || loginTimestamp.getDate() !== new Date().getDate())
+    // && this.$route.name !== 'Login'
+    // && this.$route.name !== 'Register') {
+    //   this.$router.replace({ name: 'Login' });
+    //   return;
+    // }
 
-    // set store user info
-    this.$store.dispatch('setUserName', userInfo.userName);
-    this.$store.dispatch('setToken', userInfo.token);
-    this.$store.dispatch('setAccountManager', userInfo.isAccountManager);
+    // // set store user info
+    // this.$store.dispatch('setUserName', userInfo.userName);
+    // this.$store.dispatch('setToken', userInfo.token);
+    // this.$store.dispatch('setAccountManager', userInfo.isAccountManager);
   },
   methods: {
     showMessageDialog(title, message) {
@@ -166,7 +163,7 @@ export default {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
-    background: #e8e8e8;
+    background: #f0f0f0;
 
     @media (max-width: 960px) {
       background: white;
