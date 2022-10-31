@@ -11,7 +11,7 @@
           <!-- Main workspace -->
           <v-main style="height: 100%">
             <app-bar @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"/>
-            <!-- <h5 class="px-2 py-1 yellow">Usuń v-card</h5> -->
+            <h5 class="px-2 py-1 yellow">Wysrodkuj</h5>
             <router-view
               @isProcessing="isProcessing = $event"
               @showMessage="showMessageDialog"

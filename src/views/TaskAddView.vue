@@ -5,16 +5,18 @@
     style="height: 100%">
     <v-form
       ref="form"
+      id="data_form"
+      :style="computed_width"
       lazy-validation
       v-formFocusNextOnEnter>
       <!-- Form -->
       <v-row
-        :class="$vuetify.breakpoint.mdAndUp ? 'pa-4' : 'pa-3 mt-0'"
-        class="no-gutters" >
+        :class="$vuetify.breakpoint.mdAndUp ? 'pa-4' : 'px-3 py-0 mt-0'"
+        class="no-gutters">
         <!-- Content column -->
         <v-col cols="12" class="pa-0">
-          <v-row class="no-gutters mt-2">
-            <v-col cols="3" md="2" lg="1">
+          <v-row class="no-gutters">
+            <v-col cols="12">
               <v-menu
                 v-model="item.isDatePickerVisible"
                 :close-on-content-click="false"
@@ -40,7 +42,7 @@
               </v-menu>
             </v-col>
             <!-- Project -->
-            <v-col cols="6" sm="4" md="3" lg="2">
+            <v-col cols="12" class="mt-2">
               <v-combobox
                 :items="nameApi.values"
                 :loading="nameApi.isLoading"
@@ -51,13 +53,14 @@
                 ref="clientName"
                 hide-no-data
                 hide-selected
+                hide-details="auto"
                 no-filter
                 type="input"
                 label="Projekt"
                 />
             </v-col>
             <!-- Version -->
-            <v-col cols="6" sm="4" md="3" lg="2" class="pl-2">
+            <v-col cols="12" class="mt-2">
               <v-text-field
                 :rules="[rules.required]"
                 v-model.lazy="item.client.name"
@@ -66,17 +69,45 @@
                 hide-details="auto"
                 validate-on-blur/>
             </v-col>
-            <!-- Description -->
+            <!-- Hours -->
             <v-col
-              cols="12" sm="4" md="6" lg="8"
-              :class="$vuetify.breakpoint.smAndUp ? 'pl-2' : ''">
+              v-if="isHoursBased"
+              cols="12"
+              class="mt-2">
               <v-text-field
                 :rules="[rules.required]"
                 v-model.lazy="item.client.name"
-                label="Opis"
+                label="Ilość godzin"
                 type="input"
                 hide-details="auto"
                 validate-on-blur/>
+            </v-col>
+            <!-- Price -->
+            <v-col
+              v-if="isHoursBased == false"
+              cols="12"
+              class="mt-2">
+              <v-text-field
+                :rules="[rules.required]"
+                v-model.lazy="item.client.name"
+                label="Cena"
+                type="input"
+                hide-details="auto"
+                validate-on-blur/>
+            </v-col>
+            <!-- Description -->
+            <v-col
+              v-if="isHoursBased == false"
+              cols="12"
+              class="mt-2">
+              <v-textarea
+                :rules="[rules.required]"
+                label="Opis"
+                hide-details="auto"
+                validate-on-blur
+                auto-grow
+                rows="4"
+                v-model.lazy="item.client.name"/>
             </v-col>
           </v-row>
         </v-col>
@@ -115,9 +146,20 @@ export default {
     date() {
       return moment(this.item.date).format('DD-MM-YYYY');
     },
+    computed_width() {
+      switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return '';
+          case 'sm': return 'width: 75%;';
+          case 'md': return 'width: 50%;';
+          case 'lg': return 'width: 40%;';
+          case 'xl': return 'width: 30%;';
+          default: return '';
+        }
+    },
   },
   data: () => ({
     isFormReset: false,
+    isHoursBased: true,
     item: null,
     newItem: {
       requestName: 'Nowe zlecenie',
@@ -213,7 +255,8 @@ export default {
         // }
 
         this.$emit('showMessage', 'Depozyt', 'Nieudany zapis');
-      } catch (error) {
+      }
+      catch (error) {
         this.processError(error);
       }
 
@@ -273,6 +316,14 @@ export default {
     display: block;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  #data_form {
+    width: 50%;
+
+    @media (max-width: 960px) {
+      width: 100%;
+    }
   }
 
 </style>
