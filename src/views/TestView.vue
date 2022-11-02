@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div
+    fill-height
+    class="d-flex flex-column blue"
+    :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''">
     <v-card
       class="d-flex align-start flex-column mb-6"
       color="grey lighten-2"
@@ -15,11 +18,12 @@
     </v-card>
 
     <v-card
-      class="d-flex align-end flex-column"
+      class="d-flex grow align-end flex-column"
       color="grey lighten-2"
       flat
       tile
-      height="200"
+      fill-height
+
     >
       <v-card class="pa-2" outlined tile> Flex item </v-card>
 

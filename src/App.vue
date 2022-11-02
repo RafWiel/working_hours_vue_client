@@ -2,16 +2,14 @@
   <v-app>
     <v-container
       fluid
-      class="pa-0"
-      style="height: 100%">
-      <v-row
-        class="no-gutters d-flex flex-column flex-nowrap"
-        style="min-height:100vh">
+      style="min-height: 100vh"
+      class="pa-0">
+      <v-row class="no-gutters d-flex flex-column flex-nowrap">
         <v-col>
           <!-- Main workspace -->
-          <v-main style="height: 100%">
+          <v-main >
             <app-bar @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"/>
-            <h5 class="px-2 py-1 yellow">Wysrodkuj</h5>
+            <!-- <h5 class="px-2 py-1 yellow">Wysrodkuj</h5> -->
             <router-view
               @isProcessing="isProcessing = $event"
               @showMessage="showMessageDialog"
@@ -165,9 +163,9 @@ export default {
     color: #2c3e50;
     background: #f0f0f0;
 
-    @media (max-width: 960px) {
-      background: white;
-    }
+    // @media (max-width: 960px) {
+    //   background: white;
+    // }
   }
 
   .v-application {
@@ -182,6 +180,10 @@ export default {
     @media (max-width: 960px) {
       min-height: 50px;
     }
+  }
+
+  div.v-application--wrap {
+    min-height:calc(100vh - 64px) !important;
   }
 
 </style>

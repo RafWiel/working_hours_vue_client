@@ -1,21 +1,20 @@
 <template>
   <v-container
     :class="$vuetify.breakpoint.smAndUp ? 'my-12' : ''"
-    class="pa-0 d-flex flex-column flex-nowrap align-center yellow"
-    fluid
-    >
+    :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
+    class="pa-0 d-flex flex-column flex-nowrap align-center"
+    fluid>
     <v-form
       :style="computed_width"
       ref="form"
-
-      class="green"
+      class="d-flex grow flex-column"
       id="data_form"
       lazy-validation
       v-formFocusNextOnEnter>
       <!-- Form -->
       <v-row
-        :class="$vuetify.breakpoint.xs ? 'px-3' : ''"
-        class="no-gutters">
+        :class="$vuetify.breakpoint.xs ? 'px-3 pt-2' : ''"
+        class="no-gutters grow">
         <!-- Content column -->
         <v-col cols="12" class="pa-0">
           <v-row class="no-gutters">
@@ -117,13 +116,10 @@
       </v-row>
       <!-- Save Button -->
       <v-row
-        :class="$vuetify.breakpoint.xs ? 'px-3 ' : 'mt-4'"
-
-        class="no-gutters blue d-flex align-self-end justify-self-end"
+        :class="$vuetify.breakpoint.xs ? 'px-3 pb-3' : ''"
+        class="no-gutters shrink mt-4"
         justify="end">
-        <v-col
-          :class="$vuetify.breakpoint.xs ? 'align-self-end' : ''"
-          cols="12" sm="5">
+        <v-col cols="12" sm="5">
           <v-btn
             depressed
             block
