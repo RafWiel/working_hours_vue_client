@@ -213,7 +213,8 @@ export default {
         // }
 
         this.$emit('showMessage', 'Depozyt', 'Nieudany zapis');
-      } catch (error) {
+      }
+      catch (error) {
         this.processError(error);
       }
 
