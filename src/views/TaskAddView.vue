@@ -50,9 +50,7 @@
                 :loading="nameApi.isLoading"
                 :search-input.sync="nameApi.searchInput"
                 :rules="[rules.required]"
-                @change="getClientByName(item.client.name)"
-                v-model="item.client.name"
-                ref="clientName"
+                v-model="item.project"
                 hide-no-data
                 hide-selected
                 hide-details="auto"
@@ -65,7 +63,7 @@
             <v-col cols="12" class="mt-2">
               <v-text-field
                 :rules="[rules.required]"
-                v-model.lazy="item.client.name"
+                v-model.lazy="item.version"
                 label="Wersja"
                 type="input"
                 hide-details="auto"
@@ -78,7 +76,7 @@
               class="mt-2">
               <v-text-field
                 :rules="[rules.required]"
-                v-model.lazy="item.client.name"
+                v-model.lazy="item.hoursCount"
                 label="Ilość godzin"
                 type="input"
                 hide-details="auto"
@@ -91,7 +89,7 @@
               class="mt-2">
               <v-text-field
                 :rules="[rules.required]"
-                v-model.lazy="item.client.name"
+                v-model.lazy="item.price"
                 label="Cena"
                 type="input"
                 hide-details="auto"
@@ -109,7 +107,7 @@
                 validate-on-blur
                 auto-grow
                 rows="4"
-                v-model.lazy="item.client.name"/>
+                v-model.lazy="item.description"/>
             </v-col>
           </v-row>
         </v-col>
@@ -138,7 +136,7 @@
 import moment from 'moment';
 import rules from '@/misc/rules';
 // import clientsService from '@/services/clients';
-// import depositsService from '@/services/deposits';
+import tasksService from '@/services/tasks';
 // import TireInfo from '@/components/deposit/TireInfo.vue';
 // import SignatureField from '@/components/SignatureField.vue';
 import logger from '@/misc/logger';
@@ -161,41 +159,18 @@ export default {
     },
   },
   data: () => ({
+    messageTitle: 'Nowe zadanie',
     isFormReset: false,
     isHoursBased: true,
     item: null,
     newItem: {
-      requestName: 'Nowe zlecenie',
       isDatePickerVisible: false,
       date: null,
-      client: {
-        name: null,
-        companyName: null,
-        phoneNumber: null,
-        email: null,
-      },
-      tires: [
-        {
-          width: null,
-          profile: null,
-          diameter: null,
-          dot: null,
-          brand: null,
-          tread: null,
-          note: null,
-        },
-      ],
-      isTires: false,
-      isAlloys: false,
-      isSteels: false,
-      isScrews: false,
-      isHubcups: false,
-      tiresNote: null,
-      tiresLocation: null,
-      signature: {
-        employee: null,
-        client: null,
-      },
+      project: null,
+      version: null,
+      hoursCount: null,
+      price: null,
+      description: null,
     },
     nameApi: {
       searchInput: null,
@@ -221,14 +196,12 @@ export default {
   created() {
     // deep copy
     this.item = JSON.parse(JSON.stringify(this.newItem));
+    this.item.date = moment(new Date()).format('YYYY-MM-DD');
   },
   methods: {
     async save() {
       // validation
-      const v1 = this.$refs.form.validate();
-      const v2 = this.$refs.employeeSignature.validate();
-      const v3 = this.$refs.clientSignature.validate();
-      if (!v1 || !v2 || !v3) {
+      if (this.$refs.form.validate() === false) {
         this.$nextTick(() => {
           const el = this.$el.querySelector('.v-messages.error--text:first-of-type');
 
@@ -241,23 +214,20 @@ export default {
       try {
         this.$emit('isProcessing', true);
 
-        this.item.signature.employee = this.$refs.employeeSignature.getImageData();
-        this.item.signature.client = this.$refs.clientSignature.getImageData();
+        console.log(JSON.stringify(this.item));
 
-        // console.log(JSON.stringify(this.item));
+        const response = await tasksService.create(this.item);
 
-        // const response = await depositsService.create(this.item);
+        if (response.data.result) {
+          this.$emit('isProcessing', false);
+          this.$emit('showMessage', this.messageTitle, 'Zadanie zapisane');
+          this.resetForm();
+          this.$vuetify.goTo(0);
 
-        // if (response.data.result) {
-        //   this.$emit('isProcessing', false);
-        //   this.$emit('showMessage', 'Depozyt', 'Zlecenie zapisane');
-        //   this.resetForm();
-        //   this.$vuetify.goTo(0);
+          return;
+        }
 
-        //   return;
-        // }
-
-        this.$emit('showMessage', 'Depozyt', 'Nieudany zapis');
+        this.$emit('showMessage', this.messageTitle, 'Nieudany zapis');
       }
       catch (error) {
         this.processError(error);
@@ -265,27 +235,27 @@ export default {
 
       this.$emit('isProcessing', false);
     },
-    addArrayObject(item, array, maxCount, newItem) {
-      if (this.isFormReset === true) return;
+    // addArrayObject(item, array, maxCount, newItem) {
+    //   if (this.isFormReset === true) return;
 
-      // check if last item in array
-      const index = array.indexOf(item);
-      if (array.length >= maxCount || index < array.length - 1) return;
+    //   // check if last item in array
+    //   const index = array.indexOf(item);
+    //   if (array.length >= maxCount || index < array.length - 1) return;
 
-      // add new item
-      array.push(newItem);
-    },
+    //   // add new item
+    //   array.push(newItem);
+    // },
     processError(error) {
       logger.error(error);
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.$emit('showMessage', 'Depozyt', 'Brak odpowiedzi z serwera');
+        this.$emit('showMessage', this.messageTitle, 'Brak odpowiedzi z serwera');
         return;
       }
 
       logger.error(error.response.data);
-      this.$emit('showMessage', 'Depozyt', error.response.data.message);
+      this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
     resetForm() {
       this.isFormReset = true;
@@ -293,8 +263,6 @@ export default {
       // deep copy
       this.item = JSON.parse(JSON.stringify(this.newItem));
 
-      this.$refs.employeeSignature.resetCanvas();
-      this.$refs.clientSignature.resetCanvas();
       this.$refs.form.reset();
 
       setTimeout(() => {
