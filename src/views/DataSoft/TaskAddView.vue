@@ -43,6 +43,22 @@
                   @input="item.isDatePickerVisible = false"/>
               </v-menu>
             </v-col>
+            <!-- Client -->
+            <v-col cols="12" class="mt-2">
+              <v-combobox
+                :items="nameApi.values"
+                :loading="nameApi.isLoading"
+                :search-input.sync="nameApi.searchInput"
+                :rules="[rules.required]"
+                v-model="item.client"
+                hide-no-data
+                hide-selected
+                hide-details="auto"
+                no-filter
+                type="input"
+                label="Klient"
+                />
+            </v-col>
             <!-- Project -->
             <v-col cols="12" class="mt-2">
               <v-combobox
@@ -69,22 +85,8 @@
                 hide-details="auto"
                 validate-on-blur/>
             </v-col>
-            <!-- Hours -->
-            <v-col
-              v-if="isHoursBased"
-              cols="12"
-              class="mt-2">
-              <v-text-field
-                :rules="[rules.required]"
-                v-model.lazy="item.hoursCount"
-                label="Ilość godzin"
-                type="input"
-                hide-details="auto"
-                validate-on-blur/>
-            </v-col>
             <!-- Price -->
             <v-col
-              v-if="isHoursBased == false"
               cols="12"
               class="mt-2">
               <v-text-field
@@ -97,7 +99,6 @@
             </v-col>
             <!-- Description -->
             <v-col
-              v-if="isHoursBased == false"
               cols="12"
               class="mt-2">
               <v-textarea
@@ -161,14 +162,13 @@ export default {
   data: () => ({
     messageTitle: 'Nowe zadanie',
     isFormReset: false,
-    isHoursBased: true,
     item: null,
     newItem: {
       isDatePickerVisible: false,
       date: null,
+      client: null,
       project: null,
       version: null,
-      hoursCount: null,
       price: null,
       description: null,
     },

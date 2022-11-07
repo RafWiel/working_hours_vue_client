@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import TestView from '../views/TestView.vue';
-import TaskAddView from '../views/TaskAddView.vue';
+import TaskAddViewAD from '../views/Aldridge/TaskAddView.vue';
+import TaskAddViewDS from '../views/DataSoft/TaskAddView.vue';
 
 Vue.use(VueRouter);
 
@@ -10,7 +11,7 @@ const routes = [
     path: '/',
     name: 'main',
     redirect: {
-      name: 'task_add',
+      name: 'ds_task_add',
     },
   },
   {
@@ -18,12 +19,21 @@ const routes = [
     redirect: '/',
   },
   {
-    path: '/task_add',
-    name: 'task_add',
-    component: TaskAddView,
+    path: '/ad/task_add',
+    name: 'ad_task_add',
+    component: TaskAddViewAD,
     meta: {
-      title: 'Nowe zadanie',
-      titleLong: 'Nowe zadanie',
+      title: 'Nowe zadanie Aldridge',
+      titleLong: 'Nowe zadanie Aldridge',
+    },
+  },
+  {
+    path: '/ds/task_add',
+    name: 'ds_task_add',
+    component: TaskAddViewDS,
+    meta: {
+      title: 'Nowe zadanie DataSoft',
+      titleLong: 'Nowe zadanie DataSoft',
     },
   },
   {

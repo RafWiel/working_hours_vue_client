@@ -66,10 +66,9 @@ export default {
     isProcessing: false,
     isNavigationBarOpen: false,
     links: [
-      { icon: 'mdi-format-list-numbered', text: 'Lista zleceń serwisowych', route: '/requests' },
-      { icon: 'mdi-car-side', text: 'Nowe zlecenie osobowe', route: '/service/car' },
-      { icon: 'mdi-truck', text: 'Nowe zlecenie ciężarowe', route: '/service/truck' },
-      { icon: 'mdi-home-import-outline', text: 'Nowy depozyt', route: '/deposit' },
+      { icon: 'mdi-format-list-numbered', text: 'Lista zadań', route: '/tasks' },
+      { icon: 'mdi-playlist-plus', text: 'Nowe zadanie Aldridge', route: '/ad/task_add' },
+      { icon: 'mdi-playlist-plus', text: 'Nowe zadanie DataSoft', route: '/ds/task_add' },
     ],
     messageDialog: {
       title: null,
