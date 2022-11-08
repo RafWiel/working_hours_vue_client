@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import TestView from '../views/TestView.vue';
-import TaskAddViewAD from '../views/Aldridge/TaskAddView.vue';
-import TaskAddViewDS from '../views/DataSoft/TaskAddView.vue';
+import TaskAddViewAD from '../views/aldridge/TaskAddView.vue';
+import TaskAddViewDS from '../views/datasoft/TaskAddView.vue';
 
 Vue.use(VueRouter);
 
