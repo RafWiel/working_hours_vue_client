@@ -20,7 +20,7 @@
           <v-row class="no-gutters">
             <v-col cols="12">
               <v-menu
-                v-model="item.isDatePickerVisible"
+                v-model="isDatePickerVisible"
                 :close-on-content-click="false"
                 :nudge-right="40"
                 transition="scale-transition"
@@ -40,7 +40,7 @@
                   v-model="item.date"
                   no-title
                   locale="pl-pl"
-                  @input="item.isDatePickerVisible = false"/>
+                  @input="isDatePickerVisible = false"/>
               </v-menu>
             </v-col>
             <!-- Client -->
@@ -136,11 +136,12 @@
 // import debounce from 'lodash.debounce';
 import moment from 'moment';
 import rules from '@/misc/rules';
+import logger from '@/misc/logger';
 // import clientsService from '@/services/clients';
-import tasksService from '@/services/tasks';
+import tasksService from '@/services/datasoft/tasks';
 // import TireInfo from '@/components/deposit/TireInfo.vue';
 // import SignatureField from '@/components/SignatureField.vue';
-import logger from '@/misc/logger';
+
 
 export default {
   name: 'TaskAddView',
@@ -162,9 +163,9 @@ export default {
   data: () => ({
     messageTitle: 'Nowe zadanie',
     isFormReset: false,
+    isDatePickerVisible: false,
     item: null,
     newItem: {
-      isDatePickerVisible: false,
       date: null,
       client: null,
       project: null,

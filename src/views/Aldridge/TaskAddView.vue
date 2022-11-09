@@ -20,7 +20,7 @@
           <v-row class="no-gutters">
             <v-col cols="12">
               <v-menu
-                v-model="item.isDatePickerVisible"
+                v-model="isDatePickerVisible"
                 :close-on-content-click="false"
                 :nudge-right="40"
                 transition="scale-transition"
@@ -40,7 +40,7 @@
                   v-model="item.date"
                   no-title
                   locale="pl-pl"
-                  @input="item.isDatePickerVisible = false"/>
+                  @input="isDatePickerVisible = false"/>
               </v-menu>
             </v-col>
             <!-- Project -->
@@ -74,7 +74,7 @@
               cols="12"
               class="mt-2">
               <v-text-field
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.float]"
                 v-model.lazy="item.hoursCount"
                 label="Ilość godzin"
                 type="input"
@@ -108,7 +108,7 @@
 import moment from 'moment';
 import rules from '@/misc/rules';
 // import clientsService from '@/services/clients';
-import tasksService from '@/services/tasks';
+import tasksService from '@/services/aldridge/tasks';
 // import TireInfo from '@/components/deposit/TireInfo.vue';
 // import SignatureField from '@/components/SignatureField.vue';
 import logger from '@/misc/logger';
@@ -134,9 +134,9 @@ export default {
     messageTitle: 'Nowe zadanie',
     isFormReset: false,
     isHoursBased: true,
+    isDatePickerVisible: false,
     item: null,
     newItem: {
-      isDatePickerVisible: false,
       date: null,
       project: null,
       version: null,
@@ -159,8 +159,7 @@ export default {
     },
     rules: {
       required: rules.required,
-      integer: rules.integer,
-      phoneNumber: rules.phoneNumber,
+      float: rules.float,
     },
   }),
   created() {
