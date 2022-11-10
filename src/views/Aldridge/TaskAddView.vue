@@ -46,9 +46,9 @@
             <!-- Project -->
             <v-col cols="12" class="mt-2">
               <v-combobox
-                :items="nameApi.values"
-                :loading="nameApi.isLoading"
-                :search-input.sync="nameApi.searchInput"
+                :items="projectApi.values"
+                :loading="projectApi.isLoading"
+                :search-input.sync="projectApi.searchInput"
                 :rules="[rules.required]"
                 v-model="item.project"
                 hide-no-data
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-// import debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import moment from 'moment';
 import rules from '@/misc/rules';
 // import clientsService from '@/services/clients';
@@ -133,16 +133,15 @@ export default {
   data: () => ({
     messageTitle: 'Nowe zadanie',
     isFormReset: false,
-    isHoursBased: true,
     isDatePickerVisible: false,
-    item: null,
-    newItem: {
+    newestItem: null,
+    item: {
       date: null,
       project: null,
       version: null,
       hoursCount: null,
     },
-    nameApi: {
+    projectApi: {
       searchInput: null,
       values: [],
       isLoading: false,
@@ -163,11 +162,30 @@ export default {
     },
   }),
   created() {
-    // deep copy
-    this.item = JSON.parse(JSON.stringify(this.newItem));
     this.item.date = moment(new Date()).format('YYYY-MM-DD');
   },
+  mounted() {
+    this.fetch();
+  },
   methods: {
+    fetch() {
+      // set loading icon
+      this.$emit('isProcessing', true);
+
+      // get item
+      tasksService.getNewest()
+      .then((response) => {
+        console.log(response.data);
+        this.newestItem = response.data;
+
+        // copy project and version
+        this.item.project = this.newestItem.project;
+        this.item.version = this.newestItem.version;
+      })
+      .catch((error) => this.processError(error));
+
+      this.$emit('isProcessing', false);
+    },
     async save() {
       // validation
       if (this.$refs.form.validate() === false) {
@@ -190,7 +208,6 @@ export default {
         if (response.data.result) {
           this.$emit('isProcessing', false);
           this.$emit('showMessage', this.messageTitle, 'Zadanie zapisane');
-          this.resetForm();
           this.$vuetify.goTo(0);
 
           return;
@@ -204,16 +221,6 @@ export default {
 
       this.$emit('isProcessing', false);
     },
-    // addArrayObject(item, array, maxCount, newItem) {
-    //   if (this.isFormReset === true) return;
-
-    //   // check if last item in array
-    //   const index = array.indexOf(item);
-    //   if (array.length >= maxCount || index < array.length - 1) return;
-
-    //   // add new item
-    //   array.push(newItem);
-    // },
     processError(error) {
       logger.error(error);
       this.$emit('isProcessing', false);
@@ -226,18 +233,34 @@ export default {
       logger.error(error.response.data);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
-    resetForm() {
-      this.isFormReset = true;
+    // resetForm() {
+    //   this.isFormReset = true;
 
-      // deep copy
-      this.item = JSON.parse(JSON.stringify(this.newItem));
+    //   // deep copy
+    //   this.item = JSON.parse(JSON.stringify(this.newItem));
 
-      this.$refs.form.reset();
+    //   this.$refs.form.reset();
 
-      setTimeout(() => {
-        this.isFormReset = false;
-      }, 1000);
-    },
+    //   setTimeout(() => {
+    //     this.isFormReset = false;
+    //   }, 1000);
+    // },
+  },
+  watch: {
+    'projectApi.searchInput': debounce(async function searchInput(val) {
+      if (this.projectApi.isLoading) return;
+
+      this.projectApi.isLoading = true;
+
+      tasksService.getProjectsDistinct({ filter: val })
+      .then((res) => {
+        this.projectApi.values = res.data;
+      })
+      .catch((error) => logger.error(error))
+      .finally(() => {
+        this.projectApi.isLoading = false;
+      });
+    }, 500, { maxWait: 5000 }),
   },
 };
 </script>
