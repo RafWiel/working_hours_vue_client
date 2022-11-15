@@ -175,6 +175,7 @@ export default {
       // get item
       tasksService.getNewest()
       .then((response) => {
+        if (!response.data) return;
         console.log(response.data);
         this.newestItem = response.data;
 
@@ -198,6 +199,15 @@ export default {
         return;
       }
 
+      console.log('item: ', JSON.stringify(this.item));
+      console.log('old: ', JSON.stringify(this.newestItem));
+
+      // prevent duplicate
+      if (this.isDuplicate(this.item, this.newestItem)) {
+        this.$emit('showMessage', this.messageTitle, 'Wystąpił błąd: Duplikat\r\nZapis anulowany');
+        return;
+      }
+
       try {
         this.$emit('isProcessing', true);
 
@@ -209,6 +219,9 @@ export default {
           this.$emit('isProcessing', false);
           this.$emit('showMessage', this.messageTitle, 'Zadanie zapisane');
           this.$vuetify.goTo(0);
+
+          // deep copy
+          this.newestItem = JSON.parse(JSON.stringify(this.item));
 
           return;
         }
@@ -233,18 +246,25 @@ export default {
       logger.error(error.response.data);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
-    // resetForm() {
-    //   this.isFormReset = true;
+    isDuplicate(item1, item2) {
+      if (new Date(item1.date).getTime() !== new Date(item2.date).getTime()) {
+        return false;
+      }
 
-    //   // deep copy
-    //   this.item = JSON.parse(JSON.stringify(this.newItem));
+      if (item1.project !== item2.project) {
+        return false;
+      }
 
-    //   this.$refs.form.reset();
+      if (item1.version !== item2.version) {
+        return false;
+      }
 
-    //   setTimeout(() => {
-    //     this.isFormReset = false;
-    //   }, 1000);
-    // },
+      if (parseFloat(item1.hoursCount) !== parseFloat(item2.hoursCount)) {
+        return false;
+      }
+
+      return true;
+    },
   },
   watch: {
     'projectApi.searchInput': debounce(async function searchInput(val) {

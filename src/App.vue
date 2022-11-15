@@ -9,9 +9,6 @@
           <!-- Main workspace -->
           <v-main >
             <app-bar @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"/>
-            <h5 class="px-2 py-1 yellow">Sprawdz jak dziala newest gdy nowa baza</h5>
-            <h5 class="px-2 py-1 yellow">Dodaj service logs</h5>
-            <h5 class="px-2 py-1 yellow">Nie pozwol na duplikat, porownaj z newest</h5>
             <h5 class="px-2 py-1 yellow">Dodaj testy</h5>
             <router-view
               @isProcessing="isProcessing = $event"
