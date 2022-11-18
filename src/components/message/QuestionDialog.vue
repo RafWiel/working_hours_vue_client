@@ -15,15 +15,17 @@
       <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
+        id="yesButton"
+        @click="applyDialog"
         color="primary"
-        text
-        @click="applyDialog">
+        text>
         Tak
       </v-btn>
       <v-btn
+        id="noButton"
+        @click="closeDialog"
         color="primary"
-        text
-        @click="closeDialog">
+        text>
         Nie
       </v-btn>
       </v-card-actions>

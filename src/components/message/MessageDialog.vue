@@ -3,6 +3,7 @@
     :value=isVisible
     @click:outside="closeDialog"
     @keydown.esc.stop="closeDialog"
+    id="dialog"
     height="300px"
     max-width="500px">
     <v-card>
@@ -15,9 +16,10 @@
       <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
+        id="okButton"
+        @click="closeDialog"
         color="primary"
-        text
-        @click="closeDialog">
+        text>
         OK
       </v-btn>
       </v-card-actions>
@@ -26,11 +28,6 @@
 </template>
 <script>
 export default {
-
-
-  Testuj czy closeRequest jest wywolywane po kliknieciu
-
-
   name: 'MessageDialog',
   props: {
     isVisible: {
