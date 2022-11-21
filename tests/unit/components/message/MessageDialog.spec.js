@@ -13,6 +13,12 @@ describe('MessageDialog.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify();
 
+    // let app = document.createElement("div");
+    // app.setAttribute("data-app", true);
+    // document.body.append(app);
+
+    document.body.setAttribute('data-app', true);
+
     //shallowMount chyba nie laduje Vuetify, test klikniecia przycisku nie dziala
     wrapper = mount(MessageDialog, {
       vuetify,
@@ -30,19 +36,24 @@ describe('MessageDialog.vue', () => {
   });
 
   it('is not visible on start', () => {
+    const isVisible = false;
+
     wrapper = mount(MessageDialog, {
       vuetify,
       propsData: {
-        isVisible: false,
+        isVisible: isVisible,
       },
     });
 
-    expect(wrapper.find('#okButton').exists()).toBe(false);
+    expect(wrapper.find('#okButton').exists()).toBe(isVisible);
   });
 
   it('renders props data', () => {
-    expect(wrapper.text()).toMatch(title);
-    expect(wrapper.text()).toMatch(message);
+    const titleObj = wrapper.find('.v-card__title > h5');
+    expect(titleObj.text()).toBe(title);
+
+    const messageObj = wrapper.find('.v-card__text > span');
+    expect(messageObj.text()).toBe(message);
   });
 
   it('triggers closeRequest on click', async () => {
