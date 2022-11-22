@@ -107,10 +107,7 @@
 import debounce from 'lodash.debounce';
 import moment from 'moment';
 import rules from '@/misc/rules';
-// import clientsService from '@/services/clients';
 import tasksService from '@/services/aldridge/tasks';
-// import TireInfo from '@/components/deposit/TireInfo.vue';
-// import SignatureField from '@/components/SignatureField.vue';
 import logger from '@/misc/logger';
 
 export default {
@@ -132,7 +129,6 @@ export default {
   },
   data: () => ({
     messageTitle: 'Nowe zadanie',
-    isFormReset: false,
     isDatePickerVisible: false,
     newestItem: null,
     item: {
