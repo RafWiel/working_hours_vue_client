@@ -29,6 +29,7 @@
                 min-width="auto">
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
+                    :rules="[rules.required]"
                     v-model="item.date"
                     label="Data"
                     readonly

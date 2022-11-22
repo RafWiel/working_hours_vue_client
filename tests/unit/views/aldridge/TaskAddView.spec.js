@@ -26,6 +26,38 @@ describe('TaskAddView.vue', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
+  it('validates', async () => {
+    const item = {
+      date: moment(new Date()).format('YYYY-MM-DD'),
+      project: 'project',
+      version: 'version',
+      hoursCount: 1,
+    };
+
+    //accomplishes
+    wrapper.vm.$data.item = JSON.parse(JSON.stringify(item));
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$refs.form.validate()).toBe(true);
+
+    petle trzeba inaczej zrobic, tylko ostatni element jest testowany
+    teraz dziala, a jak zamienic kolejnosc to bedzie zle
+    //fails on date
+    const dates = [ null, 'aa' ];
+    wrapper.vm.$data.item = JSON.parse(JSON.stringify(item));
+
+    dates.forEach(async (item) => {
+      wrapper.vm.$data.item.date = item;
+      await wrapper.vm.$nextTick();
+
+      expect(wrapper.vm.$refs.form.validate()).toBe(false);
+    });
+
+    dokoncz
+
+
+  });
+
   it('verifies data duplicate', () => {
     const item1 = {
       date: moment(new Date()).format('YYYY-MM-DD'),
@@ -40,8 +72,8 @@ describe('TaskAddView.vue', () => {
 
     //different project
     const projects = [ 'test', '', null, undefined ];
-    projects.forEach((project) => {
-      item2.project = project;
+    projects.forEach((item) => {
+      item2.project = item;
       expect(wrapper.vm.isDuplicate(item1, item2)).toBe(false);
     });
 
@@ -49,8 +81,8 @@ describe('TaskAddView.vue', () => {
     item2 = JSON.parse(JSON.stringify(item1));
     const versions = [ 'test', '', null, undefined ];
 
-    versions.forEach((version) => {
-      item2.version = version;
+    versions.forEach((item) => {
+      item2.version = item;
       expect(wrapper.vm.isDuplicate(item1, item2)).toBe(false);
     });
 
@@ -58,8 +90,8 @@ describe('TaskAddView.vue', () => {
     item2 = JSON.parse(JSON.stringify(item1));
     const hoursCounts = [ 0, -1, '0', '', null, undefined ];
 
-    hoursCounts.forEach((hoursCount) => {
-      item2.hoursCount = hoursCount;
+    hoursCounts.forEach((item) => {
+      item2.hoursCount = item;
       expect(wrapper.vm.isDuplicate(item1, item2)).toBe(false);
     });
   });
