@@ -40,22 +40,33 @@ describe('TaskAddView.vue', () => {
 
     expect(wrapper.vm.$refs.form.validate()).toBe(true);
 
-    petle trzeba inaczej zrobic, tylko ostatni element jest testowany
-    teraz dziala, a jak zamienic kolejnosc to bedzie zle
     //fails on date
-    const dates = [ null, 'aa' ];
     wrapper.vm.$data.item = JSON.parse(JSON.stringify(item));
+    wrapper.vm.$data.item.date = null;
+    await wrapper.vm.$nextTick();
 
-    dates.forEach(async (item) => {
-      wrapper.vm.$data.item.date = item;
-      await wrapper.vm.$nextTick();
+    expect(wrapper.vm.$refs.form.validate()).toBe(false);
 
-      expect(wrapper.vm.$refs.form.validate()).toBe(false);
-    });
+    //fails on project
+    wrapper.vm.$data.item = JSON.parse(JSON.stringify(item));
+    wrapper.vm.$data.item.project = null;
+    await wrapper.vm.$nextTick();
 
-    dokoncz
+    expect(wrapper.vm.$refs.form.validate()).toBe(false);
 
+    //fails on version
+    wrapper.vm.$data.item = JSON.parse(JSON.stringify(item));
+    wrapper.vm.$data.item.version = null;
+    await wrapper.vm.$nextTick();
 
+    expect(wrapper.vm.$refs.form.validate()).toBe(false);
+
+    //fails on hours count
+    wrapper.vm.$data.item = JSON.parse(JSON.stringify(item));
+    wrapper.vm.$data.item.hoursCount = null;
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$refs.form.validate()).toBe(false);
   });
 
   it('verifies data duplicate', () => {
@@ -72,8 +83,8 @@ describe('TaskAddView.vue', () => {
 
     //different project
     const projects = [ 'test', '', null, undefined ];
-    projects.forEach((item) => {
-      item2.project = item;
+    projects.forEach((project) => {
+      item2.project = project;
       expect(wrapper.vm.isDuplicate(item1, item2)).toBe(false);
     });
 
@@ -81,8 +92,8 @@ describe('TaskAddView.vue', () => {
     item2 = JSON.parse(JSON.stringify(item1));
     const versions = [ 'test', '', null, undefined ];
 
-    versions.forEach((item) => {
-      item2.version = item;
+    versions.forEach((version) => {
+      item2.version = version;
       expect(wrapper.vm.isDuplicate(item1, item2)).toBe(false);
     });
 
@@ -90,8 +101,8 @@ describe('TaskAddView.vue', () => {
     item2 = JSON.parse(JSON.stringify(item1));
     const hoursCounts = [ 0, -1, '0', '', null, undefined ];
 
-    hoursCounts.forEach((item) => {
-      item2.hoursCount = item;
+    hoursCounts.forEach((hoursCount) => {
+      item2.hoursCount = hoursCount;
       expect(wrapper.vm.isDuplicate(item1, item2)).toBe(false);
     });
   });
