@@ -244,6 +244,10 @@ export default {
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
     isDuplicate(item1, item2) {
+      if (item1 === null || item2 === null) {
+        return false;
+      }
+
       if (new Date(item1.date).getTime() !== new Date(item2.date).getTime()) {
         return false;
       }
