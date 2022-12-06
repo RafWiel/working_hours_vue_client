@@ -143,16 +143,6 @@ export default {
       values: [],
       isLoading: false,
     },
-    companyNameApi: {
-      searchInput: null,
-      values: [],
-      isLoading: false,
-    },
-    phoneNumberApi: {
-      searchInput: null,
-      values: [],
-      isLoading: false,
-    },
     rules: {
       required: rules.required,
       float: rules.float,

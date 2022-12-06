@@ -46,9 +46,9 @@
             <!-- Client -->
             <v-col cols="12" class="mt-2">
               <v-combobox
-                :items="nameApi.values"
-                :loading="nameApi.isLoading"
-                :search-input.sync="nameApi.searchInput"
+                :items="clientApi.values"
+                :loading="clientApi.isLoading"
+                :search-input.sync="clientApi.searchInput"
                 :rules="[rules.required]"
                 v-model="item.client"
                 hide-no-data
@@ -62,9 +62,9 @@
             <!-- Project -->
             <v-col cols="12" class="mt-2">
               <v-combobox
-                :items="nameApi.values"
-                :loading="nameApi.isLoading"
-                :search-input.sync="nameApi.searchInput"
+                :items="projectApi.values"
+                :loading="projectApi.isLoading"
+                :search-input.sync="projectApi.searchInput"
                 :rules="[rules.required]"
                 v-model="item.project"
                 hide-no-data
@@ -133,15 +133,12 @@
 </template>
 
 <script>
-// import debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import moment from 'moment';
 import rules from '@/misc/rules';
 import logger from '@/misc/logger';
-// import clientsService from '@/services/clients';
 import tasksService from '@/services/datasoft/tasks';
-// import TireInfo from '@/components/deposit/TireInfo.vue';
-// import SignatureField from '@/components/SignatureField.vue';
-
+import clientsService from '@/services/datasoft/clients';
 
 export default {
   name: 'TaskAddView',
@@ -162,16 +159,25 @@ export default {
   },
   data: () => ({
     messageTitle: 'Nowe zadanie',
-    isFormReset: false,
     isDatePickerVisible: false,
-    item: null,
-    newItem: {
+    newestItem: null,
+    item: {
       date: null,
       client: null,
       project: null,
       version: null,
       price: null,
       description: null,
+    },
+    clientApi: {
+      searchInput: null,
+      values: [],
+      isLoading: false,
+    },
+    projectApi: {
+      searchInput: null,
+      values: [],
+      isLoading: false,
     },
     nameApi: {
       searchInput: null,
@@ -195,11 +201,32 @@ export default {
     },
   }),
   created() {
-    // deep copy
-    this.item = JSON.parse(JSON.stringify(this.newItem));
     this.item.date = moment(new Date()).format('YYYY-MM-DD');
   },
+  mounted() {
+    this.fetch();
+  },
   methods: {
+    fetch() {
+      // set loading icon
+      this.$emit('isProcessing', true);
+
+      // get item
+      tasksService.getNewest()
+      .then((response) => {
+        if (!response.data) return;
+        console.log(response.data);
+        this.newestItem = response.data;
+
+        // copy project and version
+        this.item.client = this.newestItem.client;
+        this.item.project = this.newestItem.project;
+        this.item.version = this.newestItem.version;
+      })
+      .catch((error) => this.processError(error));
+
+      this.$emit('isProcessing', false);
+    },
     async save() {
       // validation
       if (this.$refs.form.validate() === false) {
@@ -209,6 +236,15 @@ export default {
           this.$vuetify.goTo(el, { offset: 60 });
         });
 
+        return;
+      }
+
+      console.log('item: ', JSON.stringify(this.item));
+      console.log('old: ', JSON.stringify(this.newestItem));
+
+      // prevent duplicate
+      if (this.isDuplicate(this.item, this.newestItem)) {
+        this.$emit('showMessage', this.messageTitle, 'Wystąpił błąd: Duplikat\r\nZapis anulowany');
         return;
       }
 
@@ -222,8 +258,10 @@ export default {
         if (response.data.result) {
           this.$emit('isProcessing', false);
           this.$emit('showMessage', this.messageTitle, 'Zadanie zapisane');
-          this.resetForm();
           this.$vuetify.goTo(0);
+
+          // deep copy
+          this.newestItem = JSON.parse(JSON.stringify(this.item));
 
           return;
         }
@@ -236,16 +274,6 @@ export default {
 
       this.$emit('isProcessing', false);
     },
-    // addArrayObject(item, array, maxCount, newItem) {
-    //   if (this.isFormReset === true) return;
-
-    //   // check if last item in array
-    //   const index = array.indexOf(item);
-    //   if (array.length >= maxCount || index < array.length - 1) return;
-
-    //   // add new item
-    //   array.push(newItem);
-    // },
     processError(error) {
       logger.error(error);
       this.$emit('isProcessing', false);
@@ -258,18 +286,67 @@ export default {
       logger.error(error.response.data);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
-    resetForm() {
-      this.isFormReset = true;
+    isDuplicate(item1, item2) {
+      if (item1 === null || item2 === null) {
+        return false;
+      }
 
-      // deep copy
-      this.item = JSON.parse(JSON.stringify(this.newItem));
+      if (new Date(item1.date).getTime() !== new Date(item2.date).getTime()) {
+        return false;
+      }
 
-      this.$refs.form.reset();
+      if (item1.client !== item2.client) {
+        return false;
+      }
 
-      setTimeout(() => {
-        this.isFormReset = false;
-      }, 1000);
+      if (item1.project !== item2.project) {
+        return false;
+      }
+
+      if (item1.version !== item2.version) {
+        return false;
+      }
+
+      if (parseFloat(item1.price) !== parseFloat(item2.price)) {
+        return false;
+      }
+
+      if (parseFloat(item1.description) !== parseFloat(item2.description)) {
+        return false;
+      }
+
+      return true;
     },
+  },
+  watch: {
+    'clientApi.searchInput': debounce(async function searchInput(val) {
+      if (this.clientApi.isLoading) return;
+
+      this.clientApi.isLoading = true;
+
+      clientsService.getNamesDistinct({ filter: val })
+      .then((res) => {
+        this.clientApi.values = res.data;
+      })
+      .catch((error) => logger.error(error))
+      .finally(() => {
+        this.clientApi.isLoading = false;
+      });
+    }, 500, { maxWait: 5000 }),
+    'projectApi.searchInput': debounce(async function searchInput(val) {
+      if (this.projectApi.isLoading) return;
+
+      this.projectApi.isLoading = true;
+
+      tasksService.getProjectsDistinct({ filter: val })
+      .then((res) => {
+        this.projectApi.values = res.data;
+      })
+      .catch((error) => logger.error(error))
+      .finally(() => {
+        this.projectApi.isLoading = false;
+      });
+    }, 500, { maxWait: 5000 }),
   },
 };
 </script>
