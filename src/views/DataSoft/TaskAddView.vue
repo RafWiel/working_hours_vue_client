@@ -18,6 +18,7 @@
         <!-- Content column -->
         <v-col cols="12" class="pa-0">
           <v-row class="no-gutters">
+            <!-- Date -->
             <v-col cols="12">
               <v-menu
                 v-model="isDatePickerVisible"
@@ -29,6 +30,7 @@
                 min-width="auto">
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
+                    :rules="[rules.required]"
                     v-model="item.date"
                     label="Data"
                     readonly
@@ -295,15 +297,15 @@ export default {
         return false;
       }
 
-      if (item1.client !== item2.client) {
+      if (item1.client.localeCompare(item2.client, undefined, { sensitivity: 'accent' }) !== 0) {
         return false;
       }
 
-      if (item1.project !== item2.project) {
+      if (item1.project.localeCompare(item2.project, undefined, { sensitivity: 'accent' }) !== 0) {
         return false;
       }
 
-      if (item1.version !== item2.version) {
+      if (item1.version.localeCompare(item2.version, undefined, { sensitivity: 'accent' }) !== 0) {
         return false;
       }
 
@@ -311,7 +313,7 @@ export default {
         return false;
       }
 
-      if (parseFloat(item1.description) !== parseFloat(item2.description)) {
+      if (item1.description.localeCompare(item2.description, undefined, { sensitivity: 'accent' }) !== 0) {
         return false;
       }
 

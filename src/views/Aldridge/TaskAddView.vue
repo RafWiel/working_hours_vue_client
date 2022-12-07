@@ -242,11 +242,11 @@ export default {
         return false;
       }
 
-      if (item1.project !== item2.project) {
+      if (item1.project.localeCompare(item2.project, undefined, { sensitivity: 'accent' }) !== 0) {
         return false;
       }
 
-      if (item1.version !== item2.version) {
+      if (item1.version.localeCompare(item2.version, undefined, { sensitivity: 'accent' }) !== 0) {
         return false;
       }
 
