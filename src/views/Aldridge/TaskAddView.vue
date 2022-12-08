@@ -18,6 +18,7 @@
         <!-- Content column -->
         <v-col cols="12" class="pa-0">
           <v-row class="no-gutters">
+            <!-- Date -->
             <v-col cols="12">
               <v-menu
                 v-model="isDatePickerVisible"
