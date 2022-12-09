@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import TestView from '../views/TestView.vue';
-import TaskAddViewAD from '../views/aldridge/TaskAddView.vue';
-import TaskAddViewDS from '../views/datasoft/TaskAddView.vue';
+import TaskAddView from '../views/TaskAddView.vue';
+import taskType from '../enums/taskType';
 
 Vue.use(VueRouter);
 
@@ -21,19 +21,21 @@ const routes = [
   {
     path: '/ad/task_add',
     name: 'ad_task_add',
-    component: TaskAddViewAD,
+    component: TaskAddView,
     meta: {
       title: 'Nowe zadanie Aldridge',
       titleLong: 'Nowe zadanie Aldridge',
+      type: taskType.hoursBased,
     },
   },
   {
     path: '/ds/task_add',
     name: 'ds_task_add',
-    component: TaskAddViewDS,
+    component: TaskAddView,
     meta: {
       title: 'Nowe zadanie DataSoft',
       titleLong: 'Nowe zadanie DataSoft',
+      type: taskType.priceBased,
     },
   },
   {
