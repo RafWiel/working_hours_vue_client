@@ -1,37 +1,7 @@
 <template>
-  <div
-    fill-height
-    class="d-flex flex-column blue"
-    :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''">
-    <v-card
-      class="d-flex align-start flex-column mb-6"
-      color="grey lighten-2"
-      flat
-      tile
-      height="200"
-    >
-      <v-card class="pa-2 mb-auto" outlined tile> Flex item </v-card>
-
-      <v-card class="pa-2" outlined tile> Flex item </v-card>
-
-      <v-card class="pa-2" outlined tile> Flex item </v-card>
-    </v-card>
-
-    <v-card
-      class="d-flex grow align-end flex-column"
-      color="grey lighten-2"
-      flat
-      tile
-      fill-height
-
-    >
-      <v-card class="pa-2" outlined tile> Flex item </v-card>
-
-      <v-card class="pa-2" outlined tile> Flex item </v-card>
-
-      <v-card class="pa-2 mt-auto" outlined tile> Flex item </v-card>
-    </v-card>
-  </div>
+  <v-container class="pa-0 d-flex flex-column flex-nowrap yellow" fluid>
+    <div class="blue mx-4" width="50%" height="50px">aaa</div>
+  </v-container>
 </template>
 
 <script>
