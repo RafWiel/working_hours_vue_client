@@ -35,6 +35,7 @@ export default {
   },
   data: () => ({
     messageTitle: 'Lista zadań',
+    page: 1,
     items: [],
     columns: [
       {
@@ -91,19 +92,19 @@ export default {
       // set loading icon
       this.$emit('isProcessing', true);
 
-      // // get item
-      // tasksService.getNewest({ type: this.$route.meta.type })
-      // .then((response) => {
-      //   if (!response.data) return;
-      //   console.log(response.data);
-      //   this.newestItem = response.data;
+      // get items
+      tasksService.get({ page: this.page })
+      .then((response) => {
+        if (!response.data) return;
+        console.log(response.data);
+        this.newestItem = response.data;
 
-      //   // copy project and version
-      //   this.item.client = this.newestItem.client;
-      //   this.item.project = this.newestItem.project;
-      //   this.item.version = this.newestItem.version;
-      // })
-      // .catch((error) => this.processError(error));
+        // copy project and version
+        this.item.client = this.newestItem.client;
+        this.item.project = this.newestItem.project;
+        this.item.version = this.newestItem.version;
+      })
+      .catch((error) => this.processError(error));
 
       this.$emit('isProcessing', false);
     },
