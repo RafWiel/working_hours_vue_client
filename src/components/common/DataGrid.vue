@@ -1,13 +1,14 @@
 <template>
   <v-container
     fluid
+    :class="$vuetify.breakpoint.smAndUp ? 'pt-3' : ''"
     class="pa-0">
     <!-- Header -->
     <v-row
       v-if="$vuetify.breakpoint.smAndUp"
-      class="no-gutters">
+      class="no-gutters px-4">
       <!-- 12 columns is to little, thats why one column and inside divs with percentage width -->
-      <v-col class="pl-0 py-0 text-body-2 grey--text">
+      <v-col class="pl-0 py-0 text-body-2 grey--text ">
         <div
           v-for="column in $vuetify.breakpoint.lgAndUp ? columns : limitedColumns"
           :key="column.id"
@@ -42,26 +43,28 @@
       fluid
       class="pa-0">
       <v-row
-        class="no-gutters list_row"
-        :class="index == 0 ? 'pt-0' : 'pt-2'"
-        v-for="(item, index) in items"
         :key="item.id"
+        @click="$emit('itemClick', item.id)"
+        v-for="(item, index) in items"
         v-ripple
         justify="center"
-        @click="$emit('itemClick', item.id)">
+        class="no-gutters list_row pt-2">
         <v-col>
-          <v-row class="no-gutters" align="center">
+          <v-row class="no-gutters px-3" align="center">
             <v-col cols="11">
               <v-row
-                v-for="column in limitedColumns"
                 :key="column.id"
-                class="no-gutters"
+                v-for="column in limitedColumns"
+                class="no-gutters pa-0"
                 align="center">
                 <!-- Name column -->
-                <v-col :cols="portraitCols" class="text_ellipsis label pr-1">{{ column.text }}</v-col>
+                <v-col :cols="portraitCols" class="text_ellipsis label pr-1">
+                  {{ column.text }}
+                </v-col>
                 <!-- Value column -->
-                <!-- <v-col class="text_ellipsis">{{ item[column.value] | itemFilter(column.filter) }}</v-col> -->
-                <v-col class="text_ellipsis">{{ column.isIndex ? index + 1 : item[column.value] }}</v-col>
+                <v-col class="text_ellipsis">
+                  {{ column.isIndex ? index + 1 : item[column.value] }}
+                </v-col>
               </v-row>
             </v-col>
             <v-col v-if="isDeleteButton">
@@ -91,7 +94,7 @@
         align="center" justify="center"
         @click="$emit('itemClick', item.id)">
         <v-col>
-          <v-row class="no-gutters" align="center">
+          <v-row class="no-gutters px-4" align="center">
             <v-col class="pl-0 py-1">
               <div
                 v-for="column in $vuetify.breakpoint.lgAndUp ? columns : limitedColumns"
@@ -197,12 +200,12 @@ export default {
 
   .list_row:hover {
     //background-color: rgba(41,116,183, .35);
-    background-color: #F0F0F0;
+    background-color: #dce1e6;
     transition: background-color 0s;
   }
 
   .list_row:selection {
-    background-color: #FF00F0;
+    background-color: #ff00f0;
     transition: background-color 0s;
   }
 
@@ -221,7 +224,7 @@ export default {
   }
 
   .deleteButton:hover {
-    color: #FF0000;
+    color: #ff0000;
     transition: color 0s;
   }
 

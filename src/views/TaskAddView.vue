@@ -181,7 +181,7 @@ export default {
   data: () => ({
     messageTitle: 'Nowe zadanie',
     isDatePickerVisible: false,
-    newestItem: null,
+    lastItem: null,
     item: {
       date: null,
       type: null,
@@ -237,16 +237,16 @@ export default {
       this.$emit('isProcessing', true);
 
       // get item
-      tasksService.getNewest({ type: this.$route.meta.type })
+      tasksService.getLast({ type: this.$route.meta.type })
       .then((response) => {
         if (!response.data) return;
         console.log(response.data);
-        this.newestItem = response.data;
+        this.lastItem = response.data;
 
         // copy project and version
-        this.item.client = this.newestItem.client;
-        this.item.project = this.newestItem.project;
-        this.item.version = this.newestItem.version;
+        this.item.client = this.lastItem.client;
+        this.item.project = this.lastItem.project;
+        this.item.version = this.lastItem.version;
       })
       .catch((error) => this.processError(error));
 
@@ -265,7 +265,7 @@ export default {
       }
 
       console.log('item: ', JSON.stringify(this.item));
-      console.log('old: ', JSON.stringify(this.newestItem));
+      console.log('old: ', JSON.stringify(this.lastItem));
 
       try {
         this.$emit('isProcessing', true);
@@ -280,7 +280,7 @@ export default {
           this.$vuetify.goTo(0);
 
           // deep copy
-          this.newestItem = JSON.parse(JSON.stringify(this.item));
+          this.lastItem = JSON.parse(JSON.stringify(this.item));
 
           return;
         }

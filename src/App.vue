@@ -9,7 +9,8 @@
           <!-- Main workspace -->
           <v-main >
             <app-bar @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"/>
-            <!-- <h5 class="px-2 py-1 yellow">Duplicate na poziomie servera!</h5> -->
+            <h5 class="px-2 py-1 yellow">Paging, również w Wulkano</h5>
+            <h5 class="px-2 py-1 yellow">Rozliczenie, na początek checkbox</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"

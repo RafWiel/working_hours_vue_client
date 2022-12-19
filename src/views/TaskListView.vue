@@ -1,11 +1,9 @@
 <template>
   <v-container
-    :class="$vuetify.breakpoint.smAndUp ? 'my-4' : ''"
     :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
-    class="pa-0 d-flex flex-column flex-nowrap "
+    class="pa-0 d-flex flex-column flex-nowrap"
     fluid>
-
-    <v-row class="no-gutters grow mx-4">
+    <v-row class="no-gutters grow">
       <v-col>
       <data-grid
         :columns="columns"
@@ -20,10 +18,9 @@
 <script>
 import DataGrid from '@/components/common/DataGrid.vue';
 //import debounce from 'lodash.debounce';
-//import moment from 'moment';
-//import rules from '@/misc/rules';
+import moment from 'moment';
 import logger from '@/misc/logger';
-//import tasksService from '@/services/tasks';
+import tasksService from '@/services/tasks';
 //import clientsService from '@/services/clients';
 //import projectsService from '@/services/projects';
 //import taskType from '@/enums/taskType';
@@ -96,13 +93,21 @@ export default {
       tasksService.get({ page: this.page })
       .then((response) => {
         if (!response.data) return;
-        console.log(response.data);
-        this.newestItem = response.data;
 
-        // copy project and version
-        this.item.client = this.newestItem.client;
-        this.item.project = this.newestItem.project;
-        this.item.version = this.newestItem.version;
+        console.log(response.data);
+
+        // format values
+        response.data.tasks.forEach((task) => {
+          const item = task;
+          item.date = moment(item.date, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
+          //item.requestType = requestType.getText(item.requestType);
+          //item.submitType = requestSubmitType.getText(item.submitType);
+          //item.status = requestStatus.getText(item.status, this.$vuetify.breakpoint.xs);
+          this.items.push(item);
+        });
+
+        // increment page number for next fetch
+        this.page += 1;
       })
       .catch((error) => this.processError(error));
 

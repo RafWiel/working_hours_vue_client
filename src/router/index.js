@@ -12,7 +12,7 @@ const routes = [
     path: '/',
     name: 'main',
     redirect: {
-      name: 'ds_task_add',
+      name: 'tasks',
     },
   },
   {
