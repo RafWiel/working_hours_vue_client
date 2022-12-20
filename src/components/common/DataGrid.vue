@@ -9,15 +9,20 @@
       class="no-gutters px-4">
       <!-- 12 columns is to little, thats why one column and inside divs with percentage width -->
       <v-col class="pl-0 py-0 text-body-2 grey--text ">
+        <v-checkbox
+          v-if="isSelectionCheckbox"
+          hide-details
+          class="shrink list_column mt-0"/>
         <div
           v-for="column in $vuetify.breakpoint.lgAndUp ? columns : limitedColumns"
           :key="column.id"
-          v-ripple
           :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
-          class="list_column text_ellipsis"
-          style="height: 1.5em;"
+          :class="isSelectionCheckbox ? 'header_selection_offset_y' : ''"
           @click="onSort(column.id)"
-          @keyup.space="onSort(column.id)">
+          @keyup.space="onSort(column.id)"
+          class="list_column text_ellipsis"
+          style="height: 1.7em;"
+          v-ripple>
           {{ column.text }}
           <v-icon
             v-if="sorting.column === column.id && sorting.order === sortOrder.ascending"
@@ -96,10 +101,16 @@
         <v-col>
           <v-row class="no-gutters px-4" align="center">
             <v-col class="pl-0 py-1">
+              <v-checkbox
+                v-if="isSelectionCheckbox"
+                v-model="item.isSelected"
+                hide-details
+                class="shrink list_column mt-0"/>
               <div
                 v-for="column in $vuetify.breakpoint.lgAndUp ? columns : limitedColumns"
                 :key="column.id"
                 :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
+                :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                 class="list_column text_ellipsis">
                 {{ column.isIndex ? index + 1 : item[column.value] }}
               </div>
@@ -133,6 +144,7 @@ export default {
   props: {
     portraitCols: Number,
     isDeleteButton: Boolean,
+    isSelectionCheckbox: Boolean,
     columns: Array,
     items: Array,
   },
@@ -226,6 +238,16 @@ export default {
   .deleteButton:hover {
     color: #ff0000;
     transition: color 0s;
+  }
+
+  .header_selection_offset_y {
+    margin-top: -5px;
+    vertical-align: middle;
+  }
+
+  .selection_offset_y {
+    margin-top: -10px;
+    vertical-align: middle;
   }
 
 </style>

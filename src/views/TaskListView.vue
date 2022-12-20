@@ -5,13 +5,17 @@
     fluid>
     <v-row class="no-gutters grow">
       <v-col>
-      <data-grid
-        :columns="columns"
-        :items="items"
-        :portraitCols="4"/>
-        </v-col>
+        <data-grid
+          :columns="columns"
+          :items="items"
+          :portraitCols="4"
+          isSelectionCheckbox="true"/>
+      </v-col>
     </v-row>
-
+    <div
+      v-if="items.length"
+      v-intersect.quiet="intersect"
+      style="height:1px; width:1px;"/>
   </v-container>
 </template>
 
@@ -36,41 +40,41 @@ export default {
     items: [],
     columns: [
       {
-        id: 0,
+        id: 1,
         text: 'Data',
         value: 'date',
         limitedWidth: 20,
         fullWidth: 15,
       },
       {
-        id: 1,
+        id: 2,
         text: 'Klient',
         value: 'client',
         limitedWidth: 14,
         fullWidth: 15,
       },
       {
-        id: 2,
+        id: 3,
         text: 'Projekt',
         value: 'project',
         limitedWidth: 26,
         fullWidth: 15,
       },
       {
-        id: 3,
+        id: 4,
         text: 'Wersja',
         value: 'version',
         limitedWidth: 20,
         fullWidth: 15,
       },
       {
-        id: 4,
+        id: 5,
         text: 'Cena',
         value: 'price',
         fullWidth: 15,
       },
       {
-        id: 5,
+        id: 6,
         text: 'Ilość godzin',
         value: 'hours',
         limitedWidth: 14,
@@ -85,7 +89,7 @@ export default {
     this.fetch();
   },
   methods: {
-    fetch() {
+    async fetch() {
       // set loading icon
       this.$emit('isProcessing', true);
 
@@ -99,6 +103,7 @@ export default {
         // format values
         response.data.tasks.forEach((task) => {
           const item = task;
+          item.isSelected = true;
           item.date = moment(item.date, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
           //item.requestType = requestType.getText(item.requestType);
           //item.submitType = requestSubmitType.getText(item.submitType);
@@ -112,6 +117,13 @@ export default {
       .catch((error) => this.processError(error));
 
       this.$emit('isProcessing', false);
+    },
+    intersect(entries, observer, isIntersecting) {
+      if (!isIntersecting) {
+        return;
+      }
+
+      this.fetch();
     },
     processError(error) {
       logger.error(error);
