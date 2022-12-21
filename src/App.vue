@@ -8,7 +8,10 @@
         <v-col>
           <!-- Main workspace -->
           <v-main >
-            <app-bar @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"/>
+            <app-bar
+              @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
+              @applyClicked="$root.$emit('settleTasks')"
+              :isApplyEnabled="isTaskListSelection"/>
             <!-- <h5 class="px-2 py-1 yellow">Rozliczenie, na początek checkbox</h5> -->
             <router-view
               :key="$route.path"
@@ -65,6 +68,7 @@ export default {
   },
   data: () => ({
     isProcessing: false,
+    isTaskListSelection: false,
     isNavigationBarOpen: false,
     links: [
       { icon: 'mdi-format-list-numbered', text: 'Lista zadań', route: '/tasks' },
@@ -87,6 +91,11 @@ export default {
       },
     },
   }),
+  mounted() {
+    this.$root.$on('selectionChanged', (value) => {
+      this.isTaskListSelection = value;
+    });
+  },
   created() {
     // if (!localStorage.getItem('userInfo')) {
     //   if (this.$route.name !== 'Login' && this.$route.name !== 'Register') {

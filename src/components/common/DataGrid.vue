@@ -10,7 +10,9 @@
       <!-- 12 columns is to little, thats why one column and inside divs with percentage width -->
       <v-col class="pl-0 py-0 text-body-2 grey--text ">
         <v-checkbox
+          @click="$emit('selectAll', isAllSelected)"
           v-if="isSelectionCheckbox"
+          v-model="isAllSelected"
           hide-details
           class="shrink list_column mt-0"/>
         <div
@@ -47,6 +49,17 @@
       v-if="$vuetify.breakpoint.xs"
       fluid
       class="pa-0">
+      <v-row class="no-gutters">
+        <v-col class="mx-3 mt-3">
+          <v-checkbox
+            @click="$emit('selectAll', isAllSelected)"
+            v-if="isSelectionCheckbox"
+            v-model="isAllSelected"
+            label="Zaznacz wszystko"
+            hide-details
+            class="shrink list_column mt-0"/>
+        </v-col>
+      </v-row>
       <v-row
         :key="item.id"
         @click="$emit('itemClick', item.id)"
@@ -56,6 +69,13 @@
         class="no-gutters list_row pt-2">
         <v-col>
           <v-row class="no-gutters px-3" align="center">
+            <v-col v-if="isSelectionCheckbox">
+              <v-checkbox
+                @click="$emit('selectionChanged')"
+                v-model="item.isSelected"
+                hide-details
+                class="shrink list_column mt-0"/>
+            </v-col>
             <v-col cols="11">
               <v-row
                 :key="column.id"
@@ -102,6 +122,7 @@
           <v-row class="no-gutters px-4" align="center">
             <v-col class="pl-0 py-1">
               <v-checkbox
+                @click="$emit('selectionChanged')"
                 v-if="isSelectionCheckbox"
                 v-model="item.isSelected"
                 hide-details
@@ -142,11 +163,11 @@ import sortOrder from '@/enums/sortOrder';
 export default {
   name: 'DataGrid',
   props: {
+    items: Array,
+    columns: Array,
     portraitCols: Number,
     isDeleteButton: Boolean,
     isSelectionCheckbox: Boolean,
-    columns: Array,
-    items: Array,
   },
   computed: {
     limitedColumns() {
@@ -160,6 +181,7 @@ export default {
       order: sortOrder.ascending,
     },
     sortOrder,
+    isAllSelected: false,
   }),
   methods: {
     onSort(columnId) {

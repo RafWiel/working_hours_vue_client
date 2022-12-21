@@ -9,7 +9,9 @@
           :columns="columns"
           :items="items"
           :portraitCols="4"
-          isSelectionCheckbox="true"/>
+          :isSelectionCheckbox="true"
+          @selectAll="selectAllItems"
+          @selectionChanged="notifySelection"/>
       </v-col>
     </v-row>
     <div
@@ -33,6 +35,11 @@ export default {
   name: 'TaskListView',
   components: {
     DataGrid,
+  },
+  computed: {
+    isSelection() {
+      return this.items.filter((item) => item.isSelected).length > 0;
+    },
   },
   data: () => ({
     messageTitle: 'Lista zadań',
@@ -83,9 +90,12 @@ export default {
     ],
   }),
   created() {
-
   },
   mounted() {
+    this.$root.$on('settleTasks', () => {
+      this.settleTasks();
+    });
+
     this.fetch();
   },
   methods: {
@@ -103,7 +113,7 @@ export default {
         // format values
         response.data.tasks.forEach((task) => {
           const item = task;
-          item.isSelected = true;
+          item.isSelected = false;
           item.date = moment(item.date, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
           //item.requestType = requestType.getText(item.requestType);
           //item.submitType = requestSubmitType.getText(item.submitType);
@@ -136,6 +146,20 @@ export default {
 
       logger.error(error.response.data);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
+    },
+    selectAllItems(value) {
+      this.items.forEach((task) => {
+        const item = task;
+
+        item.isSelected = value;
+      });
+      this.notifySelection();
+    },
+    settleTasks() {
+      console.log('tutaj');
+    },
+    notifySelection() {
+      this.$root.$emit('selectionChanged', this.isSelection);
     },
   },
 };

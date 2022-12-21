@@ -46,6 +46,7 @@ const routes = [
     meta: {
       title: 'Lista zadań',
       titleLong: 'Lista zadań',
+      isTaskListView: true,
     },
   },
   {
