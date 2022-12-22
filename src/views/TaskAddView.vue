@@ -31,7 +31,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     :rules="[rules.required]"
-                    v-model="item.date"
+                    v-model="item.creationDate"
                     label="Data"
                     readonly
                     hide-details="auto"
@@ -39,7 +39,7 @@
                     v-on="on"/>
                 </template>
                 <v-date-picker
-                  v-model="item.date"
+                  v-model="item.creationDate"
                   no-title
                   locale="pl-pl"
                   @input="isDatePickerVisible = false"/>
@@ -165,7 +165,7 @@ export default {
   name: 'TaskAddView',
   computed: {
     date() {
-      return moment(this.item.date).format('DD-MM-YYYY');
+      return moment(this.item.creationDate).format('DD-MM-YYYY');
     },
     computed_width() {
       switch (this.$vuetify.breakpoint.name) {
@@ -183,7 +183,7 @@ export default {
     isDatePickerVisible: false,
     lastItem: null,
     item: {
-      date: null,
+      creationDate: null,
       type: null,
       client: null,
       project: null,
@@ -225,7 +225,7 @@ export default {
     taskType,
   }),
   created() {
-    this.item.date = moment(new Date()).format('YYYY-MM-DD');
+    this.item.creationDate = moment(new Date()).format('YYYY-MM-DD');
     this.item.type = this.$route.meta.type;
   },
   mounted() {

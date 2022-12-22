@@ -37,7 +37,7 @@ describe('TaskAddView.vue', () => {
 
   it('validates', async () => {
     const item = {
-      date: moment(new Date()).format('YYYY-MM-DD'),
+      creationDate: moment(new Date()).format('YYYY-MM-DD'),
       type: 1,
       project: 'project',
       client: 'client',
@@ -54,7 +54,7 @@ describe('TaskAddView.vue', () => {
 
     //fails on date
     wrapper.vm.$data.item = JSON.parse(JSON.stringify(item));
-    wrapper.vm.$data.item.date = null;
+    wrapper.vm.$data.item.creationDate = null;
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$refs.form.validate()).toBe(false);
