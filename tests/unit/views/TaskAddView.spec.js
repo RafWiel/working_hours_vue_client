@@ -35,6 +35,18 @@ describe('TaskAddView.vue', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
+  it('renders date', () => {
+    expect(wrapper.findComponent({ref: 'creationDate'}).exists()).toBe(true);
+  });
+
+  it('renders price', () => {
+    expect(wrapper.findComponent({ref: 'price'}).exists()).toBe(true);
+  });
+
+  it('doesnt render hours', () => {
+    expect(wrapper.findComponent({ref: 'hours'}).exists()).toBe(false);
+  });
+
   it('validates', async () => {
     const item = {
       creationDate: moment(new Date()).format('YYYY-MM-DD'),

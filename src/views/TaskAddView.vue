@@ -24,6 +24,7 @@
                 v-model="isDatePickerVisible"
                 :close-on-content-click="false"
                 :nudge-right="40"
+                ref="creationDate"
                 transition="scale-transition"
                 offset-y
                 class="pa-0"
@@ -111,6 +112,7 @@
               <v-text-field
                 :rules="[rules.required]"
                 v-model.lazy="item.price"
+                ref="price"
                 label="Cena"
                 type="input"
                 hide-details="auto"
@@ -124,6 +126,7 @@
                 :rules="[rules.required, rules.float]"
                 v-if="item.type === taskType.hoursBased"
                 v-model.lazy="item.hours"
+                ref="hours"
                 label="Ilość godzin"
                 type="input"
                 hide-details="auto"

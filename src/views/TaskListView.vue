@@ -11,7 +11,8 @@
           :portraitCols="4"
           :isSelectionCheckbox="true"
           @selectAll="selectAllItems"
-          @selectionChanged="notifySelection"/>
+          @selectionChanged="notifySelection"
+          ref="datagrid"/>
       </v-col>
     </v-row>
     <div
@@ -49,7 +50,7 @@ export default {
       {
         id: 1,
         text: 'Data',
-        value: 'date',
+        value: 'creationDate',
         limitedWidth: 20,
         fullWidth: 15,
       },
@@ -114,7 +115,7 @@ export default {
         response.data.tasks.forEach((task) => {
           const item = task;
           item.isSelected = false;
-          item.date = moment(item.date, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
+          item.creationDate = moment(item.creationDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
           //item.requestType = requestType.getText(item.requestType);
           //item.submitType = requestSubmitType.getText(item.submitType);
           //item.status = requestStatus.getText(item.status, this.$vuetify.breakpoint.xs);
