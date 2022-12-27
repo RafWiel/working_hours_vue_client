@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     isSelection() {
-      return this.items.filter((item) => item.isSelected).length > 0;
+      return this.items.filter((u) => u.isSelected).length > 0;
     },
   },
   data: () => ({
@@ -111,6 +111,8 @@ export default {
 
         console.log(response.data);
 
+        this.items = [];
+
         // format values
         response.data.tasks.forEach((task) => {
           const item = task;
@@ -156,8 +158,41 @@ export default {
       });
       this.notifySelection();
     },
-    settleTasks() {
-      console.log('tutaj');
+    async settleTasks() {
+      try {
+        this.$emit('isProcessing', true);
+
+        const idArray = this.items.filter((u) => u.isSelected).map((u) => u.id);
+        if (idArray.length === 0) {
+          this.$emit('isProcessing', false);
+          return;
+        }
+
+        const settlementDate = '2022-12-29';
+
+        const response = await tasksService.settle({
+          idArray,
+          settlementDate,
+        });
+
+        if (response.status === 200) {
+          this.$emit('isProcessing', false);
+          this.$emit('showMessage', this.messageTitle, `${idArray.length === 1 ? 'Zadanie' : 'Zadania'} rozliczone`);
+
+          // refresh
+          this.page = 1;
+          this.fetch();
+
+          return;
+        }
+
+        this.$emit('showMessage', this.messageTitle, 'Nieudany zapis');
+      }
+      catch (error) {
+        this.processError(error);
+      }
+
+      this.$emit('isProcessing', false);
     },
     notifySelection() {
       this.$root.$emit('selectionChanged', this.isSelection);

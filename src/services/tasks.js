@@ -10,4 +10,7 @@ export default {
   get(data) {
     return api().get('/tasks', { params: data });
   },
+  settle(request) {
+    return api().post('/tasks/settle', request);
+  },
 };
