@@ -109,9 +109,8 @@ export default {
       .then((response) => {
         if (!response.data) return;
 
+        console.log('fetch: ', this.page);
         console.log(response.data);
-
-        this.items = [];
 
         // format values
         response.data.tasks.forEach((task) => {
@@ -136,6 +135,7 @@ export default {
         return;
       }
 
+      console.log('intersect');
       this.fetch();
     },
     processError(error) {
@@ -181,12 +181,13 @@ export default {
 
           // refresh
           this.page = 1;
+          this.items = [];
           this.fetch();
 
           return;
         }
 
-        this.$emit('showMessage', this.messageTitle, 'Nieudany zapis');
+        this.$emit('showMessage', this.messageTitle, 'Nieudane rozliczenie');
       }
       catch (error) {
         this.processError(error);

@@ -10,7 +10,7 @@ const $route = {
   }
 }
 
-describe('TaskAddView.vue', () => {
+describe('TaskAddView', () => {
   let wrapper;
   let vuetify;
 

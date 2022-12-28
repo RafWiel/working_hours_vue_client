@@ -5,7 +5,7 @@
     class="pa-0">
     <!-- Header -->
     <v-row
-      v-if="$vuetify.breakpoint.smAndUp"
+      v-if="$vuetify.breakpoint.smAndUp && items.length > 0"
       class="no-gutters px-4">
       <!-- 12 columns is to little, thats why one column and inside divs with percentage width -->
       <v-col class="pl-0 py-0 text-body-2 grey--text ">
@@ -43,7 +43,9 @@
         </v-icon>
       </v-col>
     </v-row>
-    <v-divider v-if="$vuetify.breakpoint.smAndUp" class="mt-0 py-0"/>
+    <v-divider
+      v-if="$vuetify.breakpoint.smAndUp && items.length > 0"
+      class="mt-0 py-0"/>
     <!-- Rows portrait view -->
     <v-container
       v-if="$vuetify.breakpoint.xs"
@@ -53,13 +55,16 @@
         <v-col class="mx-3 mt-3">
           <v-checkbox
             @click="$emit('selectAll', isAllSelected)"
-            v-if="isSelectionCheckbox"
+            v-if="isSelectionCheckbox && items.length > 0"
             v-model="isAllSelected"
             label="Zaznacz wszystko"
             hide-details
             class="shrink list_column mt-0"/>
         </v-col>
       </v-row>
+      <v-divider
+        v-if="isSelectionCheckbox && items.length > 0"
+        class="mt-2"/>
       <v-row
         :key="item.id"
         @click="$emit('itemClick', item.id)"
@@ -101,7 +106,9 @@
             </v-col>
           </v-row>
           <!-- Divider (except last row) -->
-          <v-divider v-if="index != items.length - 1" class="mt-2"/>
+          <v-divider
+            v-if="index != items.length - 1"
+            class="mt-2"/>
           <div v-else/>
         </v-col>
       </v-row>
