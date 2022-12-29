@@ -1,8 +1,8 @@
 <template>
   <v-dialog
     :value="isVisible"
-    @click:outside="closeDialog"
-    @keydown.esc.stop="closeDialog"
+    @click:outside="hideDialog"
+    @keydown.esc.stop="hideDialog"
     height="300px"
     max-width="500px">
     <v-card>
@@ -15,15 +15,15 @@
       <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
-        id="yesButton"
         @click="applyDialog"
+        ref="yesButton"
         color="primary"
         text>
         Tak
       </v-btn>
       <v-btn
-        id="noButton"
-        @click="closeDialog"
+        @click="hideDialog"
+        ref="noButton"
         color="primary"
         text>
         Nie
@@ -43,7 +43,7 @@ export default {
     itemId: Number,
     title: String,
     message: String,
-    closeRequest: {
+    hideRequest: {
       type: Function,
       default: () => {},
     },
@@ -51,10 +51,10 @@ export default {
   methods: {
     applyDialog() {
       this.$emit('apply', this.itemId);
-      this.closeRequest();
+      this.hideRequest();
     },
-    closeDialog() {
-      this.closeRequest();
+    hideDialog() {
+      this.hideRequest();
     },
   },
 };

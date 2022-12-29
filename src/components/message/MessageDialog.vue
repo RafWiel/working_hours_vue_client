@@ -1,8 +1,8 @@
 <template>
   <v-dialog
     :value=isVisible
-    @click:outside="closeDialog"
-    @keydown.esc.stop="closeDialog"
+    @click:outside="hideDialog"
+    @keydown.esc.stop="hideDialog"
     id="dialog"
     height="300px"
     max-width="500px">
@@ -16,8 +16,8 @@
       <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
-        id="okButton"
-        @click="closeDialog"
+        @click="hideDialog"
+        ref="okButton"
         color="primary"
         text>
         OK
@@ -36,14 +36,14 @@ export default {
     },
     title: String,
     message: String,
-    closeRequest: {
+    hideRequest: {
       type: Function,
       default: () => {},
     },
   },
   methods: {
-    closeDialog() {
-      this.closeRequest();
+    hideDialog() {
+      this.hideRequest();
     },
   },
 };

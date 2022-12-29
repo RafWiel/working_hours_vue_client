@@ -24,7 +24,7 @@ describe('QuestionDialog.vue', () => {
         title,
         message,
         isVisible,
-        closeRequest: jest.fn()
+        hideRequest: jest.fn()
       },
     });
   });
@@ -43,7 +43,7 @@ describe('QuestionDialog.vue', () => {
       },
     });
 
-    expect(wrapper.find('#yesButton').exists()).toBe(isVisible);
+    expect(wrapper.findComponent({ref: 'yesButton'}).exists()).toBe(isVisible);
   });
 
   it('renders props data', () => {
@@ -54,16 +54,16 @@ describe('QuestionDialog.vue', () => {
     expect(messageObj.text()).toBe(message);
   });
 
-  it('triggers closeRequest on No click', async () => {
-    await wrapper.find('#noButton').trigger('click');
+  it('triggers hideRequest on No click', async () => {
+    await wrapper.findComponent({ref: 'noButton'}).trigger('click');
 
-    expect(wrapper.vm.closeRequest).toHaveBeenCalled();
+    expect(wrapper.vm.hideRequest).toHaveBeenCalled();
   });
 
   it('emits apply on Yes click', async () => {
-    await wrapper.find('#yesButton').trigger('click');
+    await wrapper.findComponent({ref: 'yesButton'}).trigger('click');
 
     expect(wrapper.emitted().apply).toBeTruthy();
-    expect(wrapper.vm.closeRequest).toHaveBeenCalled();
+    expect(wrapper.vm.hideRequest).toHaveBeenCalled();
   });
 });

@@ -12,14 +12,14 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
-            <h5 class="px-2 py-1 yellow">Okno do ustawienia daty</h5>
+            <h5 class="px-2 py-1 yellow">Dodaj filtry do listy</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"
               @showMessage="showMessageDialog"
-              @closeMessage="closeMessageDialog"
+              @hideMessage="hideMessageDialog"
               @showQuestion="showQuestionDialog"
-              @closeQuestion="closeQuestionDialog"/>
+              @hideQuestion="hideQuestionDialog"/>
             <side-bar
               v-model="isNavigationBarOpen"
               :links="links"
@@ -34,7 +34,7 @@
           :title="messageDialog.title"
           :isVisible="messageDialog.isVisible"
           :message="messageDialog.message"
-          :closeRequest="closeMessageDialog"/>
+          :hideRequest="hideMessageDialog"/>
       </v-row>
       <!-- Delete message box -->
       <v-row justify="center" class="no-gutters">
@@ -43,7 +43,7 @@
           :isVisible="questionDialog.isVisible"
           :itemId="questionDialog.id"
           :message="questionDialog.message"
-          :closeRequest="closeQuestionDialog"
+          :hideRequest="hideQuestionDialog"
           @apply="runQuestionDialogCallback"/>
       </v-row>
     </v-container>
@@ -93,6 +93,7 @@ export default {
   }),
   mounted() {
     this.$root.$on('selectionChanged', (value) => {
+      console.log('selection: ', value);
       this.isTaskListSelection = value;
     });
   },
@@ -126,7 +127,7 @@ export default {
       this.messageDialog.message = message;
       this.messageDialog.isVisible = true;
     },
-    closeMessageDialog() {
+    hideMessageDialog() {
       this.messageDialog.isVisible = false;
     },
     showQuestionDialog(title, message, id, callbackFunction) {
@@ -139,7 +140,7 @@ export default {
     runQuestionDialogCallback(id) {
       this.questionDialog.callbackFunction(id);
     },
-    closeQuestionDialog() {
+    hideQuestionDialog() {
       this.questionDialog.isVisible = false;
     },
     setIsNavigationBarOpen(value) {

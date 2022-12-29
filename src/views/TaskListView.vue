@@ -19,23 +19,28 @@
       v-if="items.length"
       v-intersect.quiet="intersect"
       style="height:1px; width:1px;"/>
+    <!-- Date picker -->
+    <v-row justify="center" class="no-gutters">
+      <date-picker-dialog
+        :isVisible="datePickerDialog.isVisible"
+        :hideRequest="hideDatePickerDialog"
+        @apply="settleTasks"/>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import DataGrid from '@/components/common/DataGrid.vue';
-//import debounce from 'lodash.debounce';
 import moment from 'moment';
 import logger from '@/misc/logger';
 import tasksService from '@/services/tasks';
-//import clientsService from '@/services/clients';
-//import projectsService from '@/services/projects';
-//import taskType from '@/enums/taskType';
+import DatePickerDialog from '@/components/DatePickerDialog.vue';
 
 export default {
   name: 'TaskListView',
   components: {
     DataGrid,
+    DatePickerDialog,
   },
   computed: {
     isSelection() {
@@ -89,12 +94,15 @@ export default {
         fullWidth: 15,
       },
     ],
+    datePickerDialog: {
+      isVisible: false,
+    },
   }),
   created() {
   },
   mounted() {
     this.$root.$on('settleTasks', () => {
-      this.settleTasks();
+      this.showDatePickerDialog();
     });
 
     this.fetch();
@@ -158,7 +166,7 @@ export default {
       });
       this.notifySelection();
     },
-    async settleTasks() {
+    async settleTasks(date) {
       try {
         this.$emit('isProcessing', true);
 
@@ -168,11 +176,9 @@ export default {
           return;
         }
 
-        const settlementDate = '2022-12-29';
-
         const response = await tasksService.settle({
           idArray,
-          settlementDate,
+          settlementDate: date,
         });
 
         if (response.status === 200) {
@@ -183,6 +189,7 @@ export default {
           this.page = 1;
           this.items = [];
           this.fetch();
+          this.notifySelection();
 
           return;
         }
@@ -197,6 +204,12 @@ export default {
     },
     notifySelection() {
       this.$root.$emit('selectionChanged', this.isSelection);
+    },
+    showDatePickerDialog() {
+      this.datePickerDialog.isVisible = true;
+    },
+    hideDatePickerDialog() {
+      this.datePickerDialog.isVisible = false;
     },
   },
 };
