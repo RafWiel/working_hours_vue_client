@@ -3,18 +3,22 @@
     :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
     class="pa-0 d-flex flex-column flex-nowrap"
     fluid>
-    <v-row class="no-gutters grow">
-      <v-col>
-        <data-grid
-          :columns="columns"
-          :items="items"
-          :portraitCols="4"
-          :isSelectionCheckbox="true"
-          @selectAll="selectAllItems"
-          @selectionChanged="notifySelection"
-          ref="datagrid"/>
-      </v-col>
-    </v-row>
+    <!-- Portrait sorting -->
+    <portrait-sorting
+      :columns="portraitColumns"
+      @sort="sortItems"
+      ref="portrait-sorting"
+      v-if="$vuetify.breakpoint.xs"
+      class="px-3 pt-2"/>
+    <data-grid
+      :columns="columns"
+      :items="items"
+      :portraitCols="4"
+      :isSelectionCheckbox="true"
+      @selectAll="selectAllItems"
+      @selectionChanged="notifySelection"
+      @sort="sortItems"
+      ref="datagrid"/>
     <div
       v-if="items.length"
       v-intersect.quiet="intersect"
@@ -35,16 +39,23 @@ import moment from 'moment';
 import logger from '@/misc/logger';
 import tasksService from '@/services/tasks';
 import DatePickerDialog from '@/components/DatePickerDialog.vue';
+import sortOrder from '@/enums/sortOrder';
+import PortraitSorting from '@/components/PortraitSorting.vue';
 
 export default {
   name: 'TaskListView',
   components: {
     DataGrid,
     DatePickerDialog,
+    PortraitSorting,
   },
   computed: {
     isSelection() {
       return this.items.filter((u) => u.isSelected).length > 0;
+    },
+    portraitColumns() {
+      // filter headers for mobile portrait view
+      return this.columns.filter((item) => item.limitedWidth !== undefined);
     },
   },
   data: () => ({
@@ -97,6 +108,10 @@ export default {
     datePickerDialog: {
       isVisible: false,
     },
+    sorting: {
+      column: null,
+      order: sortOrder.ascending,
+    },
   }),
   created() {
   },
@@ -113,7 +128,11 @@ export default {
       this.$emit('isProcessing', true);
 
       // get items
-      tasksService.get({ page: this.page })
+      tasksService.get({
+        page: this.page,
+        'sort-column': this.sorting.column !== null ? this.sorting.column : null,
+        'sort-order': this.sorting.column !== null ? this.sorting.order : null,
+      })
       .then((response) => {
         if (!response.data) return;
 
@@ -210,6 +229,15 @@ export default {
     },
     hideDatePickerDialog() {
       this.datePickerDialog.isVisible = false;
+    },
+    sortItems(sorting) {
+      this.items = [];
+      this.page = 1;
+      this.sorting.column = sorting.column;
+      this.sorting.order = sorting.order;
+
+      // refresh with new sorting
+      this.fetch();
     },
   },
 };

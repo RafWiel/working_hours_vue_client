@@ -20,17 +20,17 @@
           :key="column.id"
           :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
           :class="isSelectionCheckbox ? 'header_selection_offset_y' : ''"
-          @click="onSort(column.id)"
-          @keyup.space="onSort(column.id)"
+          @click="onSort(column.value)"
+          @keyup.space="onSort(column.value)"
           class="list_column text_ellipsis"
           style="height: 1.7em;"
           v-ripple>
           {{ column.text }}
           <v-icon
-            v-if="sorting.column === column.id && sorting.order === sortOrder.ascending"
+            v-if="sorting.column === column.value && sorting.order === sortOrder.ascending"
             style="margin-top: -2px;">mdi-chevron-up</v-icon>
           <v-icon
-            v-if="sorting.column === column.id && sorting.order === sortOrder.descending"
+            v-if="sorting.column === column.value && sorting.order === sortOrder.descending"
             style="margin-top: -2px;">mdi-chevron-down</v-icon>
         </div>
       </v-col>
@@ -191,9 +191,9 @@ export default {
     isAllSelected: false,
   }),
   methods: {
-    onSort(columnId) {
-      if (columnId !== this.sorting.column) {
-        this.sorting.column = columnId;
+    onSort(column) {
+      if (column !== this.sorting.column) {
+        this.sorting.column = column;
         this.sorting.order = sortOrder.ascending;
       }
       else if (this.sorting.order === sortOrder.ascending) {

@@ -74,6 +74,32 @@ describe('TaskListView', () => {
     expect(wrapper.findComponent({ref: 'datagrid'}).exists()).toBe(true);
   });
 
+  it('does not render portrait sorting in smAndUp mode', () => {
+    vuetify.framework.breakpoint = {
+      init: jest.fn(),
+      framework: {},
+      xs: false,
+      smAndUp: true,
+    };
+
+    wrapper = mount(TaskListView, { vuetify });
+
+    expect(wrapper.findComponent({ref: 'portrait-sorting'}).exists()).toBe(false);
+  });
+
+  it('renders portrait sorting in xs mode', () => {
+    vuetify.framework.breakpoint = {
+      init: jest.fn(),
+      framework: {},
+      xs: true,
+      smAndUp: false,
+    };
+
+    wrapper = mount(TaskListView, { vuetify });
+
+    expect(wrapper.findComponent({ref: 'portrait-sorting'}).exists()).toBe(true);
+  });
+
   it('emits error message', () => {
     wrapper.vm.processError('test');
 
