@@ -3,13 +3,18 @@
     :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
     class="pa-0 d-flex flex-column flex-nowrap"
     fluid>
+    <!-- Filter -->
+    <list-view-filter
+      :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
+      @filter="filterData"/>
     <!-- Portrait sorting -->
     <portrait-sorting
       :columns="portraitColumns"
       @sort="sortItems"
       ref="portrait-sorting"
       v-if="$vuetify.breakpoint.xs"
-      class="px-3 pt-2"/>
+      class="pl-3 pt-2 pr-13"/>
+    <!-- DataGrid -->
     <data-grid
       :columns="columns"
       :items="items"
@@ -41,6 +46,7 @@ import tasksService from '@/services/tasks';
 import DatePickerDialog from '@/components/DatePickerDialog.vue';
 import sortOrder from '@/enums/sortOrder';
 import PortraitSorting from '@/components/PortraitSorting.vue';
+import ListViewFilter from '@/components/ListViewFilter.vue';
 
 export default {
   name: 'TaskListView',
@@ -48,6 +54,7 @@ export default {
     DataGrid,
     DatePickerDialog,
     PortraitSorting,
+    ListViewFilter,
   },
   computed: {
     isSelection() {

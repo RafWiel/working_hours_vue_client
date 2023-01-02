@@ -39,6 +39,13 @@
       <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
+        @click="hideDialog"
+        ref="cancelButton"
+        color="primary"
+        text>
+        Anuluj
+      </v-btn>
+      <v-btn
         @click="applyDialog"
         ref="okButton"
         color="primary"
