@@ -208,7 +208,7 @@ export default {
     }, 500),
     emitEvent() {
       const route = {
-        name: 'TaskListView',
+        name: 'tasks',
         query: {},
       };
 

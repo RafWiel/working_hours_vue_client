@@ -6,7 +6,7 @@
     <!-- Filter -->
     <list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
-      @filter="filterData"/>
+      @filter="filterItems"/>
     <!-- Portrait sorting -->
     <portrait-sorting
       :columns="portraitColumns"
@@ -47,6 +47,8 @@ import DatePickerDialog from '@/components/DatePickerDialog.vue';
 import sortOrder from '@/enums/sortOrder';
 import PortraitSorting from '@/components/PortraitSorting.vue';
 import ListViewFilter from '@/components/ListViewFilter.vue';
+import taskType from '@/enums/taskType';
+import timePeriod from '@/enums/timePeriod';
 
 export default {
   name: 'TaskListView',
@@ -119,6 +121,7 @@ export default {
       column: null,
       order: sortOrder.ascending,
     },
+    filter: null,
   }),
   created() {
   },
@@ -139,11 +142,17 @@ export default {
         page: this.page,
         'sort-column': this.sorting.column !== null ? this.sorting.column : null,
         'sort-order': this.sorting.column !== null ? this.sorting.order : null,
+        search: this.filter && this.filter.search ? this.filter.search : null,
+        'start-date': this.filter && this.filter.startDate ? moment(this.filter.startDate).utc().format('YYYY-MM-DD HH:mm:ss.SSS Z') : null,
+        'stop-date': this.filter && this.filter.stopDate ? moment(this.filter.stopDate).add(1, 'd').utc().format('YYYY-MM-DD HH:mm:ss.SSS Z') : null,
+        'time-period': this.filter && this.filter.timePeriod !== timePeriod.all ? this.filter.timePeriod : null,
+        type: this.filter && this.filter.type !== taskType.all ? this.filter.type : null,
       })
       .then((response) => {
         if (!response.data) return;
 
         console.log('fetch: ', this.page);
+        console.log('items: ', this.items.length);
         console.log(response.data);
 
         // format values
@@ -244,6 +253,15 @@ export default {
       this.sorting.order = sorting.order;
 
       // refresh with new sorting
+      this.fetch();
+    },
+    filterItems(filter) {
+      // reset items
+      this.items = [];
+      this.page = 1;
+      this.filter = filter;
+
+      // refresh with new filter
       this.fetch();
     },
   },
