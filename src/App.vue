@@ -12,8 +12,7 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
-            <h5 class="px-2 py-1 yellow">F5 powoduje podwójny refresh</h5>
-            <h5 class="px-2 py-1 yellow">Filtry testy</h5>
+            <!-- <h5 class="px-2 py-1 yellow">F5 powoduje podwójny refresh</h5> -->
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"

@@ -49,6 +49,7 @@ import PortraitSorting from '@/components/PortraitSorting.vue';
 import ListViewFilter from '@/components/ListViewFilter.vue';
 import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
+import settlementType from '@/enums/settlementType';
 
 export default {
   name: 'TaskListView',
@@ -76,41 +77,49 @@ export default {
         id: 1,
         text: 'Data',
         value: 'creationDate',
-        limitedWidth: 20,
+        limitedWidth: 15,
         fullWidth: 15,
       },
       {
         id: 2,
         text: 'Klient',
         value: 'client',
-        limitedWidth: 14,
+        limitedWidth: 15,
         fullWidth: 15,
       },
       {
         id: 3,
         text: 'Projekt',
         value: 'project',
-        limitedWidth: 26,
+        limitedWidth: 15,
         fullWidth: 15,
       },
       {
         id: 4,
         text: 'Wersja',
         value: 'version',
-        limitedWidth: 20,
-        fullWidth: 15,
+        limitedWidth: 10,
+        fullWidth: 12,
       },
       {
         id: 5,
         text: 'Cena',
         value: 'price',
-        fullWidth: 15,
+        limitedWidth: 14,
+        fullWidth: 12,
       },
       {
         id: 6,
         text: 'Ilość godzin',
         value: 'hours',
         limitedWidth: 14,
+        fullWidth: 12,
+      },
+      {
+        id: 7,
+        text: 'Rozliczenie',
+        value: 'settlementDate',
+        limitedWidth: 13,
         fullWidth: 15,
       },
     ],
@@ -130,6 +139,11 @@ export default {
       this.showDatePickerDialog();
     });
 
+    // prevent double fetch on page refresh by user
+    if (Object.keys(this.$route.query).length !== 0) {
+      return;
+    }
+
     this.fetch();
   },
   methods: {
@@ -146,7 +160,8 @@ export default {
         'start-date': this.filter && this.filter.startDate ? moment(this.filter.startDate).utc().format('YYYY-MM-DD HH:mm:ss.SSS Z') : null,
         'stop-date': this.filter && this.filter.stopDate ? moment(this.filter.stopDate).add(1, 'd').utc().format('YYYY-MM-DD HH:mm:ss.SSS Z') : null,
         'time-period': this.filter && this.filter.timePeriod !== timePeriod.all ? this.filter.timePeriod : null,
-        type: this.filter && this.filter.type !== taskType.all ? this.filter.type : null,
+        'task-type': this.filter && this.filter.taskType !== taskType.all ? this.filter.taskType : null,
+        'settlement-type': this.filter && this.filter.settlementType !== settlementType.all ? this.filter.settlementType : null,
       })
       .then((response) => {
         if (!response.data) return;
@@ -160,9 +175,8 @@ export default {
           const item = task;
           item.isSelected = false;
           item.creationDate = moment(item.creationDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
-          //item.requestType = requestType.getText(item.requestType);
-          //item.submitType = requestSubmitType.getText(item.submitType);
-          //item.status = requestStatus.getText(item.status, this.$vuetify.breakpoint.xs);
+          item.settlementDate = item.settlementDate !== null ? moment(item.settlementDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD') : '';
+
           this.items.push(item);
         });
 

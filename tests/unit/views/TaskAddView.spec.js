@@ -21,9 +21,7 @@ describe('TaskAddView', () => {
 
     wrapper = mount(TaskAddView, {
       vuetify,
-      mocks: {
-        $route
-      }
+      mocks: { $route }
     });
   });
 
