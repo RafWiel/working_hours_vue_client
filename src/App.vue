@@ -12,7 +12,8 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
-            <!-- <h5 class="px-2 py-1 yellow">F5 powoduje podwójny refresh</h5> -->
+            <h5 class="px-2 py-1 yellow">Testy</h5>
+            <h5 class="px-2 py-1 yellow">Suma</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"
@@ -71,7 +72,8 @@ export default {
     isTaskListSelection: false,
     isNavigationBarOpen: false,
     links: [
-      { icon: 'mdi-format-list-numbered', text: 'Lista zadań', route: '/tasks' },
+      { icon: 'mdi-account-multiple', text: 'Klienci', route: '/clients?settlement-type=2' },
+      { icon: 'mdi-format-list-numbered', text: 'Zadania', route: '/tasks?settlement-type=2' },
       { icon: 'mdi-playlist-plus', text: 'Nowe zadanie Aldridge', route: '/ad/task_add' },
       { icon: 'mdi-playlist-plus', text: 'Nowe zadanie DataSoft', route: '/ds/task_add' },
     ],

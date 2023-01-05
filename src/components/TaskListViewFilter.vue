@@ -164,7 +164,8 @@ import taskType from '@/enums/taskType';
 import settlementType from '@/enums/settlementType';
 
 export default {
-  name: 'ListViewFilter',
+  name: 'TaskListViewFilter',
+  props: { route: String },
   data: () => ({
     filter: {
       search: '',
@@ -228,7 +229,7 @@ export default {
     }, 500),
     emitEvent() {
       const route = {
-        name: 'tasks',
+        name: this.route,
         query: {},
       };
 

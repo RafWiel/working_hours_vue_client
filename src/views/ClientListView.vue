@@ -4,8 +4,8 @@
     class="pa-0 d-flex flex-column flex-nowrap"
     fluid>
     <!-- Filter -->
-    <task-list-view-filter
-      :route="tasks"
+    <client-list-view-filter
+      :route="clients"
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
       @filter="filterItems"/>
     <!-- Portrait sorting -->
@@ -14,15 +14,12 @@
       @sort="sortItems"
       ref="portrait-sorting"
       v-if="$vuetify.breakpoint.xs"
-      class="pl-3 pt-2 pr-13"/>
+      class="px-3 pt-2"/>
     <!-- DataGrid -->
     <data-grid
       :columns="columns"
       :items="items"
       :portraitCols="4"
-      :isSelectionCheckbox="true"
-      @selectAll="selectAllItems"
-      @selectionChanged="notifySelection"
       @sort="sortItems"
       ref="datagrid"/>
     <div
@@ -43,22 +40,22 @@
 import DataGrid from '@/components/common/DataGrid.vue';
 import moment from 'moment';
 import logger from '@/misc/logger';
-import tasksService from '@/services/tasks';
+import clientsService from '@/services/clients';
 import DatePickerDialog from '@/components/DatePickerDialog.vue';
 import sortOrder from '@/enums/sortOrder';
 import PortraitSorting from '@/components/PortraitSorting.vue';
-import TaskListViewFilter from '@/components/TaskListViewFilter.vue';
+import ClientListViewFilter from '@/components/ClientListViewFilter.vue';
 import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
 import settlementType from '@/enums/settlementType';
 
 export default {
-  name: 'TaskListView',
+  name: 'ClientListView',
   components: {
     DataGrid,
     DatePickerDialog,
     PortraitSorting,
-    TaskListViewFilter,
+    ClientListViewFilter,
   },
   computed: {
     isSelection() {
@@ -76,52 +73,17 @@ export default {
     columns: [
       {
         id: 0,
-        text: 'Data',
-        value: 'creationDate',
-        limitedWidth: 15,
-        fullWidth: 15,
-      },
-      {
-        id: 1,
         text: 'Klient',
         value: 'client',
         limitedWidth: 15,
         fullWidth: 15,
       },
       {
-        id: 2,
-        text: 'Projekt',
-        value: 'project',
-        limitedWidth: 15,
-        fullWidth: 15,
-      },
-      {
-        id: 3,
-        text: 'Wersja',
-        value: 'version',
-        limitedWidth: 10,
-        fullWidth: 12,
-      },
-      {
-        id: 4,
-        text: 'Cena',
-        value: 'price',
+        id: 1,
+        text: 'Kwota',
+        value: 'amount',
         limitedWidth: 14,
         fullWidth: 12,
-      },
-      {
-        id: 5,
-        text: 'Ilość godzin',
-        value: 'hours',
-        limitedWidth: 14,
-        fullWidth: 12,
-      },
-      {
-        id: 6,
-        text: 'Rozliczenie',
-        value: 'settlementDate',
-        limitedWidth: 13,
-        fullWidth: 15,
       },
     ],
     datePickerDialog: {
@@ -153,7 +115,7 @@ export default {
       this.$emit('isProcessing', true);
 
       // get items
-      tasksService.get({
+      clientsService.get({
         page: this.page,
         'sort-column': this.sorting.column !== null ? this.sorting.column : null,
         'sort-order': this.sorting.column !== null ? this.sorting.order : null,
@@ -172,12 +134,7 @@ export default {
         console.log(response.data);
 
         // format values
-        response.data.tasks.forEach((task) => {
-          const item = task;
-          item.isSelected = false;
-          item.creationDate = moment(item.creationDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
-          item.settlementDate = item.settlementDate !== null ? moment(item.settlementDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD') : '';
-
+        response.data.clients.forEach((item) => {
           this.items.push(item);
         });
 
@@ -207,59 +164,6 @@ export default {
 
       logger.error(error.response.data);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
-    },
-    selectAllItems(value) {
-      this.items.forEach((task) => {
-        const item = task;
-
-        item.isSelected = value;
-      });
-      this.notifySelection();
-    },
-    async settleTasks(date) {
-      try {
-        this.$emit('isProcessing', true);
-
-        const idArray = this.items.filter((u) => u.isSelected).map((u) => u.id);
-        if (idArray.length === 0) {
-          this.$emit('isProcessing', false);
-          return;
-        }
-
-        const response = await tasksService.settle({
-          idArray,
-          settlementDate: date,
-        });
-
-        if (response.status === 200) {
-          this.$emit('isProcessing', false);
-          this.$emit('showMessage', this.messageTitle, `${idArray.length === 1 ? 'Zadanie' : 'Zadania'} rozliczone`);
-
-          // refresh
-          this.page = 1;
-          this.items = [];
-          this.fetch();
-          this.notifySelection();
-
-          return;
-        }
-
-        this.$emit('showMessage', this.messageTitle, 'Nieudane rozliczenie');
-      }
-      catch (error) {
-        this.processError(error);
-      }
-
-      this.$emit('isProcessing', false);
-    },
-    notifySelection() {
-      this.$root.$emit('selectionChanged', this.isSelection);
-    },
-    showDatePickerDialog() {
-      this.datePickerDialog.isVisible = true;
-    },
-    hideDatePickerDialog() {
-      this.datePickerDialog.isVisible = false;
     },
     sortItems(sorting) {
       this.items = [];

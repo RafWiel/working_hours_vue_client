@@ -4,6 +4,7 @@ import TestView from '../views/TestView.vue';
 import TaskAddView from '../views/TaskAddView.vue';
 import TaskListView from '../views/TaskListView.vue';
 import taskType from '../enums/taskType';
+import ClientListView from '../views/ClientListView.vue';
 
 Vue.use(VueRouter);
 
@@ -44,9 +45,18 @@ const routes = [
     name: 'tasks',
     component: TaskListView,
     meta: {
-      title: 'Lista zadań',
-      titleLong: 'Lista zadań',
+      title: 'Zadania',
+      titleLong: 'Zadania',
       isTaskListView: true,
+    },
+  },
+  {
+    path: '/clients',
+    name: 'clients',
+    component: ClientListView,
+    meta: {
+      title: 'Klienci',
+      titleLong: 'Klienci',
     },
   },
   {
