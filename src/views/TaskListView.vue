@@ -5,9 +5,9 @@
     fluid>
     <!-- Filter -->
     <task-list-view-filter
-      :route="tasks"
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
-      @filter="filterItems"/>
+      @filter="filterItems"
+      route="tasks"/>
     <!-- Portrait sorting -->
     <portrait-sorting
       :columns="portraitColumns"
@@ -21,6 +21,7 @@
       :items="items"
       :portraitCols="4"
       :isSelectionCheckbox="true"
+      :isSummary="true"
       @selectAll="selectAllItems"
       @selectionChanged="notifySelection"
       @sort="sortItems"
@@ -108,6 +109,7 @@ export default {
         value: 'price',
         limitedWidth: 14,
         fullWidth: 12,
+        isSummary: true,
       },
       {
         id: 5,
@@ -115,6 +117,7 @@ export default {
         value: 'hours',
         limitedWidth: 14,
         fullWidth: 12,
+        isSummary: true,
       },
       {
         id: 6,
@@ -180,6 +183,9 @@ export default {
 
           this.items.push(item);
         });
+
+        //calculate sum
+        this.calculateSum();
 
         // increment page number for next fetch
         this.page += 1;
@@ -278,6 +284,11 @@ export default {
 
       // refresh with new filter
       this.fetch();
+    },
+    calculateSum() {
+      // this.colums.filter((u) => u.isSummary).forEach((column) => {
+      //   console.log(column.id);
+      // });
     },
   },
 };

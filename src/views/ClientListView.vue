@@ -5,9 +5,9 @@
     fluid>
     <!-- Filter -->
     <client-list-view-filter
-      :route="clients"
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
-      @filter="filterItems"/>
+      @filter="filterItems"
+      route="clients"/>
     <!-- Portrait sorting -->
     <portrait-sorting
       :columns="portraitColumns"
@@ -20,19 +20,13 @@
       :columns="columns"
       :items="items"
       :portraitCols="4"
+      :isSummary="true"
       @sort="sortItems"
       ref="datagrid"/>
     <div
       v-if="items.length"
       v-intersect.quiet="intersect"
       style="height:1px; width:1px;"/>
-    <!-- Date picker -->
-    <v-row justify="center" class="no-gutters">
-      <date-picker-dialog
-        :isVisible="datePickerDialog.isVisible"
-        :hideRequest="hideDatePickerDialog"
-        @apply="settleTasks"/>
-    </v-row>
   </v-container>
 </template>
 
@@ -41,7 +35,6 @@ import DataGrid from '@/components/common/DataGrid.vue';
 import moment from 'moment';
 import logger from '@/misc/logger';
 import clientsService from '@/services/clients';
-import DatePickerDialog from '@/components/DatePickerDialog.vue';
 import sortOrder from '@/enums/sortOrder';
 import PortraitSorting from '@/components/PortraitSorting.vue';
 import ClientListViewFilter from '@/components/ClientListViewFilter.vue';
@@ -53,7 +46,6 @@ export default {
   name: 'ClientListView',
   components: {
     DataGrid,
-    DatePickerDialog,
     PortraitSorting,
     ClientListViewFilter,
   },
