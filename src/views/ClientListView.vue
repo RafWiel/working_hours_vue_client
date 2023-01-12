@@ -20,7 +20,7 @@
       :columns="columns"
       :items="items"
       :portraitCols="4"
-      :isSummary="true"
+      :isSummary="false"
       @sort="sortItems"
       ref="datagrid"/>
     <div

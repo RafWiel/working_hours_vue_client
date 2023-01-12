@@ -21,7 +21,7 @@
       :items="items"
       :portraitCols="4"
       :isSelectionCheckbox="true"
-      :isSummary="true"
+      :isSummary="false"
       @selectAll="selectAllItems"
       @selectionChanged="notifySelection"
       @sort="sortItems"

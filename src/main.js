@@ -8,6 +8,7 @@ import './assets/main.scss';
 import './misc/directives';
 
 Vue.config.productionTip = false;
+document.title = 'Settlement';
 
 sync(store, router);
 

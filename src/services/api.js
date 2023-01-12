@@ -3,7 +3,7 @@ import store from '@/misc/store';
 
 export default () => {
   const api = axios.create({
-    baseURL: `${process.env.VUE_APP_ADDRESS}:${process.env.VUE_APP_PORT}/`,
+    baseURL: `${process.env.VUE_APP_ADDRESS}:${process.env.VUE_APP_PORT}/${process.env.VUE_APP_URL_PATH}/`,
     headers: { Authorization: `Bearer ${store.state.token}` },
     // baseURL: 'https://wulkano-service-demo.herokuapp.com',
   });
