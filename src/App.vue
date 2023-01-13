@@ -59,7 +59,6 @@ import MessageDialog from '@/components/message/MessageDialog.vue';
 import QuestionDialog from '@/components/message/QuestionDialog.vue';
 
 export default {
-  title: 'Foo Page',
   name: 'App',
   components: {
     LoadingIcon,
