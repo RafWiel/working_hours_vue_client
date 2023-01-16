@@ -165,14 +165,16 @@
           <v-divider class="px-1 py-0 black"/>
           <v-row class="no-gutters px-4" align="center">
             <v-col class="pl-0 py-1">
-              <div class="shrink list_column ml-4 mr-3 mt-2">&nbsp;</div>
+              <div
+                v-if="isSelectionCheckbox"
+                class="shrink list_column ml-4 mr-3 mt-2">&nbsp;</div>
               <div
                 v-for="column in $vuetify.breakpoint.lgAndUp ? columns : limitedColumns"
                 :key="column.id"
                 :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
                 :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                 class="list_column text_ellipsis font-weight-bold">
-                {{ column.isSummary ? column.id : '&nbsp;' }}
+                {{ column.isSum ? column.sum : '&nbsp;' }}
               </div>
             </v-col>
           </v-row>

@@ -21,7 +21,7 @@
       :items="items"
       :portraitCols="4"
       :isSelectionCheckbox="true"
-      :isSummary="false"
+      :isSummary="true"
       @selectAll="selectAllItems"
       @selectionChanged="notifySelection"
       @sort="sortItems"
@@ -109,7 +109,9 @@ export default {
         value: 'price',
         limitedWidth: 14,
         fullWidth: 12,
-        isSummary: true,
+        isSum: true,
+        sum: 0,
+        decimalDigits: 2,
       },
       {
         id: 5,
@@ -117,7 +119,8 @@ export default {
         value: 'hours',
         limitedWidth: 14,
         fullWidth: 12,
-        isSummary: true,
+        isSum: true,
+        sum: 0,
       },
       {
         id: 6,
@@ -184,7 +187,6 @@ export default {
           this.items.push(item);
         });
 
-        //calculate sum
         this.calculateSum();
 
         // increment page number for next fetch
@@ -286,9 +288,17 @@ export default {
       this.fetch();
     },
     calculateSum() {
-      // this.colums.filter((u) => u.isSummary).forEach((column) => {
-      //   console.log(column.id);
-      // });
+      this.columns.filter((u) => u.isSum)
+      .forEach((item) => {
+        const column = item;
+        const items = this.items.filter((u) => u[column.value]);
+
+        column.sum = items.reduce((part, u) => part + parseFloat(u[column.value]), 0);
+
+        if (column.decimalDigits) {
+          column.sum = column.sum.toFixed(column.decimalDigits);
+        }
+      });
     },
   },
 };

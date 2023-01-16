@@ -20,7 +20,7 @@
       :columns="columns"
       :items="items"
       :portraitCols="4"
-      :isSummary="false"
+      :isSummary="true"
       @sort="sortItems"
       ref="datagrid"/>
     <div
@@ -76,6 +76,9 @@ export default {
         value: 'amount',
         limitedWidth: 14,
         fullWidth: 12,
+        isSum: true,
+        sum: 0,
+        decimalDigits: 2,
       },
     ],
     datePickerDialog: {
@@ -130,6 +133,8 @@ export default {
           this.items.push(item);
         });
 
+        this.calculateSum();
+
         // increment page number for next fetch
         this.page += 1;
       })
@@ -174,6 +179,19 @@ export default {
 
       // refresh with new filter
       this.fetch();
+    },
+    calculateSum() {
+      this.columns.filter((u) => u.isSum)
+      .forEach((item) => {
+        const column = item;
+        const items = this.items.filter((u) => u[column.value]);
+
+        column.sum = items.reduce((part, u) => part + parseFloat(u[column.value]), 0);
+
+        if (column.decimalDigits) {
+          column.sum = column.sum.toFixed(column.decimalDigits);
+        }
+      });
     },
   },
 };
