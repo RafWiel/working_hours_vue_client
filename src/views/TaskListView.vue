@@ -147,7 +147,7 @@ export default {
     });
 
     // prevent double fetch on page refresh by user
-    if (Object.keys(this.$route.query).length !== 0) {
+    if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
       return;
     }
 

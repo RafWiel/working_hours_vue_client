@@ -41,8 +41,6 @@
 
 <script>
 import debounce from 'lodash.debounce'; // debounce - opoznienie
-import timePeriod from '@/enums/timePeriod';
-import taskType from '@/enums/taskType';
 import settlementType from '@/enums/settlementType';
 
 export default {
@@ -51,22 +49,18 @@ export default {
   data: () => ({
     filter: {
       search: '',
-      timePeriod: 0,
-      startDate: null,
-      stopDate: null,
-      taskType: 0,
       settlementType: 0,
     },
-    isStartDatePickerVisible: false,
-    isStopDatePickerVisible: false,
-    timePeriodItems: timePeriod.items,
-    taskTypeItems: taskType.items,
     settlementTypeItems: settlementType.items,
   }),
   watch: {
     '$route.query': {
       immediate: true,
       handler(value) {
+        if (!value) {
+          return;
+        }
+
         let isRefresh = false;
 
         if (!!value.search && this.filter.search !== value.search) {
@@ -74,29 +68,9 @@ export default {
           isRefresh = !!this.filter.search;
         }
 
-        if (!!value['time-period'] && this.filter.timePeriod !== parseInt(value['time-period'], 10)) {
-          this.filter.timePeriod = parseInt(value['time-period'], 10);
-          isRefresh = this.filter.timePeriod !== timePeriod.all;
-        }
-
-        if (!!value['task-type'] && this.filter.taskType !== parseInt(value['task-type'], 10)) {
-           this.filter.taskType = parseInt(value['task-type'], 10);
-           isRefresh = this.filter.taskType !== taskType.all;
-        }
-
         if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
            this.filter.settlementType = parseInt(value['settlement-type'], 10);
            isRefresh = this.filter.settlementType !== settlementType.all;
-        }
-
-        if (!!value['start-date'] && this.filter.startDate !== value['start-date']) {
-          this.filter.startDate = value['start-date'];
-          isRefresh = !!this.filter.startDate;
-        }
-
-        if (!!value['stop-date'] && this.filter.stopDate !== value['stop-date']) {
-          this.filter.stopDate = value['stop-date'];
-          isRefresh = !!this.filter.stopDate;
         }
 
         if (isRefresh) {
@@ -119,24 +93,8 @@ export default {
         route.query.search = this.filter.search;
       }
 
-      if (this.filter.timePeriod !== timePeriod.all) {
-        route.query['time-period'] = this.filter.timePeriod;
-      }
-
-      if (this.filter.taskType !== taskType.all) {
-        route.query['task-type'] = this.filter.taskType;
-      }
-
       if (this.filter.settlementType !== settlementType.all) {
         route.query['settlement-type'] = this.filter.settlementType;
-      }
-
-      if (this.filter.startDate) {
-        route.query['start-date'] = this.filter.startDate;
-      }
-
-      if (this.filter.stopDate) {
-        route.query['stop-date'] = this.filter.stopDate;
       }
 
       this.$router.push(route);

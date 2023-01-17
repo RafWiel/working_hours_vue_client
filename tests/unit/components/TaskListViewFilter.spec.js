@@ -1,6 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import Vuetify from 'vuetify';
-import ListViewFilter from '@/components/ListViewFilter.vue';
+import TaskListViewFilter from '@/components/TaskListViewFilter.vue';
 
 const $route = {
   query: {
@@ -9,7 +9,7 @@ const $route = {
   }
 }
 
-describe('ListViewFilter.vue', () => {
+describe('TaskListViewFilter.vue', () => {
   let wrapper;
   let vuetify;
 
@@ -18,7 +18,7 @@ describe('ListViewFilter.vue', () => {
 
     document.body.setAttribute('data-app', true);
 
-    wrapper = mount(ListViewFilter, {
+    wrapper = mount(TaskListViewFilter, {
       vuetify,
       mocks: { $route }
     });

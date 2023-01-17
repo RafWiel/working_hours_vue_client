@@ -185,6 +185,10 @@ export default {
     '$route.query': {
       immediate: true,
       handler(value) {
+        if (!value) {
+          return;
+        }
+
         let isRefresh = false;
 
         if (!!value.search && this.filter.search !== value.search) {
