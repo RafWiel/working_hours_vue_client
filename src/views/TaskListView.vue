@@ -138,16 +138,20 @@ export default {
       order: sortOrder.ascending,
     },
     filter: null,
+    clientId: null,
   }),
-  created() {
-  },
   mounted() {
     this.$root.$on('settleTasks', () => {
       this.showDatePickerDialog();
     });
 
+    console.log('mounted ', this.$route.query);
+
     // prevent double fetch on page refresh by user
     if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
+      this.clientId = this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
+      console.log('client id: ', this.clientId);
+
       return;
     }
 
@@ -157,6 +161,9 @@ export default {
     async fetch() {
       // set loading icon
       this.$emit('isProcessing', true);
+
+      this.clientId = this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
+      console.log('client id 2: ', this.clientId);
 
       // get items
       tasksService.get({
@@ -169,13 +176,14 @@ export default {
         'time-period': this.filter && this.filter.timePeriod !== timePeriod.all ? this.filter.timePeriod : null,
         'task-type': this.filter && this.filter.taskType !== taskType.all ? this.filter.taskType : null,
         'settlement-type': this.filter && this.filter.settlementType !== settlementType.all ? this.filter.settlementType : null,
+        'client-id': this.clientId,
       })
       .then((response) => {
         if (!response.data) return;
 
-        console.log('fetch: ', this.page);
-        console.log('items: ', this.items.length);
-        console.log(response.data);
+        // console.log('fetch: ', this.page);
+        // console.log('items: ', this.items.length);
+        // console.log(response.data);
 
         // format values
         response.data.tasks.forEach((task) => {
@@ -283,6 +291,9 @@ export default {
       this.items = [];
       this.page = 1;
       this.filter = filter;
+
+      this.clientId = this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
+      console.log('client id 3: ', this.clientId);
 
       // refresh with new filter
       this.fetch();

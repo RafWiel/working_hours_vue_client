@@ -73,7 +73,7 @@
         justify="center"
         class="no-gutters list_row pt-2">
         <v-col>
-          <v-row class="no-gutters px-3" align="center">
+          <v-row class="no-gutters px-3 mb-2" align="center">
             <v-col v-if="isSelectionCheckbox">
               <v-checkbox
                 @click="$emit('selectionChanged')"
@@ -107,8 +107,7 @@
           </v-row>
           <!-- Divider (except last row) -->
           <v-divider
-            v-if="index != items.length - 1"
-            class="mt-2"/>
+            v-if="index != items.length - 1"/>
           <div v-else/>
         </v-col>
       </v-row>
@@ -158,7 +157,7 @@
       </v-row>
       <!-- Summary -->
       <v-row
-        v-if="isSummary"
+        v-if="isSummary && items.length > 0"
         class="no-gutters"
         align="center" justify="center">
         <v-col>

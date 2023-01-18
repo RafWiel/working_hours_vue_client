@@ -1,9 +1,9 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import Vuetify from 'vuetify';
-import TaskListView from '@/views/TaskListView.vue';
+import ClientListView from '@/views/ClientListView.vue';
 import '@/misc/directives';
 import moment from 'moment';
-import tasksService from '@/services/tasks';
+import clientsService from '@/services/clients';
 
 const $route = {
   meta: {
@@ -13,48 +13,35 @@ const $route = {
 
 const items = [
   {
-    "id": 1,
-    "creationDate": "2022-11-09T00:00:00.000Z",
-    "settlementDate": "2022-12-25T00:00:00.000Z",
-    "type": 1,
-    "version": "18",
-    "description": "Opis",
-    "price": "100.00",
-    "hours": null,
-    "client": "JS",
-    "project": "WebApi"
+    "client": "Techsam",
+    "amount": "1.00"
   },
   {
-    "id": 2,
-    "creationDate": "2022-11-08T00:00:00.000Z",
-    "settlementDate": "2022-12-25T00:00:00.000Z",
-    "type": 2,
-    "version": "1.0",
-    "description": "Opis",
-    "price": null,
-    "hours": 1.5,
-    "client": null,
-    "project": "System Manager"
+      "client": "Technobeton",
+      "amount": "1.00"
   },
+  {
+      "client": "JS",
+      "amount": "1447.00"
+  }
 ];
 
-jest.mock('@/services/tasks');
+jest.mock('@/services/clients');
 
-describe('TaskListView', () => {
+describe('ClientListView', () => {
   let wrapper;
   let vuetify;
 
-  tasksService.settle = jest.fn().mockResolvedValue({ status: 200 });
-  tasksService.get = jest.fn().mockResolvedValue(items);
+  clientsService.get = jest.fn().mockResolvedValue(items);
 
-  const fetchMethod = jest.spyOn(TaskListView.methods, 'fetch');
+  const fetchMethod = jest.spyOn(ClientListView.methods, 'fetch');
 
   beforeEach(() => {
     vuetify = new Vuetify();
 
     document.body.setAttribute('data-app', true);
 
-    wrapper = mount(TaskListView, {
+    wrapper = mount(ClientListView, {
       vuetify,
       mocks: {
         $route
@@ -82,7 +69,7 @@ describe('TaskListView', () => {
       smAndUp: true,
     };
 
-    wrapper = mount(TaskListView, {
+    wrapper = mount(ClientListView, {
       vuetify,
       mocks: {
         $route
@@ -100,7 +87,7 @@ describe('TaskListView', () => {
       smAndUp: false,
     };
 
-    wrapper = mount(TaskListView, {
+    wrapper = mount(ClientListView, {
       vuetify,
       mocks: {
         $route
@@ -114,24 +101,5 @@ describe('TaskListView', () => {
     wrapper.vm.processError('test');
 
     expect(wrapper.emitted().showMessage).toBeTruthy();
-  });
-
-  it('settles', () => {
-    const selectedItems = [
-      {
-        id: 1,
-        isSelected: true,
-      },
-      {
-        id: 2,
-        isSelected: false,
-      },
-    ];
-
-    wrapper.vm.$data.items = JSON.parse(JSON.stringify(selectedItems));
-    wrapper.vm.settleTasks();
-
-    expect(tasksService.settle).toHaveBeenCalled();
-    expect(fetchMethod).toHaveBeenCalled();
   });
 });

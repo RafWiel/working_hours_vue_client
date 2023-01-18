@@ -22,6 +22,7 @@
       :portraitCols="4"
       :isSummary="true"
       @sort="sortItems"
+      @itemClick="navigate"
       ref="datagrid"/>
     <div
       v-if="items.length"
@@ -98,7 +99,7 @@ export default {
     });
 
     // prevent double fetch on page refresh by user
-    if (Object.keys(this.$route.query).length !== 0) {
+    if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
       return;
     }
 
@@ -191,6 +192,16 @@ export default {
         if (column.decimalDigits) {
           column.sum = column.sum.toFixed(column.decimalDigits);
         }
+      });
+    },
+    navigate(id) {
+      console.log(id);
+
+      this.$router.push({ name: 'tasks',
+        query: {
+          'client-id': id,
+          'settlement-type': 2,
+        },
       });
     },
   },
