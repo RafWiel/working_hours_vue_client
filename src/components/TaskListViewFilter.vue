@@ -165,7 +165,10 @@ import settlementType from '@/enums/settlementType';
 
 export default {
   name: 'TaskListViewFilter',
-  props: { route: String },
+  props: {
+    route: String,
+    clientId: Number,
+  },
   data: () => ({
     filter: {
       search: '',
@@ -259,6 +262,10 @@ export default {
 
       if (this.filter.stopDate) {
         route.query['stop-date'] = this.filter.stopDate;
+      }
+
+      if (this.clientId) {
+        route.query['client-id'] = this.clientId;
       }
 
       this.$router.push(route);

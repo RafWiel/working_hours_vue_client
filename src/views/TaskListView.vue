@@ -6,6 +6,7 @@
     <!-- Filter -->
     <task-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
+      :clientId="clientId"
       @filter="filterItems"
       route="tasks"/>
     <!-- Portrait sorting -->
@@ -140,18 +141,17 @@ export default {
     filter: null,
     clientId: null,
   }),
+  created() {
+    console.log('created ', this.$route.query);
+    this.clientId = this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
+  },
   mounted() {
     this.$root.$on('settleTasks', () => {
       this.showDatePickerDialog();
     });
 
-    console.log('mounted ', this.$route.query);
-
     // prevent double fetch on page refresh by user
     if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
-      this.clientId = this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
-      console.log('client id: ', this.clientId);
-
       return;
     }
 
@@ -162,8 +162,9 @@ export default {
       // set loading icon
       this.$emit('isProcessing', true);
 
-      this.clientId = this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
-      console.log('client id 2: ', this.clientId);
+      if (this.$route.query['client-id']) {
+        parseInt(this.$route.query['client-id'], 10);
+      }
 
       // get items
       tasksService.get({
@@ -291,9 +292,6 @@ export default {
       this.items = [];
       this.page = 1;
       this.filter = filter;
-
-      this.clientId = this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
-      console.log('client id 3: ', this.clientId);
 
       // refresh with new filter
       this.fetch();
