@@ -143,7 +143,7 @@ export default {
   }),
   created() {
     console.log('created ', this.$route.query);
-    this.clientId = this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
+    this.clientId = this.$route.query && this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
   },
   mounted() {
     this.$root.$on('settleTasks', () => {

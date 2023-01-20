@@ -264,6 +264,7 @@ export default {
         route.query['stop-date'] = this.filter.stopDate;
       }
 
+      //client id comes from previous route.query
       if (this.clientId) {
         route.query['client-id'] = this.clientId;
       }

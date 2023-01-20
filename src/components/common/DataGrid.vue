@@ -111,6 +111,27 @@
           <div v-else/>
         </v-col>
       </v-row>
+      <!-- Summary -->
+      <v-row
+        v-if="isSummary && items.length > 0"
+        class="no-gutters"
+        align="center" justify="center">
+        <v-col>
+          <v-divider class="px-1 py-0 black"/>
+        </v-col>
+      </v-row>
+      <v-row
+        :key="column.id"
+        v-for="column in portraitSummaryColumns"
+        class="no-gutters px-4  text_ellipsis font-weight-bold"
+        align="center">
+        <v-col cols="4" class="py-1 yellow label">
+          Suma {{ column.text }}
+        </v-col>
+        <v-col cols="8" class="py-1 yellow ">
+          {{ column.sum }}
+        </v-col>
+      </v-row>
     </v-container>
     <!-- Rows horizontal view -->
     <v-container
@@ -205,6 +226,10 @@ export default {
     limitedColumns() {
       // filter headers for mobile portrait view
       return this.columns.filter((item) => item.limitedWidth !== undefined);
+    },
+    portraitSummaryColumns() {
+      // filter headers for mobile portrait view
+      return this.columns.filter((item) => item.isSum);
     },
   },
   data: () => ({
