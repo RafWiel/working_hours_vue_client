@@ -5,6 +5,7 @@ import TaskAddView from '../views/TaskAddView.vue';
 import TaskListView from '../views/TaskListView.vue';
 import taskType from '../enums/taskType';
 import ClientListView from '../views/ClientListView.vue';
+import TaskViewEditView from '../views/TaskViewEditView.vue';
 
 Vue.use(VueRouter);
 
@@ -57,6 +58,16 @@ const routes = [
     meta: {
       title: 'Klienci',
       titleLong: 'Klienci',
+    },
+  },
+  {
+    path: 'task',
+    name: 'task',
+    component: TaskViewEditView,
+    meta: {
+      title: 'Todo META tytuł i type',
+      titleLong: 'Todo META tytuł i type',
+      type: taskType.hoursBased,
     },
   },
   {

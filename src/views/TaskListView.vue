@@ -26,6 +26,7 @@
       @selectAll="selectAllItems"
       @selectionChanged="notifySelection"
       @sort="sortItems"
+      @itemClick="navigate"
       ref="datagrid"/>
     <div
       v-if="items.length"
@@ -142,7 +143,7 @@ export default {
     clientId: null,
   }),
   created() {
-    console.log('created ', this.$route.query);
+    //console.log('created ', this.$route.query);
     this.clientId = this.$route.query && this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
   },
   mounted() {
@@ -161,10 +162,6 @@ export default {
     async fetch() {
       // set loading icon
       this.$emit('isProcessing', true);
-
-      if (this.$route.query['client-id']) {
-        parseInt(this.$route.query['client-id'], 10);
-      }
 
       // get items
       tasksService.get({
@@ -307,6 +304,16 @@ export default {
         if (column.decimalDigits) {
           column.sum = column.sum.toFixed(column.decimalDigits);
         }
+      });
+    },
+    navigate(id) {
+      console.log(id);
+
+      this.$router.push({ name: 'task',
+        query: {
+          'client-id': id,
+          'settlement-type': 2,
+        },
       });
     },
   },

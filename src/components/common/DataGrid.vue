@@ -117,19 +117,28 @@
         class="no-gutters"
         align="center" justify="center">
         <v-col>
-          <v-divider class="px-1 py-0 black"/>
+          <v-divider class="px-0 py-0 black"/>
         </v-col>
       </v-row>
       <v-row
-        :key="column.id"
-        v-for="column in portraitSummaryColumns"
-        class="no-gutters px-4  text_ellipsis font-weight-bold"
-        align="center">
-        <v-col cols="4" class="py-1 yellow label">
-          Suma {{ column.text }}
-        </v-col>
-        <v-col cols="8" class="py-1 yellow ">
-          {{ column.sum }}
+        v-if="isSummary && items.length > 0"
+        class="no-gutters py-2">
+        <v-col
+          v-if="isSelectionCheckbox"
+          class="shrink list_column ml-4 mr-3 mt-2">&nbsp;</v-col>
+        <v-col cols="11">
+          <v-row
+            :key="column.id"
+            v-for="column in portraitSummaryColumns"
+            class="no-gutters px-3 text_ellipsis font-weight-bold"
+            align="center">
+            <v-col cols="4" class="label">
+              Suma {{ column.text }}
+            </v-col>
+            <v-col>
+              {{ column.sum }}
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
