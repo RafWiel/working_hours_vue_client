@@ -187,6 +187,7 @@ export default {
         response.data.tasks.forEach((task) => {
           const item = task;
           item.isSelected = false;
+          item.isSelectionDisabled = !!item.settlementDate;
           item.creationDate = moment(item.creationDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
           item.settlementDate = item.settlementDate !== null ? moment(item.settlementDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD') : '';
 
@@ -225,8 +226,9 @@ export default {
     selectAllItems(value) {
       this.items.forEach((task) => {
         const item = task;
-
-        item.isSelected = value;
+        if (!!item.settlementDate === false) {
+          item.isSelected = value;
+        }
       });
       this.notifySelection();
     },
@@ -309,11 +311,9 @@ export default {
     navigate(id) {
       console.log(id);
 
-      this.$router.push({ name: 'task',
-        query: {
-          'client-id': id,
-          'settlement-type': 2,
-        },
+      this.$router.push({
+        name: 'task',
+        params: { id },
       });
     },
   },

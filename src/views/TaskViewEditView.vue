@@ -169,6 +169,7 @@ import taskType from '@/enums/taskType';
 
 export default {
   name: 'TaskViewEditView',
+  props: { id: [String, Number] },
   computed: {
     date() {
       return moment(this.item.creationDate).format('DD-MM-YYYY');
@@ -243,14 +244,14 @@ export default {
       this.$emit('isProcessing', true);
 
       // get item
-      tasksService.getLast({ type: this.$route.meta.type })
+      tasksService.get({ id: this.id })
       .then((response) => {
         if (!response.data) return;
         console.log(response.data);
         this.lastItem = response.data;
 
         // copy project and version
-        this.item.client = this.lastItem.client;
+        this.item = this.lastItem;
         this.item.project = this.lastItem.project;
         this.item.version = this.lastItem.version;
       })

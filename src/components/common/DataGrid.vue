@@ -11,6 +11,7 @@
       <v-col class="pl-0 py-0 text-body-2 grey--text ">
         <v-checkbox
           @click="$emit('selectAll', isAllSelected)"
+          :disabled="isSelectionDisabled"
           v-if="isSelectionCheckbox"
           v-model="isAllSelected"
           hide-details
@@ -55,6 +56,7 @@
         <v-col class="mx-3 mt-3">
           <v-checkbox
             @click="$emit('selectAll', isAllSelected)"
+            :disabled="isSelectionDisabled"
             v-if="isSelectionCheckbox && items.length > 0"
             v-model="isAllSelected"
             label="Zaznacz wszystko"
@@ -76,7 +78,8 @@
           <v-row class="no-gutters px-3 mb-2" align="center">
             <v-col v-if="isSelectionCheckbox">
               <v-checkbox
-                @click="$emit('selectionChanged')"
+                @click.stop="$emit('selectionChanged')"
+                :disabled="item.isSelectionDisabled"
                 v-model="item.isSelected"
                 hide-details
                 class="shrink list_column mt-0"/>
@@ -159,7 +162,8 @@
           <v-row class="no-gutters px-4" align="center">
             <v-col class="pl-0 py-1">
               <v-checkbox
-                @click="$emit('selectionChanged')"
+                @click.stop="$emit('selectionChanged')"
+                :disabled="item.isSelectionDisabled"
                 v-if="isSelectionCheckbox"
                 v-model="item.isSelected"
                 hide-details
@@ -239,6 +243,12 @@ export default {
     portraitSummaryColumns() {
       // filter headers for mobile portrait view
       return this.columns.filter((item) => item.isSum);
+    },
+    isSelectionDisabled() {
+      // filter headers for mobile portrait view
+      const disabledItemsCount = this.items.filter((item) => item.isSelectionDisabled).length;
+
+      return this.items.length === disabledItemsCount;
     },
   },
   data: () => ({

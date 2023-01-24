@@ -61,13 +61,13 @@ const routes = [
     },
   },
   {
-    path: 'task',
+    path: '/tasks/:id',
     name: 'task',
     component: TaskViewEditView,
+    props: true,
     meta: {
-      title: 'Todo META tytuł i type',
-      titleLong: 'Todo META tytuł i type',
-      type: taskType.hoursBased,
+      title: 'Todo META tytuł',
+      titleLong: 'Todo META tytuł',
     },
   },
   {
