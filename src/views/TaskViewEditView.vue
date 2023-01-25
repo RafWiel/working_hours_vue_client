@@ -188,7 +188,6 @@ export default {
   data: () => ({
     messageTitle: 'Nowe zadanie',
     isDatePickerVisible: false,
-    lastItem: null,
     item: {
       creationDate: null,
       type: null,
@@ -231,10 +230,6 @@ export default {
     },
     taskType,
   }),
-  created() {
-    this.item.creationDate = moment(new Date()).format('YYYY-MM-DD');
-    this.item.type = this.$route.meta.type;
-  },
   mounted() {
     this.fetch();
   },
@@ -244,16 +239,19 @@ export default {
       this.$emit('isProcessing', true);
 
       // get item
-      tasksService.get({ id: this.id })
+      tasksService.getOne(this.id)
       .then((response) => {
-        if (!response.data) return;
-        console.log(response.data);
-        this.lastItem = response.data;
+        if (!response.data) {
+          return;
+        }
 
-        // copy project and version
-        this.item = this.lastItem;
-        this.item.project = this.lastItem.project;
-        this.item.version = this.lastItem.version;
+        console.log(response.data);
+        this.item = response.data;
+
+        this.item.creationDate = moment(this.item.creationDate).format('YYYY-MM-DD');
+        const title = this.item.type === taskType.priceBased ? 'Zadanie DataSoft' : 'Zadanie Aldridge';
+
+        this.$root.$emit('updateAppTitle', title);
       })
       .catch((error) => this.processError(error));
 
@@ -272,7 +270,6 @@ export default {
       }
 
       console.log('item: ', JSON.stringify(this.item));
-      console.log('old: ', JSON.stringify(this.lastItem));
 
       try {
         this.$emit('isProcessing', true);
@@ -285,9 +282,6 @@ export default {
           this.$emit('isProcessing', false);
           this.$emit('showMessage', this.messageTitle, 'Zadanie zapisane');
           this.$vuetify.goTo(0);
-
-          // deep copy
-          this.lastItem = JSON.parse(JSON.stringify(this.item));
 
           return;
         }
@@ -334,7 +328,7 @@ export default {
       this.projectApi.isLoading = true;
 
       projectsService.getNamesDistinct({
-        'task-type': this.$route.meta.type,
+        'task-type': this.item.type,
         filter: val,
       })
       .then((res) => {

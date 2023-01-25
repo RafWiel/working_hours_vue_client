@@ -38,6 +38,14 @@ export default
   props: {
     isApplyEnabled: Boolean,
   },
+  mounted() {
+    this.$root.$on('updateAppTitle', (title) => {
+      this.$route.meta.title = title;
+      this.$route.meta.titleLong = title;
+
+      this.$forceUpdate();
+    });
+  },
 };
 </script>
 <style lang="scss" scoped>

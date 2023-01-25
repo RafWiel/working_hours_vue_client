@@ -187,7 +187,6 @@ export default {
   data: () => ({
     messageTitle: 'Nowe zadanie',
     isDatePickerVisible: false,
-    lastItem: null,
     item: {
       creationDate: null,
       type: null,
@@ -247,12 +246,11 @@ export default {
       .then((response) => {
         if (!response.data) return;
         console.log(response.data);
-        this.lastItem = response.data;
 
         // copy project and version
-        this.item.client = this.lastItem.client;
-        this.item.project = this.lastItem.project;
-        this.item.version = this.lastItem.version;
+        this.item.client = response.data.client;
+        this.item.project = response.data.project;
+        this.item.version = response.data.version;
       })
       .catch((error) => this.processError(error));
 
@@ -271,7 +269,6 @@ export default {
       }
 
       console.log('item: ', JSON.stringify(this.item));
-      console.log('old: ', JSON.stringify(this.lastItem));
 
       try {
         this.$emit('isProcessing', true);
@@ -286,7 +283,7 @@ export default {
           this.$vuetify.goTo(0);
 
           // deep copy
-          this.lastItem = JSON.parse(JSON.stringify(this.item));
+          //this.lastItem = JSON.parse(JSON.stringify(this.item));
 
           return;
         }

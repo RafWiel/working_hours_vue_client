@@ -66,8 +66,8 @@ const routes = [
     component: TaskViewEditView,
     props: true,
     meta: {
-      title: 'Todo META tytuł',
-      titleLong: 'Todo META tytuł',
+      title: 'Zadanie',
+      titleLong: 'Zadanie',
     },
   },
   {

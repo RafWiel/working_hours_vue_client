@@ -13,4 +13,7 @@ export default {
   settle(request) {
     return api().post('/tasks/settle', request);
   },
+  getOne(id) {
+    return api().get(`tasks/${id}`);
+  },
 };
