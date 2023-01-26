@@ -12,8 +12,7 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
-              <h5 class="px-2 py-1 yellow">TaskViewEditView update zamiast insert</h5>
-              <h5 class="px-2 py-1 yellow">testy TaskViewEditView</h5>
+              <h5 class="px-2 py-1 yellow">mozliwosc usuniecia i rozliczenia</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"

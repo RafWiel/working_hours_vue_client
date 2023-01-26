@@ -4,6 +4,9 @@ export default {
   create(request) {
     return api().post('/tasks', request);
   },
+  update(request) {
+    return api().put('/tasks', request);
+  },
   getLast(data) {
     return api().get('/tasks/last', { params: data });
   },

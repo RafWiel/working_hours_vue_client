@@ -276,7 +276,7 @@ export default {
 
         console.log(JSON.stringify(this.item));
 
-        const response = await tasksService.create(this.item);
+        const response = await tasksService.update(this.item);
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
