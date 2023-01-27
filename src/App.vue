@@ -12,7 +12,7 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
-              <h5 class="px-2 py-1 yellow">mozliwosc usuniecia i rozliczenia</h5>
+              <h5 class="px-2 py-1 yellow">Rozliczenie dialog data</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"
@@ -188,7 +188,7 @@ export default {
   }
 
   .v-btn {
-    @media (max-width: 960px) {
+    @media (max-width: 600px) {
       min-height: 50px;
     }
   }

@@ -1,7 +1,9 @@
 <template>
+  <!-- container row center -->
   <v-container
     :style="$vuetify.breakpoint.smAndUp ? 'min-height: calc(85vh - 48px)' : ''"
     class="pa-0 d-flex flex-row align-center">
+    <!-- container column center -->
     <v-container
       :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
       class="pa-0 d-flex flex-column flex-nowrap align-center"
