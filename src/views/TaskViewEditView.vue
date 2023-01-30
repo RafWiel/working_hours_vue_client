@@ -11,7 +11,7 @@
           depressed
           block
           class="save-btn"
-          @click="settle">
+          @click="showDatePickerDialog">
           {{!!item.settlementDate ? item.settlementDate : 'Rozlicz'}}
         </v-btn>
       </v-col>
@@ -26,7 +26,7 @@
           depressed
           block
           class="save-btn"
-          @click="save">
+          @click="confirmDeleteTask(id)">
           Usuń
         </v-btn>
       </v-col>
@@ -193,11 +193,12 @@
             justify="end">
             <v-col cols="12" sm="5">
               <v-btn
+                :disabled="!!item.settlementDate"
                 depressed
                 block
                 class="save-btn"
-                @click="save">
-                Rozlicz
+                @click="showDatePickerDialog">
+                {{!!item.settlementDate ? item.settlementDate : 'Rozlicz'}}
               </v-btn>
             </v-col>
           </v-row>
@@ -211,7 +212,7 @@
                 depressed
                 block
                 class="save-btn"
-                @click="save">
+                @click="confirmDeleteTask(id)">
                 Usuń
               </v-btn>
             </v-col>
@@ -219,6 +220,13 @@
         </v-form>
       </v-container>
     </v-container>
+    <!-- Date picker -->
+    <v-row justify="center" class="no-gutters">
+      <date-picker-dialog
+        :isVisible="datePickerDialog.isVisible"
+        :hideRequest="hideDatePickerDialog"
+        @apply="settle"/>
+    </v-row>
   </v-container>
 </template>
 
@@ -231,9 +239,13 @@ import tasksService from '@/services/tasks';
 import clientsService from '@/services/clients';
 import projectsService from '@/services/projects';
 import taskType from '@/enums/taskType';
+import DatePickerDialog from '@/components/DatePickerDialog.vue';
 
 export default {
   name: 'TaskViewEditView',
+  components: {
+    DatePickerDialog,
+  },
   props: { id: [String, Number] },
   computed: {
     date() {
@@ -251,7 +263,7 @@ export default {
     },
   },
   data: () => ({
-    messageTitle: 'Nowe zadanie',
+    messageTitle: 'Zadanie',
     isDatePickerVisible: false,
     item: {
       creationDate: null,
@@ -262,6 +274,7 @@ export default {
       description: null,
       hours: null,
       price: null,
+      name: null,
     },
     clientApi: {
       searchInput: null,
@@ -294,6 +307,9 @@ export default {
       float: rules.float,
     },
     taskType,
+    datePickerDialog: {
+      isVisible: false,
+    },
   }),
   mounted() {
     this.fetch();
@@ -314,10 +330,11 @@ export default {
         this.item = response.data;
 
         this.item.creationDate = moment(this.item.creationDate).format('YYYY-MM-DD');
+        this.item.name = `${this.item.project} ${this.item.version}`;
         if (this.item.settlementDate != null) this.item.settlementDate = moment(this.item.settlementDate).format('YYYY-MM-DD');
-        const title = this.item.type === taskType.priceBased ? 'Zadanie DataSoft' : 'Zadanie Aldridge';
+        this.messageTitle = this.item.type === taskType.priceBased ? 'Zadanie DataSoft' : 'Zadanie Aldridge';
 
-        this.$root.$emit('updateAppTitle', title);
+        this.$root.$emit('updateAppTitle', this.messageTitle);
       })
       .catch((error) => this.processError(error));
 
@@ -389,6 +406,29 @@ export default {
 
       this.$emit('isProcessing', false);
     },
+    async delete(id) {
+      try {
+        this.$emit('isProcessing', true);
+
+        const response = await tasksService.delete(id);
+
+        if (response.status === 200) {
+          this.$emit('isProcessing', false);
+          this.$emit('showMessage', this.messageTitle, 'Zadanie usunięte');
+
+          this.$router.go(-1);
+
+          return;
+        }
+
+        this.$emit('showMessage', this.messageTitle, 'Nieudane usunięcie');
+      }
+      catch (error) {
+        this.processError(error);
+      }
+
+      this.$emit('isProcessing', false);
+    },
     processError(error) {
       logger.error(error);
       this.$emit('isProcessing', false);
@@ -400,6 +440,15 @@ export default {
 
       logger.error(error.response.data);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
+    },
+    showDatePickerDialog() {
+      this.datePickerDialog.isVisible = true;
+    },
+    hideDatePickerDialog() {
+      this.datePickerDialog.isVisible = false;
+    },
+    confirmDeleteTask(id) {
+      this.$emit('showQuestion', this.messageTitle, `Czy na pewno usunąć zadanie ${this.item.name}?`, parseInt(id, 10), this.delete);
     },
   },
   watch: {

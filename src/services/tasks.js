@@ -19,4 +19,7 @@ export default {
   getOne(id) {
     return api().get(`tasks/${id}`);
   },
+  delete(id) {
+    return api().delete(`tasks/${id}`);
+  },
 };
