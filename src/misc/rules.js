@@ -6,4 +6,5 @@ module.exports = {
   // eslint-disable-next-line
   phoneNumber: (v) => !v || /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(v) || 'Nieprawidłowy numer telefonu',
   taxId: (v) => !v || /^[0-9]{10}$/.test(v) || 'Nieprawidłowy numer NIP',
+  password: (v) => !v || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/.test(v) || 'Hasło musi mieć minimum 8 znaków, wielką literę, cyfrę, oraz znak specjalny',
 };

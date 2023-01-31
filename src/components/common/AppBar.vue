@@ -13,7 +13,7 @@
     </v-btn>
     <v-btn
       @click="$emit('menuClicked')"
-      v-if="!$route.meta.isLoginView"
+      v-if="!$route.meta.isMenuHidden"
       icon>
       <v-icon color="grey lighten-2">mdi-menu</v-icon>
     </v-btn>

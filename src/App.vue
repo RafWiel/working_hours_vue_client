@@ -12,7 +12,8 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
-              <!-- <h5 class="px-2 py-1 yellow">Rozliczenie dialog data</h5> -->
+              <h5 class="px-2 py-1 yellow">Server tasks policy zamiast sprawdzania w kodzie</h5>
+              <h5 class="px-2 py-1 yellow">Testy</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"

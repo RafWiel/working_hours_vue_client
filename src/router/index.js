@@ -6,6 +6,7 @@ import TaskListView from '../views/TaskListView.vue';
 import taskType from '../enums/taskType';
 import ClientListView from '../views/ClientListView.vue';
 import TaskViewEditView from '../views/TaskViewEditView.vue';
+import UserRegisterView from '../views/UserRegisterView.vue';
 
 Vue.use(VueRouter);
 
@@ -23,7 +24,7 @@ const routes = [
   },
   {
     path: '/ad/task_add',
-    name: 'ad_task_add',
+    name: 'adTaskAdd',
     component: TaskAddView,
     meta: {
       title: 'Nowe zadanie Aldridge',
@@ -33,7 +34,7 @@ const routes = [
   },
   {
     path: '/ds/task_add',
-    name: 'ds_task_add',
+    name: 'dsTaskAdd',
     component: TaskAddView,
     meta: {
       title: 'Nowe zadanie DataSoft',
@@ -77,6 +78,16 @@ const routes = [
     meta: {
       title: 'Test',
       titleLong: 'Test',
+    },
+  },
+  {
+    path: '/register',
+    name: 'userRegister',
+    component: UserRegisterView,
+    meta: {
+      isMenuHidden: true,
+      title: 'Rejestracja',
+      titleLong: 'Rejestracja',
     },
   },
 ];
