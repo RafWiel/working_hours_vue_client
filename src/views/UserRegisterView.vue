@@ -66,7 +66,7 @@
                 class="mt-2">
                 <v-select
                   :items="userTypeItems"
-                  v-model="input.isAccountManager"
+                  v-model="input.type"
                   item-value="id"
                   hide-details="auto"
                   label="Typ użytkownika"/>
@@ -183,7 +183,7 @@ export default {
       userNameAuto: null,
       password: null,
       passwordConfirm: null,
-      isAccountManager: userType.administrator,
+      type: userType.administrator,
       adminPassword: null,
     },
     errorMessage: {
@@ -218,14 +218,14 @@ export default {
         lastName: this.input.lastName,
         userName: this.input.userName,
         password: this.input.password,
-        isAccountManager: Boolean(this.input.isAccountManager),
+        type: this.input.type,
       })
       .then((response) => {
         this.$emit('isProcessing', false);
 
         // console.log(response.data);
 
-        if (response.data.result) {
+        if (response.status === 200) {
           this.$emit('showMessage', 'Rejestracja', `Użytkownik ${this.input.userName} został dodany`);
         }
         else {
