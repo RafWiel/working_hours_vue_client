@@ -254,7 +254,7 @@ export default {
         this.item.project = response.data.project;
         this.item.version = response.data.version;
       })
-      .catch((error) => this.processError(error));
+      .catch((error) => this.processError('fetch', error));
 
       this.$emit('isProcessing', false);
     },
@@ -293,13 +293,12 @@ export default {
         this.$emit('showMessage', this.messageTitle, 'Nieudany zapis');
       }
       catch (error) {
-        this.processError(error);
+        this.processError('save', error);
       }
 
       this.$emit('isProcessing', false);
     },
-    processError(error) {
-      logger.error(error);
+    processError(method, error) {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
@@ -307,7 +306,7 @@ export default {
         return;
       }
 
-      logger.error(error.response.data);
+      logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
   },

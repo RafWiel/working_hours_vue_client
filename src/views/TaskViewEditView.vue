@@ -274,7 +274,6 @@ export default {
       description: null,
       hours: null,
       price: null,
-      name: null,
     },
     clientApi: {
       searchInput: null,
@@ -330,13 +329,12 @@ export default {
         this.item = response.data;
 
         this.item.creationDate = moment(this.item.creationDate).format('YYYY-MM-DD');
-        this.item.name = `${this.item.project} ${this.item.version}`;
         if (this.item.settlementDate != null) this.item.settlementDate = moment(this.item.settlementDate).format('YYYY-MM-DD');
         this.messageTitle = this.item.type === taskType.priceBased ? 'Zadanie DataSoft' : 'Zadanie Aldridge';
 
         this.$root.$emit('updateAppTitle', this.messageTitle);
       })
-      .catch((error) => this.processError(error));
+      .catch((error) => this.processError('fetch', error));
 
       this.$emit('isProcessing', false);
     },
@@ -351,8 +349,6 @@ export default {
 
         return;
       }
-
-      console.log('item: ', JSON.stringify(this.item));
 
       try {
         this.$emit('isProcessing', true);
@@ -372,7 +368,7 @@ export default {
         this.$emit('showMessage', this.messageTitle, 'Nieudany zapis');
       }
       catch (error) {
-        this.processError(error);
+        this.processError('save', error);
       }
 
       this.$emit('isProcessing', false);
@@ -401,7 +397,7 @@ export default {
         this.$emit('showMessage', this.messageTitle, 'Nieudane rozliczenie');
       }
       catch (error) {
-        this.processError(error);
+        this.processError('settle', error);
       }
 
       this.$emit('isProcessing', false);
@@ -424,13 +420,12 @@ export default {
         this.$emit('showMessage', this.messageTitle, 'Nieudane usunięcie');
       }
       catch (error) {
-        this.processError(error);
+        this.processError('delete', error);
       }
 
       this.$emit('isProcessing', false);
     },
-    processError(error) {
-      logger.error(error);
+    processError(method, error) {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
@@ -438,7 +433,7 @@ export default {
         return;
       }
 
-      logger.error(error.response.data);
+      logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
     showDatePickerDialog() {
@@ -448,7 +443,7 @@ export default {
       this.datePickerDialog.isVisible = false;
     },
     confirmDeleteTask(id) {
-      this.$emit('showQuestion', this.messageTitle, `Czy na pewno usunąć zadanie ${this.item.name}?`, parseInt(id, 10), this.delete);
+      this.$emit('showQuestion', this.messageTitle, `Czy na pewno usunąć zadanie ${this.item.project} ${this.item.version}?`, parseInt(id, 10), this.delete);
     },
   },
   watch: {

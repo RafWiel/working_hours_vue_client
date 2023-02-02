@@ -232,7 +232,7 @@ export default {
           this.$emit('showMessage', 'Rejestracja', 'Operacja zakończona niepowodzem');
         }
       })
-      .catch((error) => this.processError(error));
+      .catch((error) => this.processError('create', error));
     },
     async verifyUserName() {
       // check users
@@ -295,8 +295,7 @@ export default {
         .replace(/Ź/g, 'Z')
         .toLowerCase();
     },
-    processError(error) {
-      logger.error(error);
+    processError(method, error) {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
@@ -304,7 +303,7 @@ export default {
         return;
       }
 
-      logger.error(error.response.data);
+      logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
   },

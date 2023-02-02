@@ -98,7 +98,7 @@ describe('ClientListView', () => {
   });
 
   it('emits error message', () => {
-    wrapper.vm.processError('test');
+    wrapper.vm.processError('test', 'test');
 
     expect(wrapper.emitted().showMessage).toBeTruthy();
   });

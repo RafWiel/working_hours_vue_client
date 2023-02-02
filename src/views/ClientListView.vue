@@ -139,7 +139,7 @@ export default {
         // increment page number for next fetch
         this.page += 1;
       })
-      .catch((error) => this.processError(error));
+      .catch((error) => this.processError('fetch', error));
 
       this.$emit('isProcessing', false);
     },
@@ -151,8 +151,7 @@ export default {
       console.log('intersect');
       this.fetch();
     },
-    processError(error) {
-      logger.error(error);
+    processError(method, error) {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
@@ -160,7 +159,7 @@ export default {
         return;
       }
 
-      logger.error(error.response.data);
+      logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
       this.$emit('showMessage', this.messageTitle, error.response.data.message);
     },
     sortItems(sorting) {
