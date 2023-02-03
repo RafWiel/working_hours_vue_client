@@ -99,28 +99,28 @@ export default {
     });
   },
   created() {
-    // if (!localStorage.getItem('userInfo')) {
-    //   if (this.$route.name !== 'Login' && this.$route.name !== 'Register') {
-    //     this.$router.replace({ name: 'Login' });
-    //   }
-    //   return;
-    // }
+    if (!localStorage.getItem('userInfo')) {
+      if (this.$route.name !== 'login' && this.$route.name !== 'userRegister') {
+        this.$router.replace({ name: 'login' });
+      }
+      return;
+    }
 
-    // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-    // // require login each day
-    // const loginTimestamp = new Date(parseInt(userInfo.timestamp, 10));
-    // if ((!loginTimestamp || loginTimestamp.getDate() !== new Date().getDate())
-    // && this.$route.name !== 'Login'
-    // && this.$route.name !== 'Register') {
-    //   this.$router.replace({ name: 'Login' });
-    //   return;
-    // }
+    // require login each day
+    const loginTimestamp = new Date(parseInt(userInfo.timestamp, 10));
+    if ((!loginTimestamp || loginTimestamp.getDate() !== new Date().getDate())
+    && this.$route.name !== 'login'
+    && this.$route.name !== 'userRegister') {
+      this.$router.replace({ name: 'login' });
+      return;
+    }
 
-    // // set store user info
-    // this.$store.dispatch('setUserName', userInfo.userName);
-    // this.$store.dispatch('setToken', userInfo.token);
-    // this.$store.dispatch('setAccountManager', userInfo.isAccountManager);
+    // set store user info
+    this.$store.dispatch('setUserName', userInfo.userName);
+    this.$store.dispatch('setToken', userInfo.token);
+    this.$store.dispatch('setAccountManager', userInfo.isAccountManager);
   },
   methods: {
     showMessageDialog(title, message) {

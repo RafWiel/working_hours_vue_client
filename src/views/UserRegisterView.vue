@@ -155,7 +155,7 @@ import userType from '@/enums/userType';
 import usersService from '@/services/users';
 
 export default {
-  name: 'TaskAddView',
+  name: 'UserRegisterView',
   computed: {
     computed_width() {
       switch (this.$vuetify.breakpoint.name) {
@@ -226,10 +226,10 @@ export default {
         // console.log(response.data);
 
         if (response.status === 200) {
-          this.$emit('showMessage', 'Rejestracja', `Użytkownik ${this.input.userName} został dodany`);
+          this.$emit('showMessage', this.messageTitle, `Użytkownik ${this.input.userName} został dodany`);
         }
         else {
-          this.$emit('showMessage', 'Rejestracja', 'Operacja zakończona niepowodzem');
+          this.$emit('showMessage', this.messageTitle, 'Operacja zakończona niepowodzem');
         }
       })
       .catch((error) => this.processError('create', error));

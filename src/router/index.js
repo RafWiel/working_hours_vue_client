@@ -7,6 +7,7 @@ import taskType from '../enums/taskType';
 import ClientListView from '../views/ClientListView.vue';
 import TaskViewEditView from '../views/TaskViewEditView.vue';
 import UserRegisterView from '../views/UserRegisterView.vue';
+import LoginView from '../views/LoginView.vue';
 
 Vue.use(VueRouter);
 
@@ -88,6 +89,16 @@ const routes = [
       isMenuHidden: true,
       title: 'Rejestracja',
       titleLong: 'Rejestracja',
+    },
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+    meta: {
+      isMenuHidden: true,
+      title: 'Logowanie',
+      titleLong: 'Logowanie',
     },
   },
 ];
