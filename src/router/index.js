@@ -103,9 +103,13 @@ const routes = [
   },
 ];
 
+// https://v3.router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
+
 const router = new VueRouter({
-  // mode: 'history',
   routes,
+  mode: 'history',
+  // linkActiveClass: "active",
+  //root: '/settlement/',
 });
 
 export default router;

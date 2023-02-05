@@ -99,12 +99,15 @@ export default {
     });
   },
   created() {
+    console.log(localStorage.getItem('userInfo'));
     if (!localStorage.getItem('userInfo')) {
       if (this.$route.name !== 'login' && this.$route.name !== 'userRegister') {
         this.$router.replace({ name: 'login' });
       }
       return;
     }
+
+    console.log(localStorage.getItem('userInfo'));
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -120,7 +123,7 @@ export default {
     // set store user info
     this.$store.dispatch('setUserName', userInfo.userName);
     this.$store.dispatch('setToken', userInfo.token);
-    this.$store.dispatch('setAccountManager', userInfo.isAccountManager);
+    this.$store.dispatch('setUserType', userInfo.userType);
   },
   methods: {
     showMessageDialog(title, message) {
