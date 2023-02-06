@@ -93,8 +93,11 @@ export default {
     },
   }),
   mounted() {
+    console.log('mounted');
+    console.log(`${process.env.VUE_APP_BASE_URL}`);
+    console.log(`${process.env.VUE_APP_ADDRESS}`);
+
     this.$root.$on('selectionChanged', (value) => {
-      console.log('selection: ', value);
       this.isTaskListSelection = value;
     });
   },

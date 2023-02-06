@@ -4,4 +4,8 @@ module.exports = defineConfig({
   transpileDependencies: [
     'vuetify',
   ],
+  // publicPath: process.env.NODE_ENV === 'development'
+  //   ? '/'
+  //   : '/settlement/',
+  publicPath: '/settlement/'
 });

@@ -48,8 +48,8 @@ const routes = [
     name: 'tasks',
     component: TaskListView,
     meta: {
-      title: 'Zadania',
-      titleLong: 'Zadania',
+      title: 'Zadania1',
+      titleLong: 'Zadania1',
       isTaskListView: true,
     },
   },
@@ -109,7 +109,7 @@ const router = new VueRouter({
   routes,
   mode: 'history',
   // linkActiveClass: "active",
-  //root: '/settlement/',
+  base: '/settlement/',
 });
 
 export default router;
