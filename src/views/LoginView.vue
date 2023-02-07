@@ -87,7 +87,7 @@
 import logger from '@/misc/logger';
 import string from '@/misc/string';
 import rules from '@/misc/rules';
-import authorizationService from '@/services/authorization';
+import userAuthorizationService from '@/services/userAuthorization';
 
 export default {
   name: 'LoginView',
@@ -140,14 +140,12 @@ export default {
       this.$emit('isProcessing', true);
 
       // request login
-      await authorizationService.login({
+      await userAuthorizationService.login({
         userName: this.input.userName,
         password: this.input.password,
       })
       .then((response) => {
         this.$emit('isProcessing', false);
-
-        // console.log(response.data);
 
         if (response.status === 200) {
           // save user info to local storage

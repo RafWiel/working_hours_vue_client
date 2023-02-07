@@ -93,24 +93,19 @@ export default {
     },
   }),
   mounted() {
-    console.log('mounted');
-    console.log(`${process.env.VUE_APP_BASE_URL}`);
-    console.log(`${process.env.VUE_APP_ADDRESS}`);
-
     this.$root.$on('selectionChanged', (value) => {
       this.isTaskListSelection = value;
     });
   },
   created() {
-    console.log(localStorage.getItem('userInfo'));
+    // console.log(localStorage.getItem('userInfo'));
+
     if (!localStorage.getItem('userInfo')) {
       if (this.$route.name !== 'login' && this.$route.name !== 'userRegister') {
         this.$router.replace({ name: 'login' });
       }
       return;
     }
-
-    console.log(localStorage.getItem('userInfo'));
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -127,6 +122,8 @@ export default {
     this.$store.dispatch('setUserName', userInfo.userName);
     this.$store.dispatch('setToken', userInfo.token);
     this.$store.dispatch('setUserType', userInfo.userType);
+
+    console.log('token app: ', userInfo.token);
   },
   methods: {
     showMessageDialog(title, message) {

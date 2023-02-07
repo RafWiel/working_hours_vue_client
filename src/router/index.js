@@ -48,8 +48,8 @@ const routes = [
     name: 'tasks',
     component: TaskListView,
     meta: {
-      title: 'Zadania1',
-      titleLong: 'Zadania1',
+      title: 'Zadania',
+      titleLong: 'Zadania',
       isTaskListView: true,
     },
   },

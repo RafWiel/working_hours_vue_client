@@ -8,35 +8,33 @@ export default new Vuex.Store({
   state: {
     token: null,
     userName: null,
-    isAccountManager: false,
+    userType: null,
     isUserLoggedIn: false,
   },
   mutations: {
     setToken(state, value) {
-      state.token = value;
+      console.log('set token called 1: ', value);
 
-      if (value) {
-        state.isUserLoggedIn = true;
-      } else {
-        state.isUserLoggedIn = false;
-      }
+      state.token = value;
+      state.isUserLoggedIn = !!value;
     },
     setUserName(state, value) {
       state.userName = value;
     },
-    setAccountManager(state, value) {
-      state.isAccountManager = value;
+    setUserType(state, value) {
+      state.userType = value;
     },
   },
   actions: {
     setToken({ commit }, value) {
+      console.log('set token called 2: ', value);
       commit('setToken', value);
     },
     setUserName({ commit }, value) {
       commit('setUserName', value);
     },
-    setAccountManager({ commit }, value) {
-      commit('setAccountManager', value);
+    setUserType({ commit }, value) {
+      commit('setUserType', value);
     },
   },
 });
