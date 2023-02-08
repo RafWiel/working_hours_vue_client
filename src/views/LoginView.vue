@@ -165,6 +165,9 @@ export default {
 
           // redirect to main page
           this.$router.replace({ name: 'main' });
+
+          //refresh sidebar links
+          this.$root.$emit('refreshSidebar');
         }
         else {
           this.$emit('showMessage', this.messageTitle, 'Operacja zakończona niepowodzem');

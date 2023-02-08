@@ -56,6 +56,7 @@ import AppBar from '@/components/common/AppBar.vue';
 import SideBar from '@/components/common/SideBar.vue';
 import MessageDialog from '@/components/message/MessageDialog.vue';
 import QuestionDialog from '@/components/message/QuestionDialog.vue';
+import userType from '@/enums/userType';
 
 export default {
   name: 'App',
@@ -70,12 +71,7 @@ export default {
     isProcessing: false,
     isTaskListSelection: false,
     isNavigationBarOpen: false,
-    links: [
-      { icon: 'mdi-account-multiple', text: 'Klienci', route: '/clients?settlement-type=2' },
-      { icon: 'mdi-format-list-numbered', text: 'Zadania', route: '/tasks?settlement-type=2' },
-      { icon: 'mdi-playlist-plus', text: 'Nowe zadanie Aldridge', route: '/ad/task_add' },
-      { icon: 'mdi-playlist-plus', text: 'Nowe zadanie DataSoft', route: '/ds/task_add' },
-    ],
+    links: [],
     messageDialog: {
       title: null,
       message: null,
@@ -96,6 +92,12 @@ export default {
     this.$root.$on('selectionChanged', (value) => {
       this.isTaskListSelection = value;
     });
+
+    this.$root.$on('refreshSidebar', () => {
+      this.initializeSidebar();
+    });
+
+    this.initializeSidebar();
   },
   created() {
     // console.log(localStorage.getItem('userInfo'));
@@ -122,10 +124,39 @@ export default {
     this.$store.dispatch('setUserName', userInfo.userName);
     this.$store.dispatch('setToken', userInfo.token);
     this.$store.dispatch('setUserType', userInfo.userType);
-
-    console.log('token app: ', userInfo.token);
   },
   methods: {
+    initializeSidebar() {
+      this.links = [];
+
+      if (this.$store.state.userType !== userType.aldridge) {
+        this.links.push({
+          icon: 'mdi-account-multiple',
+          text: 'Klienci',
+          route: '/clients?settlement-type=2',
+        });
+      }
+
+      this.links.push({
+        icon: 'mdi-format-list-numbered',
+        text: 'Zadania',
+        route: '/tasks?settlement-type=2',
+      });
+
+      if (this.$store.state.userType === userType.administrator) {
+        this.links.push({
+          icon: 'mdi-playlist-plus',
+          text: 'Nowe zadanie Aldridge',
+          route: '/ad/task_add',
+        });
+
+        this.links.push({
+          icon: 'mdi-playlist-plus',
+          text: 'Nowe zadanie DataSoft',
+          route: '/ds/task_add',
+        });
+      }
+    },
     showMessageDialog(title, message) {
       this.messageDialog.title = title;
       this.messageDialog.message = message;

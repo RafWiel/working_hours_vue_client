@@ -2,7 +2,6 @@ import axios from 'axios';
 import store from '@/misc/store';
 
 export default () => {
-  console.log('token: ', store.state.token);
   const api = axios.create({
     baseURL: `${process.env.VUE_APP_ADDRESS}`,
     headers: { Authorization: `Bearer ${store.state.token}` },
