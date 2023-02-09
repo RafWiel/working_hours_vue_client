@@ -53,6 +53,7 @@ import PortraitSorting from '@/components/PortraitSorting.vue';
 import TaskListViewFilter from '@/components/TaskListViewFilter.vue';
 import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
+import userType from '@/enums/userType';
 import settlementType from '@/enums/settlementType';
 
 export default {
@@ -163,6 +164,19 @@ export default {
       // set loading icon
       this.$emit('isProcessing', true);
 
+      let taskTypeFilter = null;
+
+      switch (this.$store.state.userType) {
+        case userType.aldridge:
+          taskTypeFilter = taskType.hoursBased;
+          break;
+        case userType.datasoft:
+          taskTypeFilter = taskType.priceBased;
+          break;
+        default:
+          taskTypeFilter = this.filter && this.filter.taskType !== taskType.all ? this.filter.taskType : null;
+      }
+
       // get items
       tasksService.get({
         page: this.page,
@@ -172,7 +186,7 @@ export default {
         'start-date': this.filter && this.filter.startDate ? moment(this.filter.startDate).utc().format('YYYY-MM-DD HH:mm:ss.SSS Z') : null,
         'stop-date': this.filter && this.filter.stopDate ? moment(this.filter.stopDate).add(1, 'd').utc().format('YYYY-MM-DD HH:mm:ss.SSS Z') : null,
         'time-period': this.filter && this.filter.timePeriod !== timePeriod.all ? this.filter.timePeriod : null,
-        'task-type': this.filter && this.filter.taskType !== taskType.all ? this.filter.taskType : null,
+        'task-type': taskTypeFilter,
         'settlement-type': this.filter && this.filter.settlementType !== settlementType.all ? this.filter.settlementType : null,
         'client-id': this.clientId,
       })

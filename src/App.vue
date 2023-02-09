@@ -12,7 +12,7 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
-              <!-- <h5 class="px-2 py-1 yellow">Testy</h5> -->
+              <h5 class="px-2 py-1 yellow">Domyslny widok nierozliczone</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"
@@ -100,30 +100,7 @@ export default {
     this.initializeSidebar();
   },
   created() {
-    // console.log(localStorage.getItem('userInfo'));
-
-    if (!localStorage.getItem('userInfo')) {
-      if (this.$route.name !== 'login' && this.$route.name !== 'userRegister') {
-        this.$router.replace({ name: 'login' });
-      }
-      return;
-    }
-
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
-    // require login each day
-    const loginTimestamp = new Date(parseInt(userInfo.timestamp, 10));
-    if ((!loginTimestamp || loginTimestamp.getDate() !== new Date().getDate())
-    && this.$route.name !== 'login'
-    && this.$route.name !== 'userRegister') {
-      this.$router.replace({ name: 'login' });
-      return;
-    }
-
-    // set store user info
-    this.$store.dispatch('setUserName', userInfo.userName);
-    this.$store.dispatch('setToken', userInfo.token);
-    this.$store.dispatch('setUserType', userInfo.userType);
+    console.log(localStorage.getItem('userInfo'));
   },
   methods: {
     initializeSidebar() {
@@ -147,13 +124,13 @@ export default {
         this.links.push({
           icon: 'mdi-playlist-plus',
           text: 'Nowe zadanie Aldridge',
-          route: '/ad/task_add',
+          route: '/tasks/ad',
         });
 
         this.links.push({
           icon: 'mdi-playlist-plus',
           text: 'Nowe zadanie DataSoft',
-          route: '/ds/task_add',
+          route: '/tasks/ds',
         });
       }
     },

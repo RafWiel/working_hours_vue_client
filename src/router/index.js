@@ -8,6 +8,7 @@ import ClientListView from '../views/ClientListView.vue';
 import TaskViewEditView from '../views/TaskViewEditView.vue';
 import UserRegisterView from '../views/UserRegisterView.vue';
 import LoginView from '../views/LoginView.vue';
+import authorization from '../middleware/authorization';
 
 Vue.use(VueRouter);
 
@@ -24,23 +25,25 @@ const routes = [
     redirect: '/',
   },
   {
-    path: '/ad/task_add',
+    path: '/tasks/ad',
     name: 'adTaskAdd',
     component: TaskAddView,
     meta: {
       title: 'Nowe zadanie Aldridge',
       titleLong: 'Nowe zadanie Aldridge',
       type: taskType.hoursBased,
+      middleware: [authorization.validUser, authorization.administrator],
     },
   },
   {
-    path: '/ds/task_add',
+    path: '/tasks/ds',
     name: 'dsTaskAdd',
     component: TaskAddView,
     meta: {
       title: 'Nowe zadanie DataSoft',
       titleLong: 'Nowe zadanie DataSoft',
       type: taskType.priceBased,
+      middleware: [authorization.validUser, authorization.administrator],
     },
   },
   {
@@ -51,6 +54,7 @@ const routes = [
       title: 'Zadania',
       titleLong: 'Zadania',
       isTaskListView: true,
+      middleware: [authorization.validUser],
     },
   },
   {
@@ -60,6 +64,7 @@ const routes = [
     meta: {
       title: 'Klienci',
       titleLong: 'Klienci',
+      middleware: [authorization.validUser, authorization.datasoft],
     },
   },
   {
@@ -70,6 +75,7 @@ const routes = [
     meta: {
       title: 'Zadanie',
       titleLong: 'Zadanie',
+      middleware: [authorization.validUser],
     },
   },
   {
@@ -103,13 +109,43 @@ const routes = [
   },
 ];
 
-// https://v3.router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
-
 const router = new VueRouter({
   routes,
   mode: 'history',
-  // linkActiveClass: "active",
   base: '/settlement/',
+});
+
+function nextFactory(context, middleware, index) {
+  const subsequentMiddleware = middleware[index];
+
+  if (!subsequentMiddleware) return context.next;
+
+  return (...parameters) => {
+    context.next(...parameters);
+    const nextMiddleware = nextFactory(context, middleware, index + 1);
+    subsequentMiddleware({ ...context, next: nextMiddleware });
+  };
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.middleware) {
+    const middleware = Array.isArray(to.meta.middleware)
+      ? to.meta.middleware
+      : [to.meta.middleware];
+
+    const context = {
+      from,
+      next,
+      router,
+      to,
+    };
+
+    const nextMiddleware = nextFactory(context, middleware, 1);
+
+    return middleware[0]({ ...context, next: nextMiddleware });
+  }
+
+  return next();
 });
 
 export default router;

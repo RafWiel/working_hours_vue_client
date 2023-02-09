@@ -66,6 +66,7 @@
               lg="2">
               <v-select
                 :items="taskTypeItems"
+                :disabled="!isAdministrator"
                 @click.stop
                 @change="emitEvent"
                 v-model="filter.taskType"
@@ -161,6 +162,7 @@
 import debounce from 'lodash.debounce'; // debounce - opoznienie
 import timePeriod from '@/enums/timePeriod';
 import taskType from '@/enums/taskType';
+import userType from '@/enums/userType';
 import settlementType from '@/enums/settlementType';
 
 export default {
@@ -168,6 +170,11 @@ export default {
   props: {
     route: String,
     clientId: Number,
+  },
+  computed: {
+    isAdministrator() {
+      return this.$store.state.userType === userType.administrator;
+    },
   },
   data: () => ({
     filter: {
@@ -184,6 +191,15 @@ export default {
     taskTypeItems: taskType.items,
     settlementTypeItems: settlementType.items,
   }),
+  mounted() {
+    if (this.$store.state.userType === userType.datasoft) {
+      this.filter.taskType = taskType.priceBased;
+    }
+
+    if (this.$store.state.userType === userType.aldridge) {
+      this.filter.taskType = taskType.hoursBased;
+    }
+  },
   watch: {
     '$route.query': {
       immediate: true,
