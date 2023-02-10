@@ -173,7 +173,7 @@ export default {
   },
   computed: {
     isAdministrator() {
-      return this.$store.state.userType === userType.administrator;
+      return this.$store && this.$store.state.userType === userType.administrator;
     },
   },
   data: () => ({
@@ -192,11 +192,11 @@ export default {
     settlementTypeItems: settlementType.items,
   }),
   mounted() {
-    if (this.$store.state.userType === userType.datasoft) {
+    if (this.$store && this.$store.state.userType === userType.datasoft) {
       this.filter.taskType = taskType.priceBased;
     }
 
-    if (this.$store.state.userType === userType.aldridge) {
+    if (this.$store && this.$store.state.userType === userType.aldridge) {
       this.filter.taskType = taskType.hoursBased;
     }
   },

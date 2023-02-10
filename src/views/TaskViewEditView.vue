@@ -8,6 +8,7 @@
       <v-col class="button-right">
         <v-btn
           :disabled="!!item.settlementDate"
+          v-if="isAdministrator"
           depressed
           block
           class="save-btn"
@@ -23,10 +24,11 @@
       justify="end">
       <v-col class="button-right">
         <v-btn
+          @click="confirmDeleteTask(id)"
+          v-if="isAdministrator"
           depressed
           block
-          class="save-btn"
-          @click="confirmDeleteTask(id)">
+          class="save-btn">
           Usuń
         </v-btn>
       </v-col>
@@ -57,9 +59,10 @@
                 <!-- Date -->
                 <v-col cols="12">
                   <v-menu
-                    v-model="isDatePickerVisible"
                     :close-on-content-click="false"
                     :nudge-right="40"
+                    :disabled="!isAdministrator"
+                    v-model="isDatePickerVisible"
                     ref="creationDate"
                     transition="scale-transition"
                     offset-y
@@ -76,10 +79,10 @@
                         v-on="on"/>
                     </template>
                     <v-date-picker
+                      @input="isDatePickerVisible = false"
                       v-model="item.creationDate"
                       no-title
-                      locale="pl-pl"
-                      @input="isDatePickerVisible = false"/>
+                      locale="pl-pl"/>
                   </v-menu>
                 </v-col>
                 <!-- Client -->
@@ -92,6 +95,7 @@
                     :loading="clientApi.isLoading"
                     :search-input.sync="clientApi.searchInput"
                     :rules="[rules.required]"
+                    :readonly="!isAdministrator"
                     v-model="item.client"
                     hide-no-data
                     hide-selected
@@ -108,6 +112,7 @@
                     :loading="projectApi.isLoading"
                     :search-input.sync="projectApi.searchInput"
                     :rules="[rules.required]"
+                    :readonly="!isAdministrator"
                     v-model="item.project"
                     hide-no-data
                     hide-selected
@@ -121,6 +126,7 @@
                 <v-col cols="12" class="mt-2">
                   <v-text-field
                     :rules="[rules.required]"
+                    :readonly="!isAdministrator"
                     v-model.lazy="item.version"
                     label="Wersja"
                     type="input"
@@ -133,6 +139,7 @@
                   class="mt-2">
                   <v-textarea
                     :rules="[rules.required]"
+                    :readonly="!isAdministrator"
                     label="Opis"
                     hide-details="auto"
                     validate-on-blur
@@ -147,6 +154,7 @@
                   class="mt-2">
                   <v-text-field
                     :rules="[rules.required]"
+                    :readonly="!isAdministrator"
                     v-model.lazy="item.price"
                     ref="price"
                     label="Cena"
@@ -160,6 +168,7 @@
                   class="mt-2">
                   <v-text-field
                     :rules="[rules.required, rules.float]"
+                    :readonly="!isAdministrator"
                     v-if="item.type === taskType.hoursBased"
                     v-model.lazy="item.hours"
                     ref="hours"
@@ -167,6 +176,20 @@
                     type="input"
                     hide-details="auto"
                     validate-on-blur/>
+                </v-col>
+                <!-- Settlement date -->
+                <v-col
+                  cols="12"
+                  class="mt-2">
+                  <v-text-field
+                    :rules="[rules.required]"
+                    v-if="!isAdministrator"
+                    v-model.lazy="item.settlementDate"
+                    label="Rozliczenie"
+                    type="input"
+                    hide-details="auto"
+                    validate-on-blur
+                    readonly/>
                 </v-col>
               </v-row>
             </v-col>
@@ -178,10 +201,11 @@
             justify="end">
             <v-col cols="12" sm="5">
               <v-btn
+                @click="save"
+                v-if="isAdministrator"
                 depressed
                 block
-                class="save-btn"
-                @click="save">
+                class="save-btn">
                 Zapisz
               </v-btn>
             </v-col>
@@ -194,10 +218,11 @@
             <v-col cols="12" sm="5">
               <v-btn
                 :disabled="!!item.settlementDate"
+                @click="showDatePickerDialog"
+                v-if="isAdministrator"
                 depressed
                 block
-                class="save-btn"
-                @click="showDatePickerDialog">
+                class="save-btn">
                 {{!!item.settlementDate ? item.settlementDate : 'Rozlicz'}}
               </v-btn>
             </v-col>
@@ -209,10 +234,11 @@
             justify="end">
             <v-col cols="12" sm="5">
               <v-btn
+                @click="confirmDeleteTask(id)"
+                v-if="isAdministrator"
                 depressed
                 block
-                class="save-btn"
-                @click="confirmDeleteTask(id)">
+                class="save-btn">
                 Usuń
               </v-btn>
             </v-col>
@@ -240,6 +266,7 @@ import clientsService from '@/services/clients';
 import projectsService from '@/services/projects';
 import taskType from '@/enums/taskType';
 import DatePickerDialog from '@/components/DatePickerDialog.vue';
+import userType from '@/enums/userType';
 
 export default {
   name: 'TaskViewEditView',
@@ -260,6 +287,9 @@ export default {
           case 'xl': return 'width: 30%;';
           default: return '';
         }
+    },
+    isAdministrator() {
+      return this.$store && this.$store.state.userType === userType.administrator;
     },
   },
   data: () => ({

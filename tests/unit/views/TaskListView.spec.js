@@ -11,6 +11,12 @@ const $route = {
   }
 }
 
+const $store = {
+  state: {
+    userType: 0
+  }
+}
+
 const items = [
   {
     "id": 1,
@@ -57,7 +63,8 @@ describe('TaskListView', () => {
     wrapper = mount(TaskListView, {
       vuetify,
       mocks: {
-        $route
+        $route,
+        $store
       }
     });
   });
@@ -85,7 +92,8 @@ describe('TaskListView', () => {
     wrapper = mount(TaskListView, {
       vuetify,
       mocks: {
-        $route
+        $route,
+        $store
       }
     });
 
@@ -103,7 +111,8 @@ describe('TaskListView', () => {
     wrapper = mount(TaskListView, {
       vuetify,
       mocks: {
-        $route
+        $route,
+        $store
       }
     });
 

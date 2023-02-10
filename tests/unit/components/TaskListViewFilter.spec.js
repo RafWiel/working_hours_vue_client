@@ -9,6 +9,12 @@ const $route = {
   }
 }
 
+const $store = {
+  state: {
+    userType: 0
+  }
+}
+
 describe('TaskListViewFilter.vue', () => {
   let wrapper;
   let vuetify;
@@ -20,7 +26,10 @@ describe('TaskListViewFilter.vue', () => {
 
     wrapper = mount(TaskListViewFilter, {
       vuetify,
-      mocks: { $route }
+      mocks: {
+        $route,
+        $store
+      }
     });
   });
 

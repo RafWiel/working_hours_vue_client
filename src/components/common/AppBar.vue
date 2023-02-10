@@ -24,19 +24,25 @@
     <v-btn
       :disabled="!isApplyEnabled"
       @click="$emit('applyClicked')"
-      v-if="$route.meta.isTaskListView"
+      v-if="isSettleTaskButton"
       icon>
       <v-icon color="grey lighten-2">mdi-check</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
 <script>
+import userType from '@/enums/userType';
 
 export default
 {
   name: 'AppBar',
   props: {
     isApplyEnabled: Boolean,
+  },
+  computed: {
+    isSettleTaskButton() {
+      return this.$route.meta.isTaskListView && this.$store.state.userType === userType.administrator;
+    },
   },
   mounted() {
     this.$root.$on('updateAppTitle', (title) => {

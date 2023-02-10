@@ -3,6 +3,7 @@
     :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
     class="pa-0 d-flex flex-column flex-nowrap"
     fluid>
+    {{$t("search") }}
     <!-- Filter -->
     <task-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
@@ -21,7 +22,7 @@
       :columns="columns"
       :items="items"
       :portraitCols="4"
-      :isSelectionCheckbox="true"
+      :isSelectionCheckbox="isAdministrator"
       :isSummary="true"
       @selectAll="selectAllItems"
       @selectionChanged="notifySelection"
@@ -71,6 +72,9 @@ export default {
     portraitColumns() {
       // filter headers for mobile portrait view
       return this.columns.filter((item) => item.limitedWidth !== undefined);
+    },
+    isAdministrator() {
+      return this.$store && this.$store.state.userType === userType.administrator;
     },
   },
   data: () => ({
