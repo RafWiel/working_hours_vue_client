@@ -53,6 +53,13 @@ export default {
     },
     settlementTypeItems: settlementType.items,
   }),
+  mounted() {
+    //unsettled by default
+    if (!this.$route.query['settlement-type']) {
+      this.filter.settlementType = settlementType.unsettled;
+      this.emitEvent();
+    }
+  },
   watch: {
     '$route.query': {
       immediate: true,
@@ -70,7 +77,7 @@ export default {
 
         if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
            this.filter.settlementType = parseInt(value['settlement-type'], 10);
-           isRefresh = this.filter.settlementType !== settlementType.all;
+           isRefresh = this.filter.settlementType !== settlementType.none;
         }
 
         if (isRefresh) {
@@ -93,7 +100,7 @@ export default {
         route.query.search = this.filter.search;
       }
 
-      if (this.filter.settlementType !== settlementType.all) {
+      if (this.filter.settlementType !== settlementType.none) {
         route.query['settlement-type'] = this.filter.settlementType;
       }
 

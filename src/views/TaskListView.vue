@@ -78,7 +78,7 @@ export default {
     },
   },
   data: () => ({
-    messageTitle: 'Lista zadań',
+    messageTitle: 'Zadania',
     page: 1,
     items: [],
     columns: [
@@ -197,12 +197,18 @@ export default {
       .then((response) => {
         if (!response.data) return;
 
+        const { client, tasks } = response.data;
+
         // console.log('fetch: ', this.page);
         // console.log('items: ', this.items.length);
         // console.log(response.data);
 
+        if (client) {
+          this.$root.$emit('updateAppTitle', `Zadania ${client}`);
+        }
+
         // format values
-        response.data.tasks.forEach((task) => {
+        tasks.forEach((task) => {
           const item = task;
           item.isSelected = false;
           item.isSelectionDisabled = !!item.settlementDate;
@@ -226,7 +232,7 @@ export default {
         return;
       }
 
-      console.log('intersect');
+      //console.log('intersect');
       this.fetch();
     },
     processError(method, error) {
@@ -326,8 +332,6 @@ export default {
       });
     },
     navigate(id) {
-      console.log(id);
-
       this.$router.push({
         name: 'task',
         params: { id },

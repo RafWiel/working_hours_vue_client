@@ -8,6 +8,9 @@ import clientsService from '@/services/clients';
 const $route = {
   meta: {
     isTaskListView: true,
+  },
+  query: {
+    'settlement-type': 1
   }
 }
 

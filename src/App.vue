@@ -12,8 +12,6 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
-              <h5 class="px-2 py-1 yellow">Napraw testy</h5>
-              <h5 class="px-2 py-1 yellow">Domyslny widok nierozliczone</h5>
               <h5 class="px-2 py-1 yellow">TaskListView usun Ilosc godzin dla DataSoft</h5>
               <h5 class="px-2 py-1 yellow">https://www.codeandweb.com/babeledit/tutorials/how-to-translate-your-vue-app-with-vue-i18n</h5>
               <h5 class="px-2 py-1 yellow">https://phrase.com/blog/posts/vue-2-localization/</h5>
@@ -115,14 +113,14 @@ export default {
         this.links.push({
           icon: 'mdi-account-multiple',
           text: 'Klienci',
-          route: '/clients?settlement-type=2',
+          route: '/clients',
         });
       }
 
       this.links.push({
         icon: 'mdi-format-list-numbered',
         text: 'Zadania',
-        route: '/tasks?settlement-type=2',
+        route: '/tasks',
       });
 
       if (this.$store.state.userType === userType.administrator) {

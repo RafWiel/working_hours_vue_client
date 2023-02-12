@@ -194,12 +194,11 @@ export default {
       });
     },
     navigate(id) {
-      console.log(id);
-
       this.$router.push({ name: 'tasks',
         query: {
           'client-id': id,
-          'settlement-type': 2,
+          tutaj nie dziala
+          'settlement-type': this.filter ? this.filter['settlement-type'] : settlementType.all,
         },
       });
     },

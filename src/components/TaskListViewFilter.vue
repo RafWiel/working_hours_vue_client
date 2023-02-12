@@ -199,6 +199,12 @@ export default {
     if (this.$store && this.$store.state.userType === userType.aldridge) {
       this.filter.taskType = taskType.hoursBased;
     }
+
+    //unsettled by default
+    if (!this.$route.query['settlement-type']) {
+      this.filter.settlementType = settlementType.unsettled;
+      this.emitEvent();
+    }
   },
   watch: {
     '$route.query': {
@@ -221,13 +227,14 @@ export default {
         }
 
         if (!!value['task-type'] && this.filter.taskType !== parseInt(value['task-type'], 10)) {
-           this.filter.taskType = parseInt(value['task-type'], 10);
-           isRefresh = this.filter.taskType !== taskType.all;
+          this.filter.taskType = parseInt(value['task-type'], 10);
+          isRefresh = this.filter.taskType !== taskType.all;
         }
 
         if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
-           this.filter.settlementType = parseInt(value['settlement-type'], 10);
-           isRefresh = this.filter.settlementType !== settlementType.all;
+          console.log('REFRESH');
+          this.filter.settlementType = parseInt(value['settlement-type'], 10);
+          isRefresh = this.filter.settlementType !== settlementType.none;
         }
 
         if (!!value['start-date'] && this.filter.startDate !== value['start-date']) {
@@ -268,7 +275,7 @@ export default {
         route.query['task-type'] = this.filter.taskType;
       }
 
-      if (this.filter.settlementType !== settlementType.all) {
+      if (this.filter.settlementType !== settlementType.none) {
         route.query['settlement-type'] = this.filter.settlementType;
       }
 

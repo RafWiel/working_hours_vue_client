@@ -5,7 +5,8 @@ import TaskListViewFilter from '@/components/TaskListViewFilter.vue';
 const $route = {
   query: {
     search: 'js',
-    'start-date': '2023-01-01'
+    'start-date': '2023-01-01',
+    'settlement-type': 1
   }
 }
 

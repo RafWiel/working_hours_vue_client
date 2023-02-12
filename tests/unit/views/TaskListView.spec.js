@@ -8,6 +8,9 @@ import tasksService from '@/services/tasks';
 const $route = {
   meta: {
     isTaskListView: true,
+  },
+  query: {
+    'settlement-type': 1
   }
 }
 
@@ -16,6 +19,8 @@ const $store = {
     userType: 0
   }
 }
+
+const $t = () => {}
 
 const items = [
   {
@@ -64,8 +69,9 @@ describe('TaskListView', () => {
       vuetify,
       mocks: {
         $route,
-        $store
-      }
+        $store,
+        $t
+      },
     });
   });
 
@@ -93,7 +99,8 @@ describe('TaskListView', () => {
       vuetify,
       mocks: {
         $route,
-        $store
+        $store,
+        $t
       }
     });
 
@@ -112,7 +119,8 @@ describe('TaskListView', () => {
       vuetify,
       mocks: {
         $route,
-        $store
+        $store,
+        $t
       }
     });
 

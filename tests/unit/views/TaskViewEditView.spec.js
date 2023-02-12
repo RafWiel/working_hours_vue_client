@@ -14,6 +14,12 @@ const item = {
   description: 'description'
 };
 
+const $store = {
+  state: {
+    userType: 0
+  }
+}
+
 describe('TaskViewEditView', () => {
   let wrapper;
   let vuetify;
@@ -24,7 +30,15 @@ describe('TaskViewEditView', () => {
     document.body.setAttribute('data-app', true);
 
     wrapper = mount(TaskViewEditView, {
-      vuetify
+      vuetify,
+      computed: {
+        isAdministrator() {
+          return true;
+        }
+      },
+      mocks: [
+        $store
+      ]
     });
 
     wrapper.vm.$data.item = JSON.parse(JSON.stringify(item));
