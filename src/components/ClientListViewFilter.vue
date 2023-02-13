@@ -7,12 +7,12 @@
         sm="9"
         lg="10">
         <v-text-field
-        @click.stop
+          :label="$t('filter.search')"
+          @click.stop
           @keydown.enter.prevent
           @keyup.space.prevent
           @input="emitDelayedEvent(true)"
           ref="search"
-          label="Szukaj"
           prepend-inner-icon="mdi-magnify"
           type="input"
           clearable
@@ -28,12 +28,12 @@
         lg="2">
         <v-select
           :items="settlementTypeItems"
+          :label="$t('filter.settlement')"
           @click.stop
           @change="emitEvent"
           v-model="filter.settlementType"
           item-value="id"
-          hide-details="auto"
-          label="Rozliczenie"/>
+          hide-details="auto"/>
       </v-col>
     </v-row>
   </v-container>

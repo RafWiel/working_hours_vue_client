@@ -91,8 +91,6 @@ export default {
     },
     filter: null,
   }),
-  created() {
-  },
   mounted() {
     this.$root.$on('settleTasks', () => {
       this.showDatePickerDialog();
@@ -194,11 +192,11 @@ export default {
       });
     },
     navigate(id) {
+      console.log('filter: ', this.filter.settlementType);
       this.$router.push({ name: 'tasks',
         query: {
           'client-id': id,
-          tutaj nie dziala
-          'settlement-type': this.filter ? this.filter['settlement-type'] : settlementType.all,
+          'settlement-type': this.filter ? this.filter.settlementType : settlementType.all,
         },
       });
     },

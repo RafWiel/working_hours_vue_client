@@ -14,11 +14,11 @@
               lg="6">
               <v-text-field
               @click.stop
+                :label="$t('filter.search')"
                 @keydown.enter.prevent
                 @keyup.space.prevent
                 @input="emitDelayedEvent(true)"
                 ref="search"
-                label="Szukaj"
                 prepend-inner-icon="mdi-magnify"
                 type="input"
                 clearable
@@ -35,13 +35,13 @@
               <v-select
                 :disabled="!!filter.startDate || !!filter.stopDate"
                 :items="timePeriodItems"
+                :label="$t('filter.timePeriod')"
                 @click.stop
                 @change="emitEvent"
                 ref="timePeriod"
                 v-model="filter.timePeriod"
                 item-value="id"
-                hide-details="auto"
-                label="Okres"/>
+                hide-details="auto"/>
             </v-col>
             <!-- Rozliczenie -->
             <v-col
@@ -51,12 +51,12 @@
               lg="2">
               <v-select
                 :items="settlementTypeItems"
+                :label="$t('filter.settlement')"
                 @click.stop
                 @change="emitEvent"
                 v-model="filter.settlementType"
                 item-value="id"
-                hide-details="auto"
-                label="Rozliczenie"/>
+                hide-details="auto"/>
             </v-col>
             <!-- Typ zadania -->
             <v-col
@@ -67,12 +67,12 @@
               <v-select
                 :items="taskTypeItems"
                 :disabled="!isAdministrator"
+                :label="$t('filter.client')"
                 @click.stop
                 @change="emitEvent"
                 v-model="filter.taskType"
                 item-value="id"
-                hide-details="auto"
-                label="Zadania"/>
+                hide-details="auto"/>
             </v-col>
           </v-row>
         </v-container>
@@ -100,9 +100,9 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     :disabled="filter.timePeriod !== 0"
+                    :label="$t('filter.startDate')"
                     @click:clear="filter.startDate = 0; emitEvent()"
                     v-model="filter.startDate"
-                    label="Data początkowa"
                     readonly
                     clearable
                     hide-details="auto"
@@ -134,9 +134,9 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     :disabled="filter.timePeriod !== 0"
+                    :label="$t('filter.stopDate')"
                     @click:clear="filter.stopDate = 0; emitEvent()"
                     v-model="filter.stopDate"
-                    label="Data końcowa"
                     readonly
                     clearable
                     hide-details="auto"
@@ -232,7 +232,6 @@ export default {
         }
 
         if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
-          console.log('REFRESH');
           this.filter.settlementType = parseInt(value['settlement-type'], 10);
           isRefresh = this.filter.settlementType !== settlementType.none;
         }

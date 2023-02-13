@@ -1,15 +1,14 @@
 {
-  "search": "Search",
-  "message": "hello i18n !!",
-  "common": {
-    "appname": "Vue-Demo",
-    "yes": "Yes",
-    "no": "No"
+  "filter": {
+    "search": "Search",
+    "timePeriod": "Time period",
+    "settlement": "Settlement",
+    "client": "Client",
+    "startDate": "Start date",
+    "stopDate": "End date"
   },
-  "exit-dialog": {
-    "title": "Exit screen",
-    "text": "Do you really want to exit @:common.appname ?",
-    "button-1": "@:common.yes",
-    "button-2": "@:common.no"
+  "sorting": {
+    "sorting": "Sorting",
+    "order": "Order"
   }
 }

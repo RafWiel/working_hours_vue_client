@@ -6,6 +6,7 @@
         cols="6">
         <v-select
           :items="columns"
+          :label="$t('sorting.sorting')"
           @click.stop
           @change="emitEvent"
           v-model="sorting.column"
@@ -13,8 +14,7 @@
           item-text="text"
           item-value="value"
           hide-details="auto"
-          clearable
-          label="Sortowanie"/>
+          clearable/>
       </v-col>
       <!-- Kolejnosc -->
       <v-col
@@ -22,14 +22,14 @@
         class="pl-2">
         <v-select
           :items="orders"
+          :label="$t('sorting.order')"
           @click.stop
           @change="emitEvent"
           v-model="sorting.order"
           ref="order"
           item-text="value"
           item-value="id"
-          hide-details="auto"
-          label="Kolejność"/>
+          hide-details="auto"/>
       </v-col>
     </v-row>
   </v-container>
@@ -47,8 +47,8 @@ export default {
       order: 0,
     },
     orders: [
-      { id: 0, value: 'Rosnąco' },
-      { id: 1, value: 'Malejąco' },
+      { id: 0, value: $t('sorting.ascending') },
+      { id: 1, value: $t('sorting.descending') },
     ],
     sortOrderItems: sortOrder.items,
   }),

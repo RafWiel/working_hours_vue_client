@@ -1,0 +1,14 @@
+{
+  "filter": {
+    "search": "Szukaj",
+    "timePeriod": "Okres",
+    "settlement": "Rozliczenie",
+    "clients": "Klient",
+    "startDate": "Data początkowa",
+    "stopDate": "Data końcowa"
+  },
+  "sorting": {
+    "sorting": "Sortowanie",
+    "order": "Kolejność"
+  }
+}
