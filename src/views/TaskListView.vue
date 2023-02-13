@@ -3,7 +3,6 @@
     :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
     class="pa-0 d-flex flex-column flex-nowrap"
     fluid>
-    {{$t("search") }}
     <!-- Filter -->
     <task-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
@@ -203,8 +202,9 @@ export default {
         // console.log('items: ', this.items.length);
         // console.log(response.data);
 
+        tutaj jakis hook dodaj na zmiane jezyka
         if (client) {
-          this.$root.$emit('updateAppTitle', `Zadania ${client}`);
+          this.$root.$emit('updateAppTitle', this.$t('taskListView.title', { client }));
         }
 
         // format values

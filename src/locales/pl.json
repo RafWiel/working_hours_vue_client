@@ -3,12 +3,17 @@
     "search": "Szukaj",
     "timePeriod": "Okres",
     "settlement": "Rozliczenie",
-    "clients": "Klient",
+    "client": "Klient",
     "startDate": "Data początkowa",
     "stopDate": "Data końcowa"
   },
   "sorting": {
     "sorting": "Sortowanie",
-    "order": "Kolejność"
+    "order": "Kolejność",
+    "ascending": "Rosnąco",
+    "descending": "Malejąco"
+  },
+  "taskListView": {
+    "title": "Zadania {client}"
   }
 }

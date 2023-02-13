@@ -21,7 +21,7 @@
         cols="6"
         class="pl-2">
         <v-select
-          :items="orders"
+          :items="order"
           :label="$t('sorting.order')"
           @click.stop
           @change="emitEvent"
@@ -41,15 +41,19 @@ import sortOrder from '@/enums/sortOrder';
 export default {
   name: 'PortraitSorting',
   props: { columns: Array },
+  computed: {
+    order() {
+      return [
+        { id: 0, value: this.$t('sorting.ascending') },
+        { id: 1, value: this.$t('sorting.descending') },
+      ];
+    },
+  },
   data: () => ({
     sorting: {
       column: null,
       order: 0,
     },
-    orders: [
-      { id: 0, value: $t('sorting.ascending') },
-      { id: 1, value: $t('sorting.descending') },
-    ],
     sortOrderItems: sortOrder.items,
   }),
   methods: {

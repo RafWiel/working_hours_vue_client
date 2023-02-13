@@ -21,6 +21,7 @@
       <span v-if="$vuetify.breakpoint.xs">{{ $route.meta.title }}</span>
       <span v-else>{{ $route.meta.titleLong }}</span>
     </v-app-bar-title>
+    <locale-changer />
     <v-btn
       :disabled="!isApplyEnabled"
       @click="$emit('applyClicked')"
@@ -32,9 +33,11 @@
 </template>
 <script>
 import userType from '@/enums/userType';
+import LocaleChanger from './LocaleChanger.vue';
 
 export default
 {
+  components: { LocaleChanger },
   name: 'AppBar',
   props: {
     isApplyEnabled: Boolean,

@@ -9,6 +9,11 @@
   },
   "sorting": {
     "sorting": "Sorting",
-    "order": "Order"
+    "order": "Order",
+    "ascending": "Ascending",
+    "descending": "Descending"
+  },
+  "taskListView": {
+    "title": "Tasks {client}"
   }
 }
