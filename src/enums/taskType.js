@@ -7,7 +7,7 @@ module.exports = {
   priceBased,
   hoursBased,
   items: [
-    { id: all, text: 'Wszystkie' },
+    { id: all, text: 'Wszyscy' },
     { id: priceBased, text: 'DataSoft' },
     { id: hoursBased, text: 'Aldridge' },
   ],

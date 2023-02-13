@@ -30,9 +30,9 @@
               v-on="on"/>
           </template>
           <v-date-picker
+            :locale="$t('locale')"
             v-model="date"
             no-title
-            locale="pl-pl"
             @input="isDatePickerVisible = false"/>
         </v-menu>
       </v-card-text>

@@ -123,9 +123,9 @@ export default {
       .then((response) => {
         if (!response.data) return;
 
-        console.log('fetch: ', this.page);
-        console.log('items: ', this.items.length);
-        console.log(response.data);
+        // console.log('fetch: ', this.page);
+        // console.log('items: ', this.items.length);
+        // console.log(response.data);
 
         // format values
         response.data.clients.forEach((item) => {

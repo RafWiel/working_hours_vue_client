@@ -110,11 +110,11 @@
                     v-on="on"/>
                 </template>
                 <v-date-picker
+                  :locale="$t('locale')"
                   @input="isStartDatePickerVisible = false"
                   @change="emitEvent"
                   v-model="filter.startDate"
-                  no-title
-                  locale="pl-pl"/>
+                  no-title/>
               </v-menu>
             </v-col>
             <!-- Data końcowa -->
@@ -144,11 +144,11 @@
                     v-on="on"/>
                 </template>
                 <v-date-picker
+                  :locale="$t('locale')"
                   @input="isStopDatePickerVisible = false"
                   @change="emitEvent"
                   v-model="filter.stopDate"
-                  no-title
-                  locale="pl-pl"/>
+                  no-title/>
               </v-menu>
             </v-col>
           </v-row>
@@ -175,6 +175,9 @@ export default {
     isAdministrator() {
       return this.$store && this.$store.state.userType === userType.administrator;
     },
+    timePeriodItems() {
+      return timePeriod.getItems();
+    },
   },
   data: () => ({
     filter: {
@@ -187,7 +190,6 @@ export default {
     },
     isStartDatePickerVisible: false,
     isStopDatePickerVisible: false,
-    timePeriodItems: timePeriod.items,
     taskTypeItems: taskType.items,
     settlementTypeItems: settlementType.items,
   }),
@@ -205,6 +207,49 @@ export default {
       this.filter.settlementType = settlementType.unsettled;
       this.emitEvent();
     }
+  },
+  methods: {
+    emitDelayedEvent: debounce(function emit() {
+      this.emitEvent();
+    }, 500),
+    emitEvent() {
+      const route = {
+        name: this.route,
+        query: {},
+      };
+
+      if (this.filter.search) {
+        route.query.search = this.filter.search;
+      }
+
+      if (this.filter.timePeriod !== timePeriod.all) {
+        route.query['time-period'] = this.filter.timePeriod;
+      }
+
+      if (this.filter.taskType !== taskType.all) {
+        route.query['task-type'] = this.filter.taskType;
+      }
+
+      if (this.filter.settlementType !== settlementType.none) {
+        route.query['settlement-type'] = this.filter.settlementType;
+      }
+
+      if (this.filter.startDate) {
+        route.query['start-date'] = this.filter.startDate;
+      }
+
+      if (this.filter.stopDate) {
+        route.query['stop-date'] = this.filter.stopDate;
+      }
+
+      //client id comes from previous route.query
+      if (this.clientId) {
+        route.query['client-id'] = this.clientId;
+      }
+
+      this.$router.push(route);
+      this.$emit('filter', this.filter);
+    },
   },
   watch: {
     '$route.query': {
@@ -250,49 +295,6 @@ export default {
           this.$emit('filter', this.filter);
         }
       },
-    },
-  },
-  methods: {
-    emitDelayedEvent: debounce(function emit() {
-      this.emitEvent();
-    }, 500),
-    emitEvent() {
-      const route = {
-        name: this.route,
-        query: {},
-      };
-
-      if (this.filter.search) {
-        route.query.search = this.filter.search;
-      }
-
-      if (this.filter.timePeriod !== timePeriod.all) {
-        route.query['time-period'] = this.filter.timePeriod;
-      }
-
-      if (this.filter.taskType !== taskType.all) {
-        route.query['task-type'] = this.filter.taskType;
-      }
-
-      if (this.filter.settlementType !== settlementType.none) {
-        route.query['settlement-type'] = this.filter.settlementType;
-      }
-
-      if (this.filter.startDate) {
-        route.query['start-date'] = this.filter.startDate;
-      }
-
-      if (this.filter.stopDate) {
-        route.query['stop-date'] = this.filter.stopDate;
-      }
-
-      //client id comes from previous route.query
-      if (this.clientId) {
-        route.query['client-id'] = this.clientId;
-      }
-
-      this.$router.push(route);
-      this.$emit('filter', this.filter);
     },
   },
 };

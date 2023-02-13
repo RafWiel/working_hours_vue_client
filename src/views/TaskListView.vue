@@ -3,10 +3,11 @@
     :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
     class="pa-0 d-flex flex-column flex-nowrap"
     fluid>
+    {{ $i18n.test }}
     <!-- Filter -->
     <task-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
-      :clientId="clientId"
+      :clientId="client.id"
       @filter="filterItems"
       route="tasks"/>
     <!-- Portrait sorting -->
@@ -144,15 +145,22 @@ export default {
       order: sortOrder.ascending,
     },
     filter: null,
-    clientId: null,
+    client: {
+      id: null,
+      name: null,
+    },
   }),
   created() {
     //console.log('created ', this.$route.query);
-    this.clientId = this.$route.query && this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
+    this.client.id = this.$route.query && this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
   },
   mounted() {
     this.$root.$on('settleTasks', () => {
       this.showDatePickerDialog();
+    });
+
+    this.$root.$on('updateLocalization', () => {
+      this.updateLocalization();
     });
 
     // prevent double fetch on page refresh by user
@@ -191,7 +199,7 @@ export default {
         'time-period': this.filter && this.filter.timePeriod !== timePeriod.all ? this.filter.timePeriod : null,
         'task-type': taskTypeFilter,
         'settlement-type': this.filter && this.filter.settlementType !== settlementType.all ? this.filter.settlementType : null,
-        'client-id': this.clientId,
+        'client-id': this.client.id,
       })
       .then((response) => {
         if (!response.data) return;
@@ -202,9 +210,8 @@ export default {
         // console.log('items: ', this.items.length);
         // console.log(response.data);
 
-        tutaj jakis hook dodaj na zmiane jezyka
         if (client) {
-          this.$root.$emit('updateAppTitle', this.$t('taskListView.title', { client }));
+          this.updateAppTitle(client);
         }
 
         // format values
@@ -337,6 +344,15 @@ export default {
         params: { id },
       });
     },
+    updateAppTitle(client) {
+      this.client.name = client;
+      this.$root.$emit('updateAppTitle', this.$t('taskListView.title', { client }));
+    },
+    updateLocalization() {
+      if (!this.client.name) return;
+
+      this.updateAppTitle(this.client.name);
+    },
   },
 };
 </script>
@@ -364,5 +380,4 @@ export default {
       width: 100%;
     }
   }
-
 </style>

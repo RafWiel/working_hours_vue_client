@@ -1,4 +1,5 @@
 {
+  "locale": "pl-pl",
   "filter": {
     "search": "Szukaj",
     "timePeriod": "Okres",
@@ -15,5 +16,13 @@
   },
   "taskListView": {
     "title": "Zadania {client}"
+  },
+  "enums": {
+    "timePeriod": {
+      "all": "Wszystkie",
+      "currentWeek": "Bieżący tydzień",
+      "currentMonth": "Bieżący miesiąc",
+      "previousMonth": "Poprzedni miesiąc"
+    }
   }
 }

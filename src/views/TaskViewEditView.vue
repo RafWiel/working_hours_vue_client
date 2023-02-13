@@ -79,10 +79,10 @@
                         v-on="on"/>
                     </template>
                     <v-date-picker
+                      :locale="$t('locale')"
                       @input="isDatePickerVisible = false"
                       v-model="item.creationDate"
-                      no-title
-                      locale="pl-pl"/>
+                      no-title/>
                   </v-menu>
                 </v-col>
                 <!-- Client -->

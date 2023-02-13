@@ -3,7 +3,7 @@
     :items="languages"
     label="Lang"
     @click.stop
-    @change="reload"
+    @change="$root.$emit('updateLocalization')"
     v-model="$i18n.locale"
     item-text="text"
     item-value="code"
@@ -20,11 +20,6 @@ export default {
       { code: 'pl', text: 'Polski' },
     ],
   }),
-  methods: {
-    reload() {
-      // this.$router.go();
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>

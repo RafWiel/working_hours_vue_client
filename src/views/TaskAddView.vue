@@ -44,9 +44,9 @@
                       v-on="on"/>
                   </template>
                   <v-date-picker
+                    :locale="$t('locale')"
                     v-model="item.creationDate"
                     no-title
-                    locale="pl-pl"
                     @input="isDatePickerVisible = false"/>
                 </v-menu>
               </v-col>

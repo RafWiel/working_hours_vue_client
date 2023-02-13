@@ -1,4 +1,5 @@
 {
+  "locale": "en-au",
   "filter": {
     "search": "Search",
     "timePeriod": "Time period",
@@ -14,6 +15,14 @@
     "descending": "Descending"
   },
   "taskListView": {
-    "title": "Tasks {client}"
+    "title": "{client} tasks"
+  },
+  "enums": {
+    "timePeriod": {
+      "all": "All",
+      "currentWeek": "Current week",
+      "currentMonth": "Current month",
+      "previousMonth": "Previous month"
+    }
   }
 }
