@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import logger from '@/misc/logger';
+import logger from '@/plugins/logger';
 import string from '@/misc/string';
 import rules from '@/misc/rules';
 import userAuthorizationService from '@/services/userAuthorization';

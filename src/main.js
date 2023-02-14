@@ -2,9 +2,9 @@ import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
 import App from './App.vue';
 import router from './router';
-import store from './misc/store';
+import store from './plugins/store';
 import vuetify from './plugins/vuetify';
-import i18n from './misc/i18n';
+import i18n from './plugins/i18n';
 import './assets/main.scss';
 import './misc/directives';
 

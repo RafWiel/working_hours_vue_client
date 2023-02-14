@@ -178,6 +178,12 @@ export default {
     timePeriodItems() {
       return timePeriod.getItems();
     },
+    settlementTypeItems() {
+      return settlementType.getItems();
+    },
+    taskTypeItems() {
+      return taskType.getItems();
+    },
   },
   data: () => ({
     filter: {
@@ -190,8 +196,6 @@ export default {
     },
     isStartDatePickerVisible: false,
     isStopDatePickerVisible: false,
-    taskTypeItems: taskType.items,
-    settlementTypeItems: settlementType.items,
   }),
   mounted() {
     if (this.$store && this.$store.state.userType === userType.datasoft) {

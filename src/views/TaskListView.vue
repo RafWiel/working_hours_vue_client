@@ -46,7 +46,7 @@
 <script>
 import DataGrid from '@/components/common/DataGrid.vue';
 import moment from 'moment';
-import logger from '@/misc/logger';
+import logger from '@/plugins/logger';
 import tasksService from '@/services/tasks';
 import DatePickerDialog from '@/components/DatePickerDialog.vue';
 import sortOrder from '@/enums/sortOrder';

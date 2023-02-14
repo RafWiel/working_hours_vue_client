@@ -21,7 +21,9 @@ describe('ClientListViewFilter.vue', () => {
 
     wrapper = mount(ClientListViewFilter, {
       vuetify,
-      mocks: { $route }
+      mocks: {
+        $route
+      }
     });
   });
 

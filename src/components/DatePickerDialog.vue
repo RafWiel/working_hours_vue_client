@@ -8,7 +8,7 @@
     max-width="500px">
     <v-card>
       <v-card-title class="primary--text text--darken-1 justify-center">
-        <h5>Ustaw datę</h5>
+        <h5>{{ $t('action.setDate') }}</h5>
       </v-card-title>
       <v-card-text class="text-center">
         <v-menu
@@ -23,7 +23,7 @@
             <v-text-field
               :rules="[rules.required]"
               v-model="date"
-              label="Data"
+              :label="$t('common.date')"
               readonly
               hide-details="auto"
               v-bind="attrs"
@@ -43,7 +43,7 @@
         ref="cancelButton"
         color="primary"
         text>
-        Anuluj
+        {{ $t('action.cancel') }}
       </v-btn>
       <v-btn
         @click="applyDialog"

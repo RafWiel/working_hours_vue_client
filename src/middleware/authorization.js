@@ -1,4 +1,4 @@
-import store from '../misc/store';
+import store from '../plugins/store';
 import userType from '../enums/userType';
 
 export default {

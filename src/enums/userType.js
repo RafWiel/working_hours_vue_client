@@ -1,8 +1,10 @@
+import i18n from '@/plugins/i18n';
+
 const administrator = 0;
 const datasoft = 1;
 const aldridge = 2;
 
-module.exports = {
+export default {
   administrator,
   datasoft,
   aldridge,
@@ -14,5 +16,12 @@ module.exports = {
   getText(id) {
     const item = this.items.find((u) => u.id === id);
     return item ? item.text : '';
+  },
+  getItems() {
+    return [
+      { id: administrator, text: i18n.t('enums.userType.administrator') },
+      { id: aldridge, text: i18n.t('enums.userType.aldridge') },
+      { id: datasoft, text: i18n.t('enums.userType.datasoft') },
+    ];
   },
 };

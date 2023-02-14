@@ -37,7 +37,7 @@
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title class="grey--text text--lighten-2">
-                Wyloguj się
+                {{ $t('action.logout') }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>

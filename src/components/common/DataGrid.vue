@@ -55,11 +55,11 @@
       <v-row class="no-gutters">
         <v-col class="mx-3 mt-3">
           <v-checkbox
-            @click="$emit('selectAll', isAllSelected)"
             :disabled="isSelectionDisabled"
+            :label="$t('action.selectAll')"
+            @click="$emit('selectAll', isAllSelected)"
             v-if="isSelectionCheckbox && items.length > 0"
             v-model="isAllSelected"
-            label="Zaznacz wszystko"
             hide-details
             class="shrink list_column mt-0"/>
         </v-col>

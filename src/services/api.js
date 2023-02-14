@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from '@/misc/store';
+import store from '@/plugins/store';
 
 export default () => {
   const api = axios.create({

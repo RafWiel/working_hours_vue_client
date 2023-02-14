@@ -4,6 +4,8 @@ import QuestionDialog from '@/components/message/QuestionDialog.vue';
 
 //document.body.setAttribute('data-app', true);
 
+const $t = () => {}
+
 describe('QuestionDialog.vue', () => {
   let wrapper;
   let vuetify;
@@ -20,6 +22,9 @@ describe('QuestionDialog.vue', () => {
     //shallowMount chyba nie laduje Vuetify, test klikniecia przycisku nie dziala
     wrapper = mount(QuestionDialog, {
       vuetify,
+      mocks: {
+        $t
+      },
       propsData: {
         title,
         message,
@@ -38,6 +43,9 @@ describe('QuestionDialog.vue', () => {
 
     wrapper = mount(QuestionDialog, {
       vuetify,
+      mocks: {
+        $t
+      },
       propsData: {
         isVisible: isVisible,
       },

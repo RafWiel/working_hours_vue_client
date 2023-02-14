@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import i18n from '@/plugins/i18n';
 import TestView from '../views/TestView.vue';
 import TaskAddView from '../views/TaskAddView.vue';
 import TaskListView from '../views/TaskListView.vue';
@@ -29,8 +30,8 @@ const routes = [
     name: 'adTaskAdd',
     component: TaskAddView,
     meta: {
-      title: 'Nowe zadanie Aldridge',
-      titleLong: 'Nowe zadanie Aldridge',
+      title: i18n.t('taskAddView.titleAd'),
+      titleLong: i18n.t('taskAddView.titleAd'),
       type: taskType.hoursBased,
       middleware: [authorization.validUser, authorization.administrator],
     },
@@ -40,8 +41,8 @@ const routes = [
     name: 'dsTaskAdd',
     component: TaskAddView,
     meta: {
-      title: 'Nowe zadanie DataSoft',
-      titleLong: 'Nowe zadanie DataSoft',
+      title: i18n.t('taskAddView.titleDs'),
+      titleLong: i18n.t('taskAddView.titleDs'),
       type: taskType.priceBased,
       middleware: [authorization.validUser, authorization.administrator],
     },
@@ -51,8 +52,8 @@ const routes = [
     name: 'tasks',
     component: TaskListView,
     meta: {
-      title: 'Zadania',
-      titleLong: 'Zadania',
+      title: i18n.t('taskListView.metaTitle'),
+      titleLong: i18n.t('taskListView.metaTitle'),
       isTaskListView: true,
       middleware: [authorization.validUser],
     },
@@ -62,8 +63,8 @@ const routes = [
     name: 'clients',
     component: ClientListView,
     meta: {
-      title: 'Klienci',
-      titleLong: 'Klienci',
+      title: i18n.t('clientListView.title'),
+      titleLong: i18n.t('clientListView.title'),
       middleware: [authorization.validUser, authorization.datasoft],
     },
   },
@@ -73,8 +74,8 @@ const routes = [
     component: TaskViewEditView,
     props: true,
     meta: {
-      title: 'Zadanie',
-      titleLong: 'Zadanie',
+      title: i18n.t('taskViewEditView.title'),
+      titleLong: i18n.t('taskViewEditView.title'),
       middleware: [authorization.validUser],
     },
   },
@@ -93,8 +94,8 @@ const routes = [
     component: UserRegisterView,
     meta: {
       isMenuHidden: true,
-      title: 'Rejestracja',
-      titleLong: 'Rejestracja',
+      title: i18n.t('userRegisterView.title'),
+      titleLong: i18n.t('userRegisterView.title'),
     },
   },
   {
@@ -103,8 +104,8 @@ const routes = [
     component: LoginView,
     meta: {
       isMenuHidden: true,
-      title: 'Logowanie',
-      titleLong: 'Logowanie',
+      title: i18n.t('loginView.title'),
+      titleLong: i18n.t('loginView.title'),
     },
   },
 ];

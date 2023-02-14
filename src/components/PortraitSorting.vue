@@ -48,13 +48,15 @@ export default {
         { id: 1, value: this.$t('sorting.descending') },
       ];
     },
+    sortOrderItems() {
+      return sortOrder.getItems();
+    },
   },
   data: () => ({
     sorting: {
       column: null,
       order: 0,
     },
-    sortOrderItems: sortOrder.items,
   }),
   methods: {
     emitEvent() {

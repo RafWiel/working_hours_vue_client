@@ -1,4 +1,4 @@
-import i18n from '@/misc/i18n';
+import i18n from '@/plugins/i18n';
 
 const all = 0;
 const currentWeek = 1;

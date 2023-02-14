@@ -1,19 +1,19 @@
+import i18n from '@/plugins/i18n';
+
 const ascending = 0;
 const descending = 1;
 
-module.exports = {
+export default {
   ascending,
   descending,
-  items: [
-    { id: ascending, text: 'Rosnąco', sqlKeyword: 'asc' },
-    { id: descending, text: 'Malejąco', sqlKeyword: 'desc' },
-  ],
   getText(id) {
     const item = this.items.find((u) => u.id === parseInt(id, 10));
     return item ? item.text : '';
   },
-  getSqlKeyword(id) {
-    const item = this.items.find((u) => u.id === parseInt(id, 10));
-    return item ? item.sqlKeyword : 'asc';
+  getItems() {
+    return [
+      { id: ascending, text: i18n.t('enums.sorting.ascending') },
+      { id: descending, text: i18n.t('enums.sorting.descending') },
+    ];
   },
 };

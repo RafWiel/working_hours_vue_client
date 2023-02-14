@@ -46,12 +46,16 @@ import settlementType from '@/enums/settlementType';
 export default {
   name: 'ClientListViewFilter',
   props: { route: String },
+  computed: {
+    settlementTypeItems() {
+      return settlementType.getItems();
+    },
+  },
   data: () => ({
     filter: {
       search: '',
       settlementType: 0,
     },
-    settlementTypeItems: settlementType.items,
   }),
   mounted() {
     //unsettled by default

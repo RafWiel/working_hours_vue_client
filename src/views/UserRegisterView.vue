@@ -150,7 +150,7 @@
 <script>
 import debounce from 'lodash.debounce';
 import rules from '@/misc/rules';
-import logger from '@/misc/logger';
+import logger from '@/plugins/logger';
 import userType from '@/enums/userType';
 import usersRegistrationService from '@/services/userRegistration';
 
@@ -170,12 +170,14 @@ export default {
     userNameDot() {
       return this.input.firstName === '' || this.input.lastName === '' ? '' : '.';
     },
+    userTypeItems() {
+      return userType.getItems();
+    },
   },
   data: () => ({
     messageTitle: 'Rejestracja',
     isPasswordVisible: false,
     isAdminPasswordVisible: false,
-    userTypeItems: userType.items,
     input: {
       firstName: '',
       lastName: '',

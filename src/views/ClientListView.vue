@@ -34,7 +34,7 @@
 <script>
 import DataGrid from '@/components/common/DataGrid.vue';
 import moment from 'moment';
-import logger from '@/misc/logger';
+import logger from '@/plugins/logger';
 import clientsService from '@/services/clients';
 import sortOrder from '@/enums/sortOrder';
 import PortraitSorting from '@/components/PortraitSorting.vue';

@@ -19,14 +19,14 @@
         ref="yesButton"
         color="primary"
         text>
-        Tak
+        {{ $t('common.yes') }}
       </v-btn>
       <v-btn
         @click="hideDialog"
         ref="noButton"
         color="primary"
         text>
-        Nie
+        {{ $t('common.no') }}
       </v-btn>
       </v-card-actions>
     </v-card>

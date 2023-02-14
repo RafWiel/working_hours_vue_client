@@ -1,5 +1,12 @@
 {
   "locale": "en-au",
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "date": "Date",
+    "aldridge": "Aldridge",
+    "datasoft": "DataSoft"
+  },
   "filter": {
     "search": "Search",
     "timePeriod": "Time period",
@@ -14,15 +21,63 @@
     "ascending": "Ascending",
     "descending": "Descending"
   },
+  "action": {
+    "selectAll": "Select all",
+    "logout": "Logout",
+    "setDate": "Set date",
+    "cancel": "Cancel"
+  },
+  "clientListView": {
+    "title": "Clients"
+  },
+  "loginView": {
+    "title": "Login"
+  },
+  "taskAddView": {
+    "titleAd": "New @:common.aldridge task",
+    "titleDs": "New @:common.datasoft task"
+  },
   "taskListView": {
+    "metaTitle": "Tasks",
     "title": "{client} tasks"
   },
+  "taskViewEditView": {
+    "title": "Task"
+  },
+  "userRegisterView": {
+    "title": "Registration"
+  },
   "enums": {
+    "common": {
+      "all": "All"
+    },
     "timePeriod": {
-      "all": "All",
+      "all": "@:enums.common.all",
       "currentWeek": "Current week",
       "currentMonth": "Current month",
       "previousMonth": "Previous month"
+    },
+    "settlementType": {
+      "all": "@:enums.common.all",
+      "settled": "Settled",
+      "unsettled": "Unsettled"
+    },
+    "taskType": {
+      "all": "@:enums.common.all",
+      "priceBased": "@:common.datasoft",
+      "hoursBased": "@:common.aldridge"
+    },
+    "userType": {
+      "administrator": "@:enums.common.all",
+      "aldridge": "@:common.aldridge",
+      "datasoft": "@:common.datasoft"
     }
+  },
+  "rules": {
+    "required": "Field required",
+    "number": "Number value required",
+    "email": "Incorrect e-mail address",
+    "phoneNumber": "Incorrect phone number",
+    "password": "Password must have at least 8 characters, a capital letter, a number and special character"
   }
 }

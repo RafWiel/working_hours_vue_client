@@ -1,5 +1,12 @@
 {
   "locale": "pl-pl",
+  "common": {
+    "yes": "Tak",
+    "no": "Nie",
+    "date": "Data",
+    "aldridge": "Aldridge",
+    "datasoft": "DataSoft"
+  },
   "filter": {
     "search": "Szukaj",
     "timePeriod": "Okres",
@@ -14,15 +21,65 @@
     "ascending": "Rosnąco",
     "descending": "Malejąco"
   },
+  "action": {
+    "selectAll": "Zaznacz wszystko",
+    "logout": "Wyloguj się",
+    "setDate": "Ustaw datę",
+    "cancel": "Anuluj"
+  },
+  "clientListView": {
+    "title": "Klienci"
+  },
+  "loginView": {
+    "title": "Logowanie"
+  },
+  "taskAddView": {
+    "titleAd": "Nowe zadanie @:enums.common.alldridge",
+    "titleDs": "Nowe zadanie @:enums.common.datasoft"
+  },
   "taskListView": {
+    "metaTitle": "Zadania",
     "title": "Zadania {client}"
   },
+  "taskViewEditView": {
+    "title": "Zadanie"
+  },
+  "userRegisterView": {
+    "title": "Rejestracja"
+  },
   "enums": {
-    "timePeriod": {
+    "common": {
       "all": "Wszystkie",
+      "aldridge": "Aldridge",
+      "datasoft": "DataSoft"
+    },
+    "timePeriod": {
+      "all": "@:enums.common.all",
       "currentWeek": "Bieżący tydzień",
       "currentMonth": "Bieżący miesiąc",
       "previousMonth": "Poprzedni miesiąc"
+    },
+    "settlementType": {
+      "all": "@:enums.common.all",
+      "settled": "Rozliczone",
+      "unsettled": "Nierozliczone"
+    },
+    "taskType": {
+      "all": "Wszyscy",
+      "priceBased": "@:common.datasoft",
+      "hoursBased": "@:common.aldridge"
+    },
+    "userType": {
+      "administrator": "@:enums.common.all",
+      "aldridge": "@:common.aldridge",
+      "datasoft": "@:common.datasoft"
     }
+  },
+  "rules": {
+    "required": "Pole wymagane",
+    "number": "Wymagana wartość liczbowa",
+    "email": "Nieprawidłowy adres e-mail",
+    "phoneNumber": "Nieprawidłowy numer telefonu",
+    "password": "Hasło musi mieć minimum 8 znaków, wielką literę, cyfrę, oraz znak specjalny"
   }
 }
