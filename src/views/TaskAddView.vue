@@ -36,8 +36,8 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       :rules="[rules.required]"
+                      :label="$t('taskAddView.date')"
                       v-model="item.creationDate"
-                      label="Data"
                       readonly
                       hide-details="auto"
                       v-bind="attrs"
@@ -60,14 +60,13 @@
                   :loading="clientApi.isLoading"
                   :search-input.sync="clientApi.searchInput"
                   :rules="[rules.required]"
+                  :label="$t('taskAddView.client')"
                   v-model="item.client"
                   hide-no-data
                   hide-selected
                   hide-details="auto"
                   no-filter
-                  type="input"
-                  label="Klient"
-                  />
+                  type="input"/>
               </v-col>
               <!-- Project -->
               <v-col cols="12" class="mt-2">
@@ -76,21 +75,20 @@
                   :loading="projectApi.isLoading"
                   :search-input.sync="projectApi.searchInput"
                   :rules="[rules.required]"
+                  :label="$t('taskAddView.project')"
                   v-model="item.project"
                   hide-no-data
                   hide-selected
                   hide-details="auto"
                   no-filter
-                  type="input"
-                  label="Projekt"
-                  />
+                  type="input"/>
               </v-col>
               <!-- Version -->
               <v-col cols="12" class="mt-2">
                 <v-text-field
                   :rules="[rules.required]"
+                  :label="$t('taskAddView.version')"
                   v-model.lazy="item.version"
-                  label="Wersja"
                   type="input"
                   hide-details="auto"
                   validate-on-blur/>
@@ -101,12 +99,12 @@
                 class="mt-2">
                 <v-textarea
                   :rules="[rules.required]"
-                  label="Opis"
+                  :label="$t('taskAddView.description')"
+                  v-model.lazy="item.description"
                   hide-details="auto"
                   validate-on-blur
                   auto-grow
-                  rows="4"
-                  v-model.lazy="item.description"/>
+                  rows="4"/>
               </v-col>
               <!-- Price -->
               <v-col
@@ -115,9 +113,9 @@
                 class="mt-2">
                 <v-text-field
                   :rules="[rules.required]"
+                  :label="$t('taskAddView.price')"
                   v-model.lazy="item.price"
                   ref="price"
-                  label="Cena"
                   type="input"
                   hide-details="auto"
                   validate-on-blur/>
@@ -128,10 +126,10 @@
                 class="mt-2">
                 <v-text-field
                   :rules="[rules.required, rules.float]"
+                  :label="$t('taskAddView.hours')"
                   v-if="item.type === taskType.hoursBased"
                   v-model.lazy="item.hours"
                   ref="hours"
-                  label="Ilość godzin"
                   type="input"
                   hide-details="auto"
                   validate-on-blur/>
@@ -150,7 +148,7 @@
               block
               class="save-btn"
               @click="save">
-              Zapisz
+              {{$t('action.save')}}
             </v-btn>
           </v-col>
         </v-row>
@@ -168,6 +166,7 @@ import tasksService from '@/services/tasks';
 import clientsService from '@/services/clients';
 import projectsService from '@/services/projects';
 import taskType from '@/enums/taskType';
+import i18n from '@/plugins/i18n';
 
 export default {
   name: 'TaskAddView',
@@ -187,7 +186,6 @@ export default {
     },
   },
   data: () => ({
-    messageTitle: 'Nowe zadanie',
     isDatePickerVisible: false,
     item: {
       creationDate: null,
@@ -270,18 +268,18 @@ export default {
         return;
       }
 
-      console.log('item: ', JSON.stringify(this.item));
+      //console.log('item: ', JSON.stringify(this.item));
 
       try {
         this.$emit('isProcessing', true);
 
-        console.log(JSON.stringify(this.item));
+        //console.log(JSON.stringify(this.item));
 
         const response = await tasksService.create(this.item);
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
-          this.$emit('showMessage', this.messageTitle, 'Zadanie zapisane');
+          this.showMessage(i18n.t('message.taskSaved'));
           this.$vuetify.goTo(0);
 
           // deep copy
@@ -290,7 +288,7 @@ export default {
           return;
         }
 
-        this.$emit('showMessage', this.messageTitle, 'Nieudany zapis');
+        this.showMessage(i18n.t('message.saveFailed'));
       }
       catch (error) {
         this.processError('save', error);
@@ -302,12 +300,15 @@ export default {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.$emit('showMessage', this.messageTitle, 'Brak odpowiedzi z serwera');
+        this.showMessage(i18n.t('message.noResponse'));
         return;
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
-      this.$emit('showMessage', this.messageTitle, error.response.data.message);
+      this.showMessage(error.response.data.message);
+    },
+    showMessage(message) {
+      this.$emit('showMessage', i18n.t('taskAddView.title'), message);
     },
   },
   watch: {

@@ -3,9 +3,15 @@
   "common": {
     "yes": "Yes",
     "no": "No",
-    "date": "Date",
     "aldridge": "Aldridge",
-    "datasoft": "DataSoft"
+    "datasoft": "DataSoft",
+    "date": "Date",
+    "client": "Client",
+    "project": "Project",
+    "version": "Version",
+    "description": "Description",
+    "price": "Price",
+    "hours": "Hours"
   },
   "filter": {
     "search": "Search",
@@ -25,17 +31,29 @@
     "selectAll": "Select all",
     "logout": "Logout",
     "setDate": "Set date",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "clientListView": {
     "title": "Clients"
   },
   "loginView": {
-    "title": "Login"
+    "title": "Login",
+    "userName": "Username",
+    "password": "Password",
+    "login": "Login"
   },
   "taskAddView": {
+    "title": "New task",
     "titleAd": "New @:common.aldridge task",
-    "titleDs": "New @:common.datasoft task"
+    "titleDs": "New @:common.datasoft task",
+    "date": "@:common.date",
+    "client": "@:common.client",
+    "project": "@:common.project",
+    "version": "@:common.version",
+    "description": "@:common.description",
+    "price": "@:common.price",
+    "hours": "@:common.hours"
   },
   "taskListView": {
     "metaTitle": "Tasks",
@@ -79,5 +97,24 @@
     "email": "Incorrect e-mail address",
     "phoneNumber": "Incorrect phone number",
     "password": "Password must have at least 8 characters, a capital letter, a number and special character"
+  },
+  "message": {
+    "operationFailed": "Operation failed",
+    "noResponse": "No response from server",
+    "loginFailed": "Incorrect username or password",
+    "saveFailed": "Save failed",
+    "taskSaved": "Task saved"
+  },
+  "htmlError": {
+    "400": "Incorrect input data",
+    "401": "Authorization error",
+    "4011": "Incorrect username or password",
+    "404": "Not found",
+    "409": "Error occured: Duplicate data\r\nSave aborted",
+    "500": "Internal server error"
+  },
+  "dataGridColumns": {
+    "client": "Client",
+    "amount": "Amount"
   }
 }

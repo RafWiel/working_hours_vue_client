@@ -3,9 +3,15 @@
   "common": {
     "yes": "Tak",
     "no": "Nie",
-    "date": "Data",
     "aldridge": "Aldridge",
-    "datasoft": "DataSoft"
+    "datasoft": "DataSoft",
+    "date": "Data",
+    "client": "Klient",
+    "project": "Projekt",
+    "version": "Wersja",
+    "description": "Opis",
+    "price": "Cena",
+    "hours": "Godziny"
   },
   "filter": {
     "search": "Szukaj",
@@ -25,17 +31,29 @@
     "selectAll": "Zaznacz wszystko",
     "logout": "Wyloguj się",
     "setDate": "Ustaw datę",
-    "cancel": "Anuluj"
+    "cancel": "Anuluj",
+    "save": "Zapisz"
   },
   "clientListView": {
     "title": "Klienci"
   },
   "loginView": {
-    "title": "Logowanie"
+    "title": "Logowanie",
+    "userName": "Użytkownik",
+    "password": "Hasło",
+    "login": "Zaloguj się"
   },
   "taskAddView": {
+    "title": "Nowe zadanie",
     "titleAd": "Nowe zadanie @:enums.common.alldridge",
-    "titleDs": "Nowe zadanie @:enums.common.datasoft"
+    "titleDs": "Nowe zadanie @:enums.common.datasoft",
+    "date": "@:common.date",
+    "client": "@:common.client",
+    "project": "@:common.project",
+    "version": "@:common.version",
+    "description": "@:common.description",
+    "price": "@:common.price",
+    "hours": "@:common.hours"
   },
   "taskListView": {
     "metaTitle": "Zadania",
@@ -81,5 +99,24 @@
     "email": "Nieprawidłowy adres e-mail",
     "phoneNumber": "Nieprawidłowy numer telefonu",
     "password": "Hasło musi mieć minimum 8 znaków, wielką literę, cyfrę, oraz znak specjalny"
+  },
+  "message": {
+    "operationFailed": "Operacja zakończona niepowodzem",
+    "noResponse": "Brak odpowiedzi z serwera",
+    "loginFailed": "Nieprawidłowy użytkownik lub hasło",
+    "saveFailed": "Zapis nieudany",
+    "taskSaved": "Zadanie zapisane"
+  },
+  "htmlError": {
+    "400": "Nieprawidłowe dane wejściowe",
+    "401": "Błąd autoryzacji",
+    "4011": "Nieprawidłowy użytkownik lub hasło",
+    "404": "Nie znaleziono",
+    "409": "Wystąpił błąd: Duplikat\r\nZapis anulowany",
+    "500": "Błąd wewnętrzny serwera"
+  },
+  "dataGridColumns": {
+    "client": "Klient",
+    "amount": "Kwota"
   }
 }

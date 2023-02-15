@@ -1,5 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import Vuetify from 'vuetify';
+import VueI18n from 'vue-i18n';
 import TaskListViewFilter from '@/components/TaskListViewFilter.vue';
 
 const $route = {
@@ -19,14 +20,17 @@ const $store = {
 describe('TaskListViewFilter.vue', () => {
   let wrapper;
   let vuetify;
+  let i18n;
 
   beforeEach(() => {
     vuetify = new Vuetify();
+    i18n = new VueI18n();
 
     document.body.setAttribute('data-app', true);
 
     wrapper = mount(TaskListViewFilter, {
       vuetify,
+      i18n,
       mocks: {
         $route,
         $store

@@ -42,6 +42,7 @@ import ClientListViewFilter from '@/components/ClientListViewFilter.vue';
 import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
 import settlementType from '@/enums/settlementType';
+import i18n from '@/plugins/i18n';
 
 export default {
   name: 'ClientListView',
@@ -60,20 +61,17 @@ export default {
     },
   },
   data: () => ({
-    messageTitle: 'Lista zadań',
     page: 1,
     items: [],
     columns: [
       {
         id: 0,
-        text: 'Klient',
         value: 'client',
         limitedWidth: 15,
         fullWidth: 15,
       },
       {
         id: 1,
-        text: 'Kwota',
         value: 'amount',
         limitedWidth: 14,
         fullWidth: 12,
@@ -146,19 +144,21 @@ export default {
         return;
       }
 
-      console.log('intersect');
       this.fetch();
     },
     processError(method, error) {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.$emit('showMessage', this.messageTitle, 'Brak odpowiedzi z serwera');
+        this.showMessage(i18n.t('message.noResponse'));
         return;
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
-      this.$emit('showMessage', this.messageTitle, error.response.data.message);
+      this.showMessage(i18n.t(`htmlError.${error.response.status}`));
+    },
+    showMessage(message) {
+      this.$emit('showMessage', i18n.t('clientListView.title'), message);
     },
     sortItems(sorting) {
       this.items = [];

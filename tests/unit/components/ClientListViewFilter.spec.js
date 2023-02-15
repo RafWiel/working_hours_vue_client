@@ -1,5 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import Vuetify from 'vuetify';
+import VueI18n from 'vue-i18n';
 import ClientListViewFilter from '@/components/ClientListViewFilter.vue';
 
 const $route = {
@@ -13,14 +14,17 @@ const $route = {
 describe('ClientListViewFilter.vue', () => {
   let wrapper;
   let vuetify;
+  let i18n;
 
   beforeEach(() => {
     vuetify = new Vuetify();
+    i18n = new VueI18n();
 
     document.body.setAttribute('data-app', true);
 
     wrapper = mount(ClientListViewFilter, {
       vuetify,
+      i18n,
       mocks: {
         $route
       }

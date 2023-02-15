@@ -26,7 +26,7 @@
           class="list_column text_ellipsis"
           style="height: 1.7em;"
           v-ripple>
-          {{ column.text }}
+          {{ $t(`dataGridColumns.${column.value}`) }}
           <v-icon
             v-if="sorting.column === column.value && sorting.order === sortOrder.ascending"
             style="margin-top: -2px;">mdi-chevron-up</v-icon>
@@ -92,7 +92,7 @@
                 align="center">
                 <!-- Name column -->
                 <v-col :cols="portraitCols" class="text_ellipsis label pr-1">
-                  {{ column.text }}
+                  {{ $t(`dataGridColumns.${column.value}`) }}
                 </v-col>
                 <!-- Value column -->
                 <v-col class="text_ellipsis">
@@ -136,7 +136,7 @@
             class="no-gutters px-3 text_ellipsis font-weight-bold"
             align="center">
             <v-col cols="4" class="label">
-              Suma {{ column.text }}
+              {{ $t(`dataGridColumns.${column.value}`) }}
             </v-col>
             <v-col>
               {{ column.sum }}

@@ -3,6 +3,7 @@ import Vuetify from 'vuetify';
 import TaskAddView from '@/views/TaskAddView.vue';
 import '@/misc/directives';
 import moment from 'moment';
+import VueI18n from 'vue-i18n';
 
 const $route = {
   meta: {
@@ -13,14 +14,17 @@ const $route = {
 describe('TaskAddView', () => {
   let wrapper;
   let vuetify;
+  let i18n;
 
   beforeEach(() => {
     vuetify = new Vuetify();
+    i18n = new VueI18n();
 
     document.body.setAttribute('data-app', true);
 
     wrapper = mount(TaskAddView, {
       vuetify,
+      i18n,
       mocks: { $route }
     });
   });

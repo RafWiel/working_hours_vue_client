@@ -4,6 +4,7 @@ import ClientListView from '@/views/ClientListView.vue';
 import '@/misc/directives';
 import moment from 'moment';
 import clientsService from '@/services/clients';
+import VueI18n from 'vue-i18n';
 
 const $route = {
   meta: {
@@ -34,6 +35,7 @@ jest.mock('@/services/clients');
 describe('ClientListView', () => {
   let wrapper;
   let vuetify;
+  let i18n;
 
   clientsService.get = jest.fn().mockResolvedValue(items);
 
@@ -41,11 +43,13 @@ describe('ClientListView', () => {
 
   beforeEach(() => {
     vuetify = new Vuetify();
+    i18n = new VueI18n();
 
     document.body.setAttribute('data-app', true);
 
     wrapper = mount(ClientListView, {
       vuetify,
+      i18n,
       mocks: {
         $route
       }
@@ -74,6 +78,7 @@ describe('ClientListView', () => {
 
     wrapper = mount(ClientListView, {
       vuetify,
+      i18n,
       mocks: {
         $route
       }
@@ -92,6 +97,7 @@ describe('ClientListView', () => {
 
     wrapper = mount(ClientListView, {
       vuetify,
+      i18n,
       mocks: {
         $route
       }

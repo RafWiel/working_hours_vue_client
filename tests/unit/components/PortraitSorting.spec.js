@@ -1,5 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import Vuetify from 'vuetify';
+import VueI18n from 'vue-i18n';
 import PortraitSorting from '@/components/PortraitSorting.vue';
 
 const columns = [
@@ -20,16 +21,19 @@ const columns = [
 describe('PortraitSorting.vue', () => {
   let wrapper;
   let vuetify;
+  let i18n;
 
   const isVisible = true;
 
   beforeEach(() => {
     vuetify = new Vuetify();
+    i18n = new VueI18n();
 
     document.body.setAttribute('data-app', true);
 
     wrapper = mount(PortraitSorting, {
       vuetify,
+      i18n,
       propsData: {
         columns
       },

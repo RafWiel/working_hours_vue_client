@@ -25,6 +25,7 @@
               <!-- Username -->
               <v-col cols="12">
                 <v-text-field
+                  :label="$t('loginView.userName')"
                   :rules="[rules.required]"
                   @keyup.enter="focusPasswordOrLogin"
                   v-model.lazy="input.userName"
@@ -33,7 +34,6 @@
                   name="username"
                   type="text"
                   autocomplete="username"
-                  label="Użytkownik"
                   hide-details="auto"
                   validate-on-blur/>
               </v-col>
@@ -46,13 +46,13 @@
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :rules="[rules.required]"
                   :error-messages="errorMessage.password"
+                  :label="$t('loginView.password')"
                   @click:append="isPasswordVisible = !isPasswordVisible"
                   @keyup.enter="login"
                   @keydown="errorMessage.password = ''"
                   id="password"
                   name="password"
                   ref="password"
-                  label="Hasło"
                   class="mt-2"
                   hide-details="auto"
                   validate-on-blur
@@ -74,7 +74,7 @@
               block
               color="primary"
               class="save-btn">
-              Zaloguj się
+              {{ $t('loginView.login') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -88,6 +88,7 @@ import logger from '@/plugins/logger';
 import string from '@/misc/string';
 import rules from '@/misc/rules';
 import userAuthorizationService from '@/services/userAuthorization';
+import i18n from '@/plugins/i18n';
 
 export default {
   name: 'LoginView',
@@ -104,7 +105,6 @@ export default {
     },
   },
   data: () => ({
-    messageTitle: 'Logowanie',
     isPasswordVisible: false,
     input: {
       userName: '',
@@ -170,7 +170,7 @@ export default {
           this.$root.$emit('refreshSidebar');
         }
         else {
-          this.$emit('showMessage', this.messageTitle, 'Operacja zakończona niepowodzem');
+          this.showMessage(i18n.t('message.operationFailed'));
         }
       })
       .catch((error) => this.processError('login', error));
@@ -189,12 +189,17 @@ export default {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.$emit('showMessage', this.messageTitle, 'Brak odpowiedzi z serwera');
+        this.showMessage(i18n.t('message.noResponse'));
         return;
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
-      this.$emit('showMessage', this.messageTitle, error.response.data.message);
+      const errorCode = error.response.data.code ? error.response.data.code : error.response.status;
+
+      this.showMessage(i18n.t(`htmlError.${errorCode}`));
+    },
+    showMessage(message) {
+      this.$emit('showMessage', i18n.t('loginView.title'), message);
     },
   },
 };

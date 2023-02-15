@@ -4,6 +4,7 @@ import TaskListView from '@/views/TaskListView.vue';
 import '@/misc/directives';
 import moment from 'moment';
 import tasksService from '@/services/tasks';
+import VueI18n from 'vue-i18n';
 
 const $route = {
   meta: {
@@ -19,8 +20,6 @@ const $store = {
     userType: 0
   }
 }
-
-const $t = () => {}
 
 const items = [
   {
@@ -54,6 +53,7 @@ jest.mock('@/services/tasks');
 describe('TaskListView', () => {
   let wrapper;
   let vuetify;
+  let i18n;
 
   tasksService.settle = jest.fn().mockResolvedValue({ status: 200 });
   tasksService.get = jest.fn().mockResolvedValue(items);
@@ -62,15 +62,16 @@ describe('TaskListView', () => {
 
   beforeEach(() => {
     vuetify = new Vuetify();
+    i18n = new VueI18n();
 
     document.body.setAttribute('data-app', true);
 
     wrapper = mount(TaskListView, {
       vuetify,
+      i18n,
       mocks: {
         $route,
-        $store,
-        $t
+        $store
       },
     });
   });
@@ -97,10 +98,10 @@ describe('TaskListView', () => {
 
     wrapper = mount(TaskListView, {
       vuetify,
+      i18n,
       mocks: {
         $route,
-        $store,
-        $t
+        $store
       }
     });
 
@@ -117,10 +118,10 @@ describe('TaskListView', () => {
 
     wrapper = mount(TaskListView, {
       vuetify,
+      i18n,
       mocks: {
         $route,
-        $store,
-        $t
+        $store
       }
     });
 

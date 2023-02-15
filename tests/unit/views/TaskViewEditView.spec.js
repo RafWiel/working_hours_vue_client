@@ -3,6 +3,7 @@ import Vuetify from 'vuetify';
 import TaskViewEditView from '@/views/TaskViewEditView.vue';
 import '@/misc/directives';
 import moment from 'moment';
+import VueI18n from 'vue-i18n';
 
 const item = {
   creationDate: moment(new Date()).format('YYYY-MM-DD'),
@@ -23,14 +24,17 @@ const $store = {
 describe('TaskViewEditView', () => {
   let wrapper;
   let vuetify;
+  let i18n;
 
   beforeEach(() => {
     vuetify = new Vuetify();
+    i18n = new VueI18n();
 
     document.body.setAttribute('data-app', true);
 
     wrapper = mount(TaskViewEditView, {
       vuetify,
+      i18n,
       computed: {
         isAdministrator() {
           return true;
