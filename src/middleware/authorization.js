@@ -16,7 +16,7 @@ export default {
     }
 
     // set store user info
-    store.dispatch('setUserName', userInfo.userName);
+    store.dispatch('setUsername', userInfo.username);
     store.dispatch('setToken', userInfo.token);
     store.dispatch('setUserType', userInfo.userType);
 

@@ -26,11 +26,11 @@
               <v-col cols="12">
                 <v-text-field
                   :rules="[rules.required]"
-                  @keydown="errorMessage.userName = ''"
+                  :label="$t('userRegisterView.firstName')"
+                  @keydown="errorMessage.username = ''"
                   v-model.lazy="input.firstName"
                   ref="firstControl"
                   type="text"
-                  label="Imię"
                   hide-details="auto"
                   validate-on-blur/>
               </v-col>
@@ -40,10 +40,10 @@
                 class="mt-2">
                 <v-text-field
                   :rules="[rules.required]"
-                  @keydown="errorMessage.userName = ''"
+                  :label="$t('userRegisterView.lastName')"
+                  @keydown="errorMessage.username = ''"
                   v-model.lazy="input.lastName"
                   type="text"
-                  label="Nazwisko"
                   hide-details="auto"
                   validate-on-blur/>
               </v-col>
@@ -51,11 +51,11 @@
               <v-col cols="12" class="mt-2">
                 <v-text-field
                   :rules="[rules.required]"
-                  :error-messages="errorMessage.userName"
-                  @keydown="errorMessage.userName = ''"
-                  v-model.lazy="input.userName"
+                  :error-messages="errorMessage.username"
+                  :label="$t('userRegisterView.username')"
+                  @keydown="errorMessage.username = ''"
+                  v-model.lazy="input.username"
                   type="text"
-                  label="Użytkownik"
                   autocomplete="off"
                   hide-details="auto"
                   validate-on-blur/>
@@ -66,10 +66,10 @@
                 class="mt-2">
                 <v-select
                   :items="userTypeItems"
+                  :label="$t('userRegisterView.userType')"
                   v-model="input.type"
                   item-value="id"
-                  hide-details="auto"
-                  label="Typ użytkownika"/>
+                  hide-details="auto"/>
               </v-col>
               <!-- Password -->
               <v-col cols="12" class="mt-2">
@@ -78,10 +78,10 @@
                     :type="isPasswordVisible ? 'text' : 'password'"
                     :rules="[rules.required, rules.password]"
                     :error-messages="errorMessage.password"
+                    :label="$t('userRegisterView.password')"
                     @click:append="isPasswordVisible = !isPasswordVisible"
                     @keydown="errorMessage.password = ''"
                     v-model.lazy="input.password"
-                    label="Hasło"
                     autocomplete="new-password"
                     class="mt-2"
                     hide-details="auto"
@@ -96,11 +96,11 @@
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :rules="[rules.required, rules.password]"
                   :error-messages="errorMessage.passwordConfirm"
+                  :label="$t('userRegisterView.passwordConfirm')"
                   @blur="verifyPasswordsMatch"
                   @click:append="isPasswordVisible = !isPasswordVisible"
                   @keydown="errorMessage.passwordConfirm = ''"
                   v-model.lazy="input.passwordConfirm"
-                  label="Powtórz hasło"
                   autocomplete="new-password"
                   class="mt-2"
                   hide-details="auto"
@@ -114,11 +114,11 @@
                   :append-icon="isAdminPasswordVisible ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="isAdminPasswordVisible ? 'text' : 'password'"
                   :error-messages="errorMessage.adminPassword"
+                  :label="$t('userRegisterView.administratorPassword')"
                   @blur="verifyAdminPassword"
                   @click:append="isAdminPasswordVisible = !isAdminPasswordVisible"
                   @keydown="errorMessage.adminPassword = ''"
                   v-model.lazy="input.adminPassword"
-                  label="Hasło administratora"
                   autocomplete="new-password"
                   class="mt-2"
                   hide-details="auto"
@@ -138,7 +138,7 @@
               block
               class="save-btn"
               @click="create">
-              Dodaj
+              {{$t('action.add')}}
             </v-btn>
           </v-col>
         </v-row>
@@ -167,7 +167,7 @@ export default {
           default: return '';
         }
     },
-    userNameDot() {
+    usernameDot() {
       return this.input.firstName === '' || this.input.lastName === '' ? '' : '.';
     },
     userTypeItems() {
@@ -175,21 +175,20 @@ export default {
     },
   },
   data: () => ({
-    messageTitle: 'Rejestracja',
     isPasswordVisible: false,
     isAdminPasswordVisible: false,
     input: {
       firstName: '',
       lastName: '',
-      userName: null,
-      userNameAuto: null,
+      username: null,
+      usernameAuto: null,
       password: null,
       passwordConfirm: null,
       type: userType.administrator,
       adminPassword: null,
     },
     errorMessage: {
-      userName: '',
+      username: '',
       password: '',
       passwordConfirm: '',
       adminPassword: '',
@@ -209,7 +208,7 @@ export default {
       if (this.$refs.form.validate() === false
       || this.verifyAdminPassword() === false
       || this.verifyPasswordsMatch() === false
-      || await this.verifyUserName() === false) return;
+      || await this.verifyUsername() === false) return;
 
       // set loading icon
       this.$emit('isProcessing', true);
@@ -218,7 +217,7 @@ export default {
       await usersRegistrationService.create({
         firstName: this.input.firstName,
         lastName: this.input.lastName,
-        userName: this.input.userName,
+        username: this.input.username,
         password: this.input.password,
         type: this.input.type,
       })
@@ -226,9 +225,9 @@ export default {
         this.$emit('isProcessing', false);
 
         // console.log(response.data);
-
+tutaj
         if (response.status === 200) {
-          this.$emit('showMessage', this.messageTitle, `Użytkownik ${this.input.userName} został dodany`);
+          this.$emit('showMessage', this.messageTitle, `Użytkownik ${this.input.username} został dodany`);
         }
         else {
           this.$emit('showMessage', this.messageTitle, 'Operacja zakończona niepowodzem');
@@ -236,9 +235,9 @@ export default {
       })
       .catch((error) => this.processError('create', error));
     },
-    async verifyUserName() {
+    async verifyUsername() {
       // check users
-      const response = await usersRegistrationService.isUniqueUserName({ userName: this.input.userName })
+      const response = await usersRegistrationService.isUniqueUsername({ username: this.input.username })
       .catch((error) => {
         logger.error(error);
         return false;
@@ -248,7 +247,7 @@ export default {
         return false;
       }
 
-      this.errorMessage.userName = response.data.result === true ? '' : 'Nazwa użytkownika jest zajęta';
+      this.errorMessage.username = response.data.result === true ? '' : 'Nazwa użytkownika jest zajęta';
 
       return response.data.result;
     },
@@ -306,30 +305,33 @@ export default {
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
-      this.$emit('showMessage', this.messageTitle, error.response.data.message);
+      this.showMessage(this.$t(`htmlError.${error.response.status}`));
+    },
+    showMessage(message) {
+      this.$emit('showMessage', this.$t('userRegisterView.title'), message);
     },
   },
   watch: {
     'input.firstName': function firstName(val) {
-      if (this.input.userName === this.input.userNameAuto) {
-        this.input.userName = this.removePolishChars(`${val}${this.userNameDot}${this.input.lastName}`);
-        this.input.userNameAuto = this.input.userName;
+      if (this.input.username === this.input.usernameAuto) {
+        this.input.username = this.removePolishChars(`${val}${this.usernameDot}${this.input.lastName}`);
+        this.input.usernameAuto = this.input.username;
       }
     },
     'input.lastName': function lastName(val) {
-      if (this.input.userName === this.input.userNameAuto) {
-        this.input.userName = this.removePolishChars(`${this.input.firstName}${this.userNameDot}${val}`);
-        this.input.userNameAuto = this.input.userName;
+      if (this.input.username === this.input.usernameAuto) {
+        this.input.username = this.removePolishChars(`${this.input.firstName}${this.usernameDot}${val}`);
+        this.input.usernameAuto = this.input.username;
       }
     },
-    'input.userName': debounce(async function userName(val) {
+    'input.username': debounce(async function username(val) {
       // check if input changed by user
-      if (val !== this.input.userNameAuto) {
-        this.input.userNameAuto = ''; // reset auto, updating first or last name will not change username anymore
+      if (val !== this.input.usernameAuto) {
+        this.input.usernameAuto = ''; // reset auto, updating first or last name will not change username anymore
       }
 
       // verify if unique username
-      await this.verifyUserName();
+      await this.verifyUsername();
     }, 1000, { maxWait: 5000 }),
   },
 };

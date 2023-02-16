@@ -7,7 +7,7 @@ export default new Vuex.Store({
   strict: true,
   state: {
     token: null,
-    userName: null,
+    username: null,
     userType: null,
     isUserLoggedIn: false,
   },
@@ -16,8 +16,8 @@ export default new Vuex.Store({
       state.token = value;
       state.isUserLoggedIn = !!value;
     },
-    setUserName(state, value) {
-      state.userName = value;
+    setUsername(state, value) {
+      state.username = value;
     },
     setUserType(state, value) {
       state.userType = value;
@@ -27,8 +27,8 @@ export default new Vuex.Store({
     setToken({ commit }, value) {
       commit('setToken', value);
     },
-    setUserName({ commit }, value) {
-      commit('setUserName', value);
+    setUsername({ commit }, value) {
+      commit('setUsername', value);
     },
     setUserType({ commit }, value) {
       commit('setUserType', value);

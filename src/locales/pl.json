@@ -11,12 +11,15 @@
     "version": "Wersja",
     "description": "Opis",
     "price": "Cena",
-    "hours": "Godziny"
+    "hours": "Godziny",
+    "settlement": "Rozliczenie",
+    "username": "Użytkownik",
+    "password": "Hasło"
   },
   "filter": {
     "search": "Szukaj",
     "timePeriod": "Okres",
-    "settlement": "Rozliczenie",
+    "settlement": "@:common.settlement",
     "client": "Klient",
     "startDate": "Data początkowa",
     "stopDate": "Data końcowa"
@@ -32,38 +35,53 @@
     "logout": "Wyloguj się",
     "setDate": "Ustaw datę",
     "cancel": "Anuluj",
-    "save": "Zapisz"
+    "save": "Zapisz",
+    "settle": "Rozlicz",
+    "delete": "Usuń",
+    "add": "Dodaj"
   },
   "clientListView": {
     "title": "Klienci"
   },
   "loginView": {
     "title": "Logowanie",
-    "userName": "Użytkownik",
-    "password": "Hasło",
+    "username": "@:common.username",
+    "password": "@:common.password",
     "login": "Zaloguj się"
   },
   "taskAddView": {
     "title": "Nowe zadanie",
-    "titleAd": "Nowe zadanie @:enums.common.alldridge",
-    "titleDs": "Nowe zadanie @:enums.common.datasoft",
+    "titleAd": "Nowe zadanie @:common.alldridge",
+    "titleDs": "Nowe zadanie @:common.datasoft"
+  },
+  "taskListView": {
+    "metaTitle": "Zadania",
+    "title": "Zadania {client}"
+  },
+  "taskView": {
     "date": "@:common.date",
     "client": "@:common.client",
     "project": "@:common.project",
     "version": "@:common.version",
     "description": "@:common.description",
     "price": "@:common.price",
-    "hours": "@:common.hours"
-  },
-  "taskListView": {
-    "metaTitle": "Zadania",
-    "title": "Zadania {client}"
+    "hours": "@:common.hours",
+    "settlement": "@:common.settlement"
   },
   "taskViewEditView": {
-    "title": "Zadanie"
+    "title": "Zadanie",
+    "titleAd": "Zadanie @:common.alldridge",
+    "titleDs": "Zadanie @:common.datasoft"
   },
   "userRegisterView": {
-    "title": "Rejestracja"
+    "title": "Rejestracja",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "username": "@:common.username",
+    "password": "@:common.password",
+    "passwordConfirm": "Powtórz @:common.password",
+    "administratorPassword": "@:common.password administratora",
+    "userType": "Typ użytkownika"
   },
   "enums": {
     "common": {
@@ -88,7 +106,7 @@
       "hoursBased": "@:common.aldridge"
     },
     "userType": {
-      "administrator": "@:enums.common.all",
+      "administrator": "Administrator",
       "aldridge": "@:common.aldridge",
       "datasoft": "@:common.datasoft"
     }
@@ -103,9 +121,14 @@
   "message": {
     "operationFailed": "Operacja zakończona niepowodzem",
     "noResponse": "Brak odpowiedzi z serwera",
-    "loginFailed": "Nieprawidłowy użytkownik lub hasło",
     "saveFailed": "Zapis nieudany",
-    "taskSaved": "Zadanie zapisane"
+    "taskSaved": "Zadanie zapisane",
+    "settlementFailed": "Nieudane rozliczenie",
+    "taskSettledPlural": "Zadanie rozliczone | Zadania rozliczone",
+    "taskSettled": "Zadanie rozliczone",
+    "taskDeleted": "Zadanie usunięte",
+    "deleteFailed": "Usunięcie nieudane",
+    "confirmTaskDelete": "Czy na pewno usunąć zadanie {project} {version}?"
   },
   "htmlError": {
     "400": "Nieprawidłowe dane wejściowe",
@@ -116,7 +139,13 @@
     "500": "Błąd wewnętrzny serwera"
   },
   "dataGridColumns": {
-    "client": "Klient",
-    "amount": "Kwota"
+    "client": "@:common.client",
+    "amount": "Kwota",
+    "creationDate": "@:common.date",
+    "project": "@:common.project",
+    "version": "@:common.version",
+    "price": "@:common.price",
+    "hours": "@:common.hours",
+    "settlementDate": "@:common.settlement"
   }
 }

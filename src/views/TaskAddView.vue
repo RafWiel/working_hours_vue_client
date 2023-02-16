@@ -36,7 +36,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       :rules="[rules.required]"
-                      :label="$t('taskAddView.date')"
+                      :label="$t('taskView.date')"
                       v-model="item.creationDate"
                       readonly
                       hide-details="auto"
@@ -60,7 +60,7 @@
                   :loading="clientApi.isLoading"
                   :search-input.sync="clientApi.searchInput"
                   :rules="[rules.required]"
-                  :label="$t('taskAddView.client')"
+                  :label="$t('taskView.client')"
                   v-model="item.client"
                   hide-no-data
                   hide-selected
@@ -75,7 +75,7 @@
                   :loading="projectApi.isLoading"
                   :search-input.sync="projectApi.searchInput"
                   :rules="[rules.required]"
-                  :label="$t('taskAddView.project')"
+                  :label="$t('taskView.project')"
                   v-model="item.project"
                   hide-no-data
                   hide-selected
@@ -87,7 +87,7 @@
               <v-col cols="12" class="mt-2">
                 <v-text-field
                   :rules="[rules.required]"
-                  :label="$t('taskAddView.version')"
+                  :label="$t('taskView.version')"
                   v-model.lazy="item.version"
                   type="input"
                   hide-details="auto"
@@ -99,7 +99,7 @@
                 class="mt-2">
                 <v-textarea
                   :rules="[rules.required]"
-                  :label="$t('taskAddView.description')"
+                  :label="$t('taskView.description')"
                   v-model.lazy="item.description"
                   hide-details="auto"
                   validate-on-blur
@@ -112,8 +112,8 @@
                 cols="12"
                 class="mt-2">
                 <v-text-field
-                  :rules="[rules.required]"
-                  :label="$t('taskAddView.price')"
+                  :rules="[rules.required, rules.float]"
+                  :label="$t('taskView.price')"
                   v-model.lazy="item.price"
                   ref="price"
                   type="input"
@@ -125,8 +125,8 @@
                 cols="12"
                 class="mt-2">
                 <v-text-field
-                  :rules="[rules.required, rules.float]"
-                  :label="$t('taskAddView.hours')"
+                  :rules="[rules.required, rules.integer]"
+                  :label="$t('taskView.hours')"
                   v-if="item.type === taskType.hoursBased"
                   v-model.lazy="item.hours"
                   ref="hours"
@@ -166,7 +166,6 @@ import tasksService from '@/services/tasks';
 import clientsService from '@/services/clients';
 import projectsService from '@/services/projects';
 import taskType from '@/enums/taskType';
-import i18n from '@/plugins/i18n';
 
 export default {
   name: 'TaskAddView',
@@ -279,7 +278,7 @@ export default {
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
-          this.showMessage(i18n.t('message.taskSaved'));
+          this.showMessage(this.$t('message.taskSaved'));
           this.$vuetify.goTo(0);
 
           // deep copy
@@ -288,7 +287,7 @@ export default {
           return;
         }
 
-        this.showMessage(i18n.t('message.saveFailed'));
+        this.showMessage(this.$t('message.saveFailed'));
       }
       catch (error) {
         this.processError('save', error);
@@ -300,15 +299,15 @@ export default {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.showMessage(i18n.t('message.noResponse'));
+        this.showMessage(this.$t('message.noResponse'));
         return;
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
-      this.showMessage(error.response.data.message);
+      this.showMessage(this.$t(`htmlError.${error.response.status}`));
     },
     showMessage(message) {
-      this.$emit('showMessage', i18n.t('taskAddView.title'), message);
+      this.$emit('showMessage', this.$t('taskAddView.title'), message);
     },
   },
   watch: {

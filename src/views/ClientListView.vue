@@ -42,7 +42,6 @@ import ClientListViewFilter from '@/components/ClientListViewFilter.vue';
 import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
 import settlementType from '@/enums/settlementType';
-import i18n from '@/plugins/i18n';
 
 export default {
   name: 'ClientListView',
@@ -150,15 +149,15 @@ export default {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.showMessage(i18n.t('message.noResponse'));
+        this.showMessage(this.$t('message.noResponse'));
         return;
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
-      this.showMessage(i18n.t(`htmlError.${error.response.status}`));
+      this.showMessage(this.$t(`htmlError.${error.response.status}`));
     },
     showMessage(message) {
-      this.$emit('showMessage', i18n.t('clientListView.title'), message);
+      this.$emit('showMessage', this.$t('clientListView.title'), message);
     },
     sortItems(sorting) {
       this.items = [];

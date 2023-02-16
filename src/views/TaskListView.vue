@@ -3,7 +3,6 @@
     :style="$vuetify.breakpoint.xs ? 'min-height: calc(100vh - 48px)' : ''"
     class="pa-0 d-flex flex-column flex-nowrap"
     fluid>
-    {{ $i18n.test }}
     <!-- Filter -->
     <task-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
@@ -78,41 +77,35 @@ export default {
     },
   },
   data: () => ({
-    messageTitle: 'Zadania',
     page: 1,
     items: [],
     columns: [
       {
         id: 0,
-        text: 'Data',
         value: 'creationDate',
         limitedWidth: 15,
         fullWidth: 15,
       },
       {
         id: 1,
-        text: 'Klient',
         value: 'client',
         limitedWidth: 15,
         fullWidth: 15,
       },
       {
         id: 2,
-        text: 'Projekt',
         value: 'project',
         limitedWidth: 15,
         fullWidth: 15,
       },
       {
         id: 3,
-        text: 'Wersja',
         value: 'version',
         limitedWidth: 10,
         fullWidth: 12,
       },
       {
         id: 4,
-        text: 'Cena',
         value: 'price',
         limitedWidth: 14,
         fullWidth: 12,
@@ -122,7 +115,6 @@ export default {
       },
       {
         id: 5,
-        text: 'Ilość godzin',
         value: 'hours',
         limitedWidth: 14,
         fullWidth: 12,
@@ -131,7 +123,6 @@ export default {
       },
       {
         id: 6,
-        text: 'Rozliczenie',
         value: 'settlementDate',
         limitedWidth: 13,
         fullWidth: 15,
@@ -246,12 +237,15 @@ export default {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.$emit('showMessage', this.messageTitle, 'Brak odpowiedzi z serwera');
+        this.showMessage(this.$t('message.noResponse'));
         return;
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
-      this.$emit('showMessage', this.messageTitle, error.response.data.message);
+      this.showMessage(this.$t(`htmlError.${error.response.status}`));
+    },
+    showMessage(message) {
+      this.$emit('showMessage', this.$t('taskListView.metaTitle'), message);
     },
     selectAllItems(value) {
       this.items.forEach((task) => {
@@ -279,7 +273,7 @@ export default {
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
-          this.$emit('showMessage', this.messageTitle, `${idArray.length === 1 ? 'Zadanie' : 'Zadania'} rozliczone`);
+          this.showMessage(this.$tc('message.taskSettledPlural', idArray.length));
 
           // refresh
           this.page = 1;
@@ -290,7 +284,7 @@ export default {
           return;
         }
 
-        this.$emit('showMessage', this.messageTitle, 'Nieudane rozliczenie');
+        this.showMessage(this.$t('message.settlementFailed'));
       }
       catch (error) {
         this.processError('settleTasks', error);

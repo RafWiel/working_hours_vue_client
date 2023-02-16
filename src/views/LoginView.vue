@@ -25,10 +25,10 @@
               <!-- Username -->
               <v-col cols="12">
                 <v-text-field
-                  :label="$t('loginView.userName')"
+                  :label="$t('loginView.username')"
                   :rules="[rules.required]"
                   @keyup.enter="focusPasswordOrLogin"
-                  v-model.lazy="input.userName"
+                  v-model.lazy="input.username"
                   ref="firstControl"
                   id="username"
                   name="username"
@@ -88,7 +88,6 @@ import logger from '@/plugins/logger';
 import string from '@/misc/string';
 import rules from '@/misc/rules';
 import userAuthorizationService from '@/services/userAuthorization';
-import i18n from '@/plugins/i18n';
 
 export default {
   name: 'LoginView',
@@ -107,7 +106,7 @@ export default {
   data: () => ({
     isPasswordVisible: false,
     input: {
-      userName: '',
+      username: '',
       password: '',
     },
     errorMessage: { password: '' },
@@ -121,7 +120,7 @@ export default {
     //this.$refs.firstControl.focus();
 
     // reset store
-    this.$store.dispatch('setUserName', null);
+    this.$store.dispatch('setUsername', null);
     this.$store.dispatch('setToken', null);
     this.$store.dispatch('setUserType', null);
 
@@ -141,7 +140,7 @@ export default {
 
       // request login
       await userAuthorizationService.login({
-        userName: this.input.userName,
+        username: this.input.username,
         password: this.input.password,
       })
       .then((response) => {
@@ -150,7 +149,7 @@ export default {
         if (response.status === 200) {
           // save user info to local storage
           const userInfo = {
-            userName: this.input.userName,
+            username: this.input.username,
             timestamp: new Date().getTime(),
             token: response.data.token,
             userType: response.data.userType,
@@ -159,7 +158,7 @@ export default {
           localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
           // store user info
-          this.$store.dispatch('setUserName', this.input.userName);
+          this.$store.dispatch('setUsername', this.input.username);
           this.$store.dispatch('setToken', response.data.token);
           this.$store.dispatch('setUserType', response.data.userType);
 
@@ -170,14 +169,14 @@ export default {
           this.$root.$emit('refreshSidebar');
         }
         else {
-          this.showMessage(i18n.t('message.operationFailed'));
+          this.showMessage(this.$t('message.operationFailed'));
         }
       })
       .catch((error) => this.processError('login', error));
     },
     focusPasswordOrLogin() {
       // focus next if data not ready
-      if (string.isEmpty(this.input.userName) || string.isEmpty(this.input.password)) {
+      if (string.isEmpty(this.input.username) || string.isEmpty(this.input.password)) {
         this.$refs.password.focus();
         return;
       }
@@ -189,17 +188,17 @@ export default {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.showMessage(i18n.t('message.noResponse'));
+        this.showMessage(this.$t('message.noResponse'));
         return;
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
       const errorCode = error.response.data.code ? error.response.data.code : error.response.status;
 
-      this.showMessage(i18n.t(`htmlError.${errorCode}`));
+      this.showMessage(this.$t(`htmlError.${errorCode}`));
     },
     showMessage(message) {
-      this.$emit('showMessage', i18n.t('loginView.title'), message);
+      this.$emit('showMessage', this.$t('loginView.title'), message);
     },
   },
 };

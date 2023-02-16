@@ -11,12 +11,15 @@
     "version": "Version",
     "description": "Description",
     "price": "Price",
-    "hours": "Hours"
+    "hours": "Hours",
+    "settlement": "Settlement",
+    "username": "Username",
+    "password": "Password"
   },
   "filter": {
     "search": "Search",
     "timePeriod": "Time period",
-    "settlement": "Settlement",
+    "settlement": "@:common.settlement",
     "client": "Client",
     "startDate": "Start date",
     "stopDate": "End date"
@@ -32,38 +35,52 @@
     "logout": "Logout",
     "setDate": "Set date",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "settle": "Settle",
+    "delete": "Delete"
   },
   "clientListView": {
     "title": "Clients"
   },
   "loginView": {
     "title": "Login",
-    "userName": "Username",
-    "password": "Password",
+    "username": "@:common.username",
+    "password": "@:common.password",
     "login": "Login"
   },
   "taskAddView": {
     "title": "New task",
     "titleAd": "New @:common.aldridge task",
-    "titleDs": "New @:common.datasoft task",
+    "titleDs": "New @:common.datasoft task"
+  },
+  "taskListView": {
+    "metaTitle": "Tasks",
+    "title": "{client} tasks"
+  },
+  "taskView": {
     "date": "@:common.date",
     "client": "@:common.client",
     "project": "@:common.project",
     "version": "@:common.version",
     "description": "@:common.description",
     "price": "@:common.price",
-    "hours": "@:common.hours"
-  },
-  "taskListView": {
-    "metaTitle": "Tasks",
-    "title": "{client} tasks"
+    "hours": "@:common.hours",
+    "settlement": "@:common.settlement"
   },
   "taskViewEditView": {
-    "title": "Task"
+    "title": "Task",
+    "titleAd": "@:common.alldridge task",
+    "titleDs": "@:common.datasoft task"
   },
   "userRegisterView": {
-    "title": "Registration"
+    "title": "Registration",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "username": "@:common.username",
+    "password": "@:common.password",
+    "passwordConfirm": "Confirm @:common.password",
+    "administratorPassword": "Administrator @:common.password",
+    "userType": "User type"
   },
   "enums": {
     "common": {
@@ -86,7 +103,7 @@
       "hoursBased": "@:common.aldridge"
     },
     "userType": {
-      "administrator": "@:enums.common.all",
+      "administrator": "Administrator",
       "aldridge": "@:common.aldridge",
       "datasoft": "@:common.datasoft"
     }
@@ -101,9 +118,14 @@
   "message": {
     "operationFailed": "Operation failed",
     "noResponse": "No response from server",
-    "loginFailed": "Incorrect username or password",
     "saveFailed": "Save failed",
-    "taskSaved": "Task saved"
+    "taskSaved": "Task saved",
+    "settlementFailed": "Settlement failed",
+    "taskSettledPlural": "Task settled | Tasks settled",
+    "taskSettled": "Task settled",
+    "taskDeleted": "Task deleted",
+    "deleteFailed": "Delete failed",
+    "confirmTaskDelete": "Do you want to delete task {project} {version}?"
   },
   "htmlError": {
     "400": "Incorrect input data",
@@ -114,7 +136,13 @@
     "500": "Internal server error"
   },
   "dataGridColumns": {
-    "client": "Client",
-    "amount": "Amount"
+    "client": "@:common.client",
+    "amount": "Amount",
+    "creationDate": "@:common.date",
+    "project": "@:common.project",
+    "version": "@:common.version",
+    "price": "@:common.price",
+    "hours": "@:common.hours",
+    "settlementDate": "@:common.settlement"
   }
 }

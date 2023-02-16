@@ -13,7 +13,7 @@
           block
           class="save-btn"
           @click="showDatePickerDialog">
-          {{!!item.settlementDate ? item.settlementDate : 'Rozlicz'}}
+          {{!!item.settlementDate ? item.settlementDate : $t('action.settle')}}
         </v-btn>
       </v-col>
     </v-row>
@@ -29,7 +29,7 @@
           depressed
           block
           class="save-btn">
-          Usuń
+          {{$t('action.delete')}}
         </v-btn>
       </v-col>
     </v-row>
@@ -71,8 +71,8 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
                         :rules="[rules.required]"
+                        :label="$t('taskView.date')"
                         v-model="item.creationDate"
-                        label="Data"
                         readonly
                         hide-details="auto"
                         v-bind="attrs"
@@ -96,14 +96,13 @@
                     :search-input.sync="clientApi.searchInput"
                     :rules="[rules.required]"
                     :readonly="!isAdministrator"
+                    :label="$t('taskView.client')"
                     v-model="item.client"
                     hide-no-data
                     hide-selected
                     hide-details="auto"
                     no-filter
-                    type="input"
-                    label="Klient"
-                    />
+                    type="input"/>
                 </v-col>
                 <!-- Project -->
                 <v-col cols="12" class="mt-2">
@@ -113,22 +112,21 @@
                     :search-input.sync="projectApi.searchInput"
                     :rules="[rules.required]"
                     :readonly="!isAdministrator"
+                    :label="$t('taskView.project')"
                     v-model="item.project"
                     hide-no-data
                     hide-selected
                     hide-details="auto"
                     no-filter
-                    type="input"
-                    label="Projekt"
-                    />
+                    type="input"/>
                 </v-col>
                 <!-- Version -->
                 <v-col cols="12" class="mt-2">
                   <v-text-field
                     :rules="[rules.required]"
                     :readonly="!isAdministrator"
+                    :label="$t('taskView.version')"
                     v-model.lazy="item.version"
-                    label="Wersja"
                     type="input"
                     hide-details="auto"
                     validate-on-blur/>
@@ -140,12 +138,12 @@
                   <v-textarea
                     :rules="[rules.required]"
                     :readonly="!isAdministrator"
-                    label="Opis"
+                    :label="$t('taskView.description')"
+                    v-model.lazy="item.description"
                     hide-details="auto"
                     validate-on-blur
                     auto-grow
-                    rows="4"
-                    v-model.lazy="item.description"/>
+                    rows="4"/>
                 </v-col>
                 <!-- Price -->
                 <v-col
@@ -153,11 +151,11 @@
                   cols="12"
                   class="mt-2">
                   <v-text-field
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.float]"
                     :readonly="!isAdministrator"
+                    :label="$t('taskView.price')"
                     v-model.lazy="item.price"
                     ref="price"
-                    label="Cena"
                     type="input"
                     hide-details="auto"
                     validate-on-blur/>
@@ -167,12 +165,12 @@
                   cols="12"
                   class="mt-2">
                   <v-text-field
-                    :rules="[rules.required, rules.float]"
+                    :rules="[rules.required, rules.integer]"
                     :readonly="!isAdministrator"
+                    :label="$t('taskView.hours')"
                     v-if="item.type === taskType.hoursBased"
                     v-model.lazy="item.hours"
                     ref="hours"
-                    label="Ilość godzin"
                     type="input"
                     hide-details="auto"
                     validate-on-blur/>
@@ -183,9 +181,9 @@
                   class="mt-2">
                   <v-text-field
                     :rules="[rules.required]"
+                    :label="$t('taskView.settlement')"
                     v-if="!isAdministrator"
                     v-model.lazy="item.settlementDate"
-                    label="Rozliczenie"
                     type="input"
                     hide-details="auto"
                     validate-on-blur
@@ -206,7 +204,7 @@
                 depressed
                 block
                 class="save-btn">
-                Zapisz
+                {{$t('action.save')}}
               </v-btn>
             </v-col>
           </v-row>
@@ -223,7 +221,7 @@
                 depressed
                 block
                 class="save-btn">
-                {{!!item.settlementDate ? item.settlementDate : 'Rozlicz'}}
+                {{!!item.settlementDate ? item.settlementDate : $t('action.settle')}}
               </v-btn>
             </v-col>
           </v-row>
@@ -239,7 +237,7 @@
                 depressed
                 block
                 class="save-btn">
-                Usuń
+                {{$t('action.delete')}}
               </v-btn>
             </v-col>
           </v-row>
@@ -293,7 +291,6 @@ export default {
     },
   },
   data: () => ({
-    messageTitle: 'Zadanie',
     isDatePickerVisible: false,
     item: {
       creationDate: null,
@@ -341,6 +338,10 @@ export default {
     },
   }),
   mounted() {
+    this.$root.$on('updateLocalization', () => {
+      this.updateAppTitle();
+    });
+
     this.fetch();
   },
   methods: {
@@ -360,9 +361,8 @@ export default {
 
         this.item.creationDate = moment(this.item.creationDate).format('YYYY-MM-DD');
         if (this.item.settlementDate != null) this.item.settlementDate = moment(this.item.settlementDate).format('YYYY-MM-DD');
-        this.messageTitle = this.item.type === taskType.priceBased ? 'Zadanie DataSoft' : 'Zadanie Aldridge';
 
-        this.$root.$emit('updateAppTitle', this.messageTitle);
+        this.updateAppTitle();
       })
       .catch((error) => this.processError('fetch', error));
 
@@ -389,13 +389,13 @@ export default {
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
-          this.$emit('showMessage', this.messageTitle, 'Zadanie zapisane');
+          this.showMessage(this.$t('message.taskSaved'));
           this.$vuetify.goTo(0);
 
           return;
         }
 
-        this.$emit('showMessage', this.messageTitle, 'Nieudany zapis');
+        this.showMessage(this.$t('message.saveFailed'));
       }
       catch (error) {
         this.processError('save', error);
@@ -407,7 +407,7 @@ export default {
       try {
         this.$emit('isProcessing', true);
 
-        console.log(JSON.stringify(this.item));
+        // console.log(JSON.stringify(this.item));
 
         const response = await tasksService.settle({
           idArray: [this.item.id],
@@ -416,7 +416,7 @@ export default {
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
-          this.$emit('showMessage', this.messageTitle, 'Zadanie rozliczone');
+          this.showMessage(this.$t('message.taskSettled'));
           this.$vuetify.goTo(0);
 
           this.fetch();
@@ -424,7 +424,7 @@ export default {
           return;
         }
 
-        this.$emit('showMessage', this.messageTitle, 'Nieudane rozliczenie');
+        this.showMessage(this.$t('message.settlementFailed'));
       }
       catch (error) {
         this.processError('settle', error);
@@ -440,14 +440,13 @@ export default {
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
-          this.$emit('showMessage', this.messageTitle, 'Zadanie usunięte');
-
+          this.showMessage(this.$t('message.taskDeleted'));
           this.$router.go(-1);
 
           return;
         }
 
-        this.$emit('showMessage', this.messageTitle, 'Nieudane usunięcie');
+        this.showMessage(this.$t('message.deleteFailed'));
       }
       catch (error) {
         this.processError('delete', error);
@@ -459,12 +458,18 @@ export default {
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.$emit('showMessage', this.messageTitle, 'Brak odpowiedzi z serwera');
+        this.showMessage(this.$t('message.noResponse'));
         return;
       }
 
       logger.error(`${this.$options.name}: ${method}: ${error.response.data.details ? error.response.data.details : error.response.data.message}`);
-      this.$emit('showMessage', this.messageTitle, error.response.data.message);
+      this.showMessage(this.$t(`htmlError.${error.response.status}`));
+    },
+    showMessage(message) {
+      this.$emit('showMessage', this.$t('taskViewEditView.title'), message);
+    },
+    showQuestion(message, id, callback) {
+      this.$emit('showQuestion', this.$t('taskViewEditView.title'), message, parseInt(id, 10), callback);
     },
     showDatePickerDialog() {
       this.datePickerDialog.isVisible = true;
@@ -473,7 +478,11 @@ export default {
       this.datePickerDialog.isVisible = false;
     },
     confirmDeleteTask(id) {
-      this.$emit('showQuestion', this.messageTitle, `Czy na pewno usunąć zadanie ${this.item.project} ${this.item.version}?`, parseInt(id, 10), this.delete);
+      this.showQuestion(this.$t('message.confirmTaskDelete', { project: this.item.project, version: this.item.version }), parseInt(id, 10), this.delete);
+    },
+    updateAppTitle() {
+      const title = this.item.type === taskType.priceBased ? this.$t('taskViewEditView.titleDs') : this.$t('taskViewEditView.titleAd');
+      this.$root.$emit('updateAppTitle', title);
     },
   },
   watch: {
