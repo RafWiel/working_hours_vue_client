@@ -37,7 +37,8 @@
     "cancel": "Cancel",
     "save": "Save",
     "settle": "Settle",
-    "delete": "Delete"
+    "delete": "Delete",
+    "add": "Add"
   },
   "clientListView": {
     "title": "Clients"
@@ -54,8 +55,8 @@
     "titleDs": "New @:common.datasoft task"
   },
   "taskListView": {
-    "metaTitle": "Tasks",
-    "title": "{client} tasks"
+    "title": "Tasks",
+    "titleClient": "{client} tasks"
   },
   "taskView": {
     "date": "@:common.date",
@@ -69,7 +70,7 @@
   },
   "taskViewEditView": {
     "title": "Task",
-    "titleAd": "@:common.alldridge task",
+    "titleAd": "@:common.aldridge task",
     "titleDs": "@:common.datasoft task"
   },
   "userRegisterView": {
@@ -80,7 +81,10 @@
     "password": "@:common.password",
     "passwordConfirm": "Confirm @:common.password",
     "administratorPassword": "Administrator @:common.password",
-    "userType": "User type"
+    "userType": "User type",
+    "usernameNotAvailable": "Username is already taken",
+    "passwordsDontMatch": "Passwords must match",
+    "incorrectPassword": "Incorrect password"
   },
   "enums": {
     "common": {
@@ -125,14 +129,17 @@
     "taskSettled": "Task settled",
     "taskDeleted": "Task deleted",
     "deleteFailed": "Delete failed",
-    "confirmTaskDelete": "Do you want to delete task {project} {version}?"
+    "confirmTaskDelete": "Do you want to delete task {project} {version}?",
+    "userRegisterSuccess": "User {username} has been registered"
   },
   "htmlError": {
     "400": "Incorrect input data",
+    "4001": "@:rules.password",
     "401": "Authorization error",
     "4011": "Incorrect username or password",
     "404": "Not found",
     "409": "Error occured: Duplicate data\r\nSave aborted",
+    "4091": "User {username} is already registered",
     "500": "Internal server error"
   },
   "dataGridColumns": {
@@ -144,5 +151,11 @@
     "price": "@:common.price",
     "hours": "@:common.hours",
     "settlementDate": "@:common.settlement"
+  },
+  "menuItems": {
+    "clients": "Clients",
+    "tasks": "Tasks",
+    "newTaskAd": "New @:common.aldridge task",
+    "newTaskDs": "New @:common.datasoft task"
   }
 }

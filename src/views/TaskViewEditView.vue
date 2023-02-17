@@ -338,6 +338,8 @@ export default {
     },
   }),
   mounted() {
+    this.updateAppTitle();
+
     this.$root.$on('updateLocalization', () => {
       this.updateAppTitle();
     });

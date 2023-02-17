@@ -89,6 +89,12 @@ export default {
     filter: null,
   }),
   mounted() {
+    this.updateAppTitle();
+
+    this.$root.$on('updateLocalization', () => {
+      this.updateAppTitle();
+    });
+
     this.$root.$on('settleTasks', () => {
       this.showDatePickerDialog();
     });
@@ -191,13 +197,16 @@ export default {
       });
     },
     navigate(id) {
-      console.log('filter: ', this.filter.settlementType);
+      //console.log('filter: ', this.filter.settlementType);
       this.$router.push({ name: 'tasks',
         query: {
           'client-id': id,
           'settlement-type': this.filter ? this.filter.settlementType : settlementType.all,
         },
       });
+    },
+    updateAppTitle() {
+      this.$root.$emit('updateAppTitle', this.$t('clientListView.title'));
     },
   },
 };

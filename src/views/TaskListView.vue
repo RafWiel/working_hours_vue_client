@@ -146,12 +146,14 @@ export default {
     this.client.id = this.$route.query && this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
   },
   mounted() {
-    this.$root.$on('settleTasks', () => {
-      this.showDatePickerDialog();
-    });
+    this.updateAppTitle();
 
     this.$root.$on('updateLocalization', () => {
-      this.updateLocalization();
+      this.updateAppTitle(this.client.name);
+    });
+
+    this.$root.$on('settleTasks', () => {
+      this.showDatePickerDialog();
     });
 
     // prevent double fetch on page refresh by user
@@ -339,13 +341,10 @@ export default {
       });
     },
     updateAppTitle(client) {
-      this.client.name = client;
-      this.$root.$emit('updateAppTitle', this.$t('taskListView.title', { client }));
-    },
-    updateLocalization() {
-      if (!this.client.name) return;
+      const title = client ? this.$t('taskListView.titleClient', { client }) : this.$t('taskListView.title');
 
-      this.updateAppTitle(this.client.name);
+      this.client.name = client;
+      this.$root.$emit('updateAppTitle', title);
     },
   },
 };

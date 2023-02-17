@@ -116,6 +116,12 @@ export default {
     },
   }),
   mounted() {
+    this.updateAppTitle();
+
+    this.$root.$on('updateLocalization', () => {
+      this.updateAppTitle();
+    });
+
     // focus on first control
     //this.$refs.firstControl.focus();
 
@@ -199,6 +205,9 @@ export default {
     },
     showMessage(message) {
       this.$emit('showMessage', this.$t('loginView.title'), message);
+    },
+    updateAppTitle() {
+      this.$root.$emit('updateAppTitle', this.$t('loginView.title'));
     },
   },
 };

@@ -233,6 +233,16 @@ export default {
     this.item.type = this.$route.meta.type;
   },
   mounted() {
+    this.updateAppTitle();
+
+    this.$root.$on('updateLocalization', () => {
+      this.updateAppTitle();
+    });
+
+    this.$root.$on('settleTasks', () => {
+      this.showDatePickerDialog();
+    });
+
     this.fetch();
   },
   methods: {
@@ -308,6 +318,11 @@ export default {
     },
     showMessage(message) {
       this.$emit('showMessage', this.$t('taskAddView.title'), message);
+    },
+    updateAppTitle() {
+      const title = this.item.type === taskType.hoursBased ? this.$t('taskAddView.titleAd') : this.$t('taskAddView.titleDs');
+
+      this.$root.$emit('updateAppTitle', title);
     },
   },
   watch: {

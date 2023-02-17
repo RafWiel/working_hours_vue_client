@@ -23,7 +23,7 @@
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title class="grey--text text--lighten-2">
-                {{ link.text }}
+                {{ $t(`menuItems.${link.value}`) }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>

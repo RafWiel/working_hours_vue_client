@@ -113,27 +113,27 @@ export default {
       if (this.$store.state.userType !== userType.aldridge) {
         this.links.push({
           icon: 'mdi-account-multiple',
-          text: 'Klienci',
+          value: 'clients',
           route: '/clients',
         });
       }
 
       this.links.push({
         icon: 'mdi-format-list-numbered',
-        text: 'Zadania',
+        value: 'tasks',
         route: '/tasks',
       });
 
       if (this.$store.state.userType === userType.administrator) {
         this.links.push({
           icon: 'mdi-playlist-plus',
-          text: 'Nowe zadanie Aldridge',
+          value: 'newTaskAd',
           route: '/tasks/ad',
         });
 
         this.links.push({
           icon: 'mdi-playlist-plus',
-          text: 'Nowe zadanie DataSoft',
+          value: 'newTaskDs',
           route: '/tasks/ds',
         });
       }

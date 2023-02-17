@@ -18,8 +18,7 @@
       <v-icon color="grey lighten-2">mdi-menu</v-icon>
     </v-btn>
     <v-app-bar-title class="px-0 grey--text text--lighten-2 flex text-center">
-      <span v-if="$vuetify.breakpoint.xs">{{ $route.meta.title }}</span>
-      <span v-else>{{ $route.meta.titleLong }}</span>
+      {{ title }} &nbsp;
     </v-app-bar-title>
     <locale-changer />
     <v-btn
@@ -47,12 +46,14 @@ export default
       return this.$route.meta.isTaskListView && this.$store.state.userType === userType.administrator;
     },
   },
+  data: () => ({
+    title: null,
+  }),
   mounted() {
     this.$root.$on('updateAppTitle', (title) => {
-      this.$route.meta.title = title;
-      this.$route.meta.titleLong = title;
+      this.title = title;
 
-      this.$forceUpdate();
+      //this.$forceUpdate();
     });
   },
 };

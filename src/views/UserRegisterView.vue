@@ -199,6 +199,12 @@ export default {
     },
   }),
   mounted() {
+    this.updateAppTitle();
+
+    this.$root.$on('updateLocalization', () => {
+      this.updateAppTitle();
+    });
+
     // focus on first control
     // this.$refs.firstControl.focus();
   },
@@ -225,12 +231,11 @@ export default {
         this.$emit('isProcessing', false);
 
         // console.log(response.data);
-tutaj
         if (response.status === 200) {
-          this.$emit('showMessage', this.messageTitle, `Użytkownik ${this.input.username} został dodany`);
+          this.showMessage(this.$t('message.userRegisterSuccess', { username: this.input.username }));
         }
         else {
-          this.$emit('showMessage', this.messageTitle, 'Operacja zakończona niepowodzem');
+          this.showMessage(this.$t('message.operationFailed'));
         }
       })
       .catch((error) => this.processError('create', error));
@@ -247,7 +252,7 @@ tutaj
         return false;
       }
 
-      this.errorMessage.username = response.data.result === true ? '' : 'Nazwa użytkownika jest zajęta';
+      this.errorMessage.username = response.data.result === true ? '' : this.$t('userRegisterView.usernameNotAvailable');
 
       return response.data.result;
     },
@@ -262,12 +267,12 @@ tutaj
         return true;
       }
 
-      this.errorMessage.passwordConfirm = 'Hasła muszą się zgadzać';
+      this.errorMessage.passwordConfirm = this.$t('userRegisterView.passwordsDontMatch');
       return false;
     },
     verifyAdminPassword() {
       if (this.input.adminPassword !== process.env.VUE_APP_ADMIN_PASSWORD) {
-        this.errorMessage.adminPassword = 'Nieprawidłowe hasło';
+        this.errorMessage.adminPassword = this.$t('userRegisterView.incorrectPassword');
         return false;
       }
 
@@ -300,7 +305,7 @@ tutaj
       this.$emit('isProcessing', false);
 
       if (error.response === undefined) {
-        this.$emit('showMessage', this.messageTitle, 'Brak odpowiedzi z serwera');
+        this.showMessage(this.$t('message.noResponse'));
         return;
       }
 
@@ -309,6 +314,9 @@ tutaj
     },
     showMessage(message) {
       this.$emit('showMessage', this.$t('userRegisterView.title'), message);
+    },
+    updateAppTitle() {
+      this.$root.$emit('updateAppTitle', this.$t('userRegisterView.title'));
     },
   },
   watch: {

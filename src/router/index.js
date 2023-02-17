@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import i18n from '@/plugins/i18n';
 import TestView from '../views/TestView.vue';
 import TaskAddView from '../views/TaskAddView.vue';
 import TaskListView from '../views/TaskListView.vue';
@@ -30,8 +29,6 @@ const routes = [
     name: 'adTaskAdd',
     component: TaskAddView,
     meta: {
-      title: i18n.t('taskAddView.titleAd'),
-      titleLong: i18n.t('taskAddView.titleAd'),
       type: taskType.hoursBased,
       middleware: [authorization.validUser, authorization.administrator],
     },
@@ -41,8 +38,6 @@ const routes = [
     name: 'dsTaskAdd',
     component: TaskAddView,
     meta: {
-      title: i18n.t('taskAddView.titleDs'),
-      titleLong: i18n.t('taskAddView.titleDs'),
       type: taskType.priceBased,
       middleware: [authorization.validUser, authorization.administrator],
     },
@@ -52,8 +47,6 @@ const routes = [
     name: 'tasks',
     component: TaskListView,
     meta: {
-      title: i18n.t('taskListView.metaTitle'),
-      titleLong: i18n.t('taskListView.metaTitle'),
       isTaskListView: true,
       middleware: [authorization.validUser],
     },
@@ -63,8 +56,6 @@ const routes = [
     name: 'clients',
     component: ClientListView,
     meta: {
-      title: i18n.t('clientListView.title'),
-      titleLong: i18n.t('clientListView.title'),
       middleware: [authorization.validUser, authorization.datasoft],
     },
   },
@@ -74,8 +65,6 @@ const routes = [
     component: TaskViewEditView,
     props: true,
     meta: {
-      title: i18n.t('taskViewEditView.title'),
-      titleLong: i18n.t('taskViewEditView.title'),
       middleware: [authorization.validUser],
     },
   },
@@ -83,10 +72,6 @@ const routes = [
     path: '/test',
     name: 'test',
     component: TestView,
-    meta: {
-      title: 'Test',
-      titleLong: 'Test',
-    },
   },
   {
     path: '/register',
@@ -94,8 +79,6 @@ const routes = [
     component: UserRegisterView,
     meta: {
       isMenuHidden: true,
-      title: i18n.t('userRegisterView.title'),
-      titleLong: i18n.t('userRegisterView.title'),
     },
   },
   {
@@ -104,8 +87,6 @@ const routes = [
     component: LoginView,
     meta: {
       isMenuHidden: true,
-      title: i18n.t('loginView.title'),
-      titleLong: i18n.t('loginView.title'),
     },
   },
 ];

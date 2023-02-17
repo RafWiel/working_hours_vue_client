@@ -51,12 +51,12 @@
   },
   "taskAddView": {
     "title": "Nowe zadanie",
-    "titleAd": "Nowe zadanie @:common.alldridge",
+    "titleAd": "Nowe zadanie @:common.aldridge",
     "titleDs": "Nowe zadanie @:common.datasoft"
   },
   "taskListView": {
-    "metaTitle": "Zadania",
-    "title": "Zadania {client}"
+    "title": "Zadania",
+    "titleClient": "Zadania {client}"
   },
   "taskView": {
     "date": "@:common.date",
@@ -70,7 +70,7 @@
   },
   "taskViewEditView": {
     "title": "Zadanie",
-    "titleAd": "Zadanie @:common.alldridge",
+    "titleAd": "Zadanie @:common.aldridge",
     "titleDs": "Zadanie @:common.datasoft"
   },
   "userRegisterView": {
@@ -81,7 +81,10 @@
     "password": "@:common.password",
     "passwordConfirm": "Powtórz @:common.password",
     "administratorPassword": "@:common.password administratora",
-    "userType": "Typ użytkownika"
+    "userType": "Typ użytkownika",
+    "usernameNotAvailable": "Nazwa użytkownika jest zajęta",
+    "passwordsDontMatch": "Hasła muszą się zgadzać",
+    "incorrectPassword": "Nieprawidłowe hasło"
   },
   "enums": {
     "common": {
@@ -119,7 +122,7 @@
     "password": "Hasło musi mieć minimum 8 znaków, wielką literę, cyfrę, oraz znak specjalny"
   },
   "message": {
-    "operationFailed": "Operacja zakończona niepowodzem",
+    "operationFailed": "Operacja zakończona niepowodzeniem",
     "noResponse": "Brak odpowiedzi z serwera",
     "saveFailed": "Zapis nieudany",
     "taskSaved": "Zadanie zapisane",
@@ -128,7 +131,8 @@
     "taskSettled": "Zadanie rozliczone",
     "taskDeleted": "Zadanie usunięte",
     "deleteFailed": "Usunięcie nieudane",
-    "confirmTaskDelete": "Czy na pewno usunąć zadanie {project} {version}?"
+    "confirmTaskDelete": "Czy na pewno usunąć zadanie {project} {version}?",
+    "userRegisterSuccess": "Użytkownik {username} został zarejestrowany"
   },
   "htmlError": {
     "400": "Nieprawidłowe dane wejściowe",
@@ -136,6 +140,7 @@
     "4011": "Nieprawidłowy użytkownik lub hasło",
     "404": "Nie znaleziono",
     "409": "Wystąpił błąd: Duplikat\r\nZapis anulowany",
+    "4091": "Użytkownik {username} jest już zarejestrowany",
     "500": "Błąd wewnętrzny serwera"
   },
   "dataGridColumns": {
@@ -147,5 +152,11 @@
     "price": "@:common.price",
     "hours": "@:common.hours",
     "settlementDate": "@:common.settlement"
+  },
+  "menuItems": {
+    "clients": "Klienci",
+    "tasks": "Zadania",
+    "newTaskAd": "Nowe zadanie @:common.aldridge",
+    "newTaskDs": "Nowe zadanie @:common.datasoft"
   }
 }
