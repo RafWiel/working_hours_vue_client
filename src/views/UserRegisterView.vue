@@ -152,7 +152,7 @@ import debounce from 'lodash.debounce';
 import rules from '@/misc/rules';
 import logger from '@/plugins/logger';
 import userType from '@/enums/userType';
-import usersRegistrationService from '@/services/userRegistration';
+import usersService from '@/services/users';
 
 export default {
   name: 'UserRegisterView',
@@ -220,7 +220,7 @@ export default {
       this.$emit('isProcessing', true);
 
       // request login
-      await usersRegistrationService.create({
+      await usersService.create({
         firstName: this.input.firstName,
         lastName: this.input.lastName,
         username: this.input.username,
@@ -242,7 +242,7 @@ export default {
     },
     async verifyUsername() {
       // check users
-      const response = await usersRegistrationService.isUniqueUsername({ username: this.input.username })
+      const response = await usersService.isUniqueUsername({ username: this.input.username })
       .catch((error) => {
         logger.error(error);
         return false;

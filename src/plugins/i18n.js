@@ -32,8 +32,6 @@ function loadLocaleMessages() {
 function getStartingLocale() {
   const browserLocale = getBrowserLocale({ countryCodeOnly: true });
 
-  console.log(browserLocale);
-
   if (supportedLocales.indexOf(browserLocale) >= 0) {
     return browserLocale;
   }

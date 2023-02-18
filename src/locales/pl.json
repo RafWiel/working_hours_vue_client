@@ -14,7 +14,8 @@
     "hours": "Godziny",
     "settlement": "Rozliczenie",
     "username": "Użytkownik",
-    "password": "Hasło"
+    "password": "Hasło",
+    "error": "Błąd"
   },
   "filter": {
     "search": "Szukaj",

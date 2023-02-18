@@ -14,7 +14,8 @@
     "hours": "Hours",
     "settlement": "Settlement",
     "username": "Username",
-    "password": "Password"
+    "password": "Password",
+    "error": "Error"
   },
   "filter": {
     "search": "Search",

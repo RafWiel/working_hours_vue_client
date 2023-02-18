@@ -1,10 +1,10 @@
 import api from '@/services/api';
 
 export default {
-  get(data) {
-    return api().get('/clients', { params: data });
+  get(request) {
+    return api().get('clients', { params: request });
   },
-  getNamesDistinct(data) {
-    return api().get('/clients/names/distinct', { params: data });
+  getNamesDistinct(request) {
+    return api().get('clients/names/distinct', { params: request });
   },
 };

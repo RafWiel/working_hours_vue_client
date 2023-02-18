@@ -87,7 +87,7 @@
 import logger from '@/plugins/logger';
 import string from '@/misc/string';
 import rules from '@/misc/rules';
-import userAuthorizationService from '@/services/userAuthorization';
+import usersService from '@/services/users';
 
 export default {
   name: 'LoginView',
@@ -145,7 +145,7 @@ export default {
       this.$emit('isProcessing', true);
 
       // request login
-      await userAuthorizationService.login({
+      await usersService.login({
         username: this.input.username,
         password: this.input.password,
       })
