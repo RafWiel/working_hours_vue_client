@@ -358,7 +358,7 @@ export default {
           return;
         }
 
-        console.log(response.data);
+        // console.log(response.data);
         this.item = response.data;
 
         this.item.creationDate = moment(this.item.creationDate).format('YYYY-MM-DD');
@@ -385,7 +385,7 @@ export default {
       try {
         this.$emit('isProcessing', true);
 
-        console.log(JSON.stringify(this.item));
+        // console.log(JSON.stringify(this.item));
 
         const response = await tasksService.update(this.item);
 

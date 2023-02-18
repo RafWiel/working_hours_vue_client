@@ -126,9 +126,7 @@ export default {
     //this.$refs.firstControl.focus();
 
     // reset store
-    this.$store.dispatch('setUsername', null);
-    this.$store.dispatch('setToken', null);
-    this.$store.dispatch('setUserType', null);
+    this.$store.dispatch('resetUser');
 
     // reset local storage
     localStorage.userInfo = '';
@@ -153,20 +151,20 @@ export default {
         this.$emit('isProcessing', false);
 
         if (response.status === 200) {
+          const { token, userType, locale } = response.data;
           // save user info to local storage
           const userInfo = {
             username: this.input.username,
             timestamp: new Date().getTime(),
-            token: response.data.token,
-            userType: response.data.userType,
+            token,
+            userType,
+            locale,
           };
 
           localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
           // store user info
-          this.$store.dispatch('setUsername', this.input.username);
-          this.$store.dispatch('setToken', response.data.token);
-          this.$store.dispatch('setUserType', response.data.userType);
+          this.$store.dispatch('setUser', userInfo);
 
           // redirect to main page
           this.$router.replace({ name: 'main' });

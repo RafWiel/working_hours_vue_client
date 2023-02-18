@@ -254,7 +254,7 @@ export default {
       tasksService.getLast({ type: this.$route.meta.type })
       .then((response) => {
         if (!response.data) return;
-        console.log(response.data);
+        // console.log(response.data);
 
         // copy project and version
         this.item.client = response.data.client;

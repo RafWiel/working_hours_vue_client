@@ -34,20 +34,18 @@ export default {
         this.$emit('isProcessing', false);
 
         if (response.status === 200) {
-          // // save user info to local storage
-          // const userInfo = {
-          //   username: this.input.username,
-          //   timestamp: new Date().getTime(),
-          //   token: response.data.token,
-          //   userType: response.data.userType,
-          // };
+          const userInfo = {
+            username: this.$store.state.username,
+            timestamp: new Date().getTime(),
+            token: this.$store.state.token,
+            userType: this.$store.state.userType,
+            locale: this.$i18n.locale,
+          };
 
-          // localStorage.setItem('userInfo', JSON.stringify(userInfo));
+          localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
-          // // store user info
-          // this.$store.dispatch('setUsername', this.input.username);
-          // this.$store.dispatch('setToken', response.data.token);
-          // this.$store.dispatch('setUserType', response.data.userType);
+          // store user info
+          this.$store.dispatch('setUser', userInfo);
 
           this.$root.$emit('updateLocalization');
         }
