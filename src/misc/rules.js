@@ -2,7 +2,7 @@ import i18n from '@/plugins/i18n';
 
 export default {
   required: (v) => !!v || i18n.t('rules.required'),
-  integer: (v) => Number.isInteger(v) || i18n.t('rules.number'),
+  integer: (v) => Number.isInteger(Number(v)) || i18n.t('rules.number'),
   float: (v) => !Number.isNaN(Number(v)) || i18n.t('rules.number'),
   email: (v) => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || i18n.t('rules.email'),
   // eslint-disable-next-line
