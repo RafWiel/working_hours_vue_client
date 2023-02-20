@@ -17,6 +17,9 @@
               <h5 class="px-2 py-1 yellow">Auto message</h5>
               <h5 class="px-2 py-1 yellow">Widok portret tylko szukaj na wierzchu, reszta po rozwinieciu</h5>
               <h5 class="px-2 py-1 yellow">Widok portret do poprawy na telefonie</h5>
+              <h5 class="px-2 py-1 yellow">Widok portret Klienci normalna lista</h5>
+              <h5 class="px-2 py-1 yellow">Przypisz projekty do klienta</h5>
+              <h5 class="px-2 py-1 yellow">Wczytuj wersje po wpisaniu projektu</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"
