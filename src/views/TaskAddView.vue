@@ -86,7 +86,6 @@
               <!-- Version -->
               <v-col cols="12" class="mt-2">
                 <v-text-field
-                  :rules="[rules.required]"
                   :label="$t('taskView.version')"
                   v-model.lazy="item.version"
                   type="input"

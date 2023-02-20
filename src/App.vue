@@ -12,6 +12,9 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
+              <h5 class="px-2 py-1 yellow">HOOKS</h5>
+              <h5 class="px-2 py-1 yellow">Dodaj trigger do Tasks usuwajacy rekord z Clients jesli ostatni</h5>
+              <h5 class="px-2 py-1 yellow">Dodaj trigger do Tasks usuwajacy rekord z Projects jesli ostatni</h5>
               <h5 class="px-2 py-1 yellow">Pole wersja opcjonalne</h5>
               <h5 class="px-2 py-1 yellow">TaskListView usun Ilosc godzin dla DataSoft</h5>
               <h5 class="px-2 py-1 yellow">Login link rejestracja</h5>

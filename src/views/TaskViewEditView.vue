@@ -123,7 +123,6 @@
                 <!-- Version -->
                 <v-col cols="12" class="mt-2">
                   <v-text-field
-                    :rules="[rules.required]"
                     :readonly="!isAdministrator"
                     :label="$t('taskView.version')"
                     v-model.lazy="item.version"
