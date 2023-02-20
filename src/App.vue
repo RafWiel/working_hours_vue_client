@@ -15,6 +15,8 @@
               <h5 class="px-2 py-1 yellow">TaskListView usun Ilosc godzin dla DataSoft</h5>
               <h5 class="px-2 py-1 yellow">Login link rejestracja</h5>
               <h5 class="px-2 py-1 yellow">Auto message</h5>
+              <h5 class="px-2 py-1 yellow">Widok portret tylko szukaj na wierzchu, reszta po rozwinieciu</h5>
+              <h5 class="px-2 py-1 yellow">Widok portret do poprawy na telefonie</h5>
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"
