@@ -129,7 +129,7 @@ export default {
     this.$store.dispatch('resetUser');
 
     // reset local storage
-    localStorage.userInfo = '';
+    localStorage.setItem('userInfo', '');
   },
   methods: {
     async login() {

@@ -1,5 +1,6 @@
 <template>
-    <v-select
+  <div style="width: 150px">
+  <v-select
     :items="languages"
     label="Lang"
     @click.stop
@@ -9,6 +10,7 @@
     item-value="code"
     hide-details="auto"
     clearable/>
+  </div>
 </template>
 <script>
 import logger from '@/plugins/logger';

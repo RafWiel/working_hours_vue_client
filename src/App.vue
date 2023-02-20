@@ -100,9 +100,12 @@ export default {
     });
 
     this.initializeSidebar();
+
+    console.log(this.$store.state.locale);
   },
   created() {
     console.log(localStorage.getItem('userInfo'));
+    this.setLocale();
   },
   methods: {
     initializeSidebar() {
@@ -159,6 +162,12 @@ export default {
     },
     setIsNavigationBarOpen(value) {
       this.isNavigationBarOpen = value;
+    },
+    setLocale() {
+      // set locale
+      if (!this.$store.state.locale) return;
+
+      this.$i18n.locale = this.$store.state.locale;
     },
   },
 };
