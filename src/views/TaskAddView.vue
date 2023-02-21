@@ -124,7 +124,7 @@
                 cols="12"
                 class="mt-2">
                 <v-text-field
-                  :rules="[rules.required, rules.integer]"
+                  :rules="[rules.required, rules.float]"
                   :label="$t('taskView.hours')"
                   v-if="item.type === taskType.hoursBased"
                   v-model.lazy="item.hours"
