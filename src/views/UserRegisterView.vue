@@ -74,18 +74,18 @@
               <!-- Password -->
               <v-col cols="12" class="mt-2">
                 <v-text-field
-                    :append-icon="isPasswordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="isPasswordVisible ? 'text' : 'password'"
-                    :rules="[rules.required, rules.password]"
-                    :error-messages="errorMessage.password"
-                    :label="$t('userRegisterView.password')"
-                    @click:append="isPasswordVisible = !isPasswordVisible"
-                    @keydown="errorMessage.password = ''"
-                    v-model.lazy="input.password"
-                    autocomplete="new-password"
-                    class="mt-2"
-                    hide-details="auto"
-                    validate-on-blur/>
+                  :append-icon="isPasswordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="isPasswordVisible ? 'text' : 'password'"
+                  :rules="[rules.required, rules.password]"
+                  :error-messages="errorMessage.password"
+                  :label="$t('userRegisterView.password')"
+                  @click:append="isPasswordVisible = !isPasswordVisible"
+                  @keydown="errorMessage.password = ''"
+                  v-model.lazy="input.password"
+                  autocomplete="new-password"
+                  class="mt-2"
+                  hide-details="auto"
+                  validate-on-blur/>
               </v-col>
               <!-- Confirm password -->
               <v-col

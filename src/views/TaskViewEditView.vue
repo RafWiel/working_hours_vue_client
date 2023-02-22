@@ -369,40 +369,43 @@ export default {
 
       this.$emit('isProcessing', false);
     },
-    async save() {
-      // validation
-      if (this.$refs.form.validate() === false) {
-        this.$nextTick(() => {
-          const el = this.$el.querySelector('.v-messages.error--text:first-of-type');
+    save() {
+      // workaround: Combobox change event is delayed if button clicked right after, run save code next cycle to get proper values
+      setTimeout(async () => {
+        // validation
+        if (this.$refs.form.validate() === false) {
+          this.$nextTick(() => {
+            const el = this.$el.querySelector('.v-messages.error--text:first-of-type');
 
-          this.$vuetify.goTo(el, { offset: 60 });
-        });
-
-        return;
-      }
-
-      try {
-        this.$emit('isProcessing', true);
-
-        // console.log(JSON.stringify(this.item));
-
-        const response = await tasksService.update(this.item);
-
-        if (response.status === 200) {
-          this.$emit('isProcessing', false);
-          this.showMessage(this.$t('message.taskSaved'));
-          this.$vuetify.goTo(0);
+            this.$vuetify.goTo(el, { offset: 60 });
+          });
 
           return;
         }
 
-        this.showMessage(this.$t('message.saveFailed'));
-      }
-      catch (error) {
-        this.processError('save', error);
-      }
+        try {
+          this.$emit('isProcessing', true);
 
-      this.$emit('isProcessing', false);
+          // console.log(JSON.stringify(this.item));
+
+          const response = await tasksService.update(this.item);
+
+          if (response.status === 200) {
+            this.$emit('isProcessing', false);
+            this.showMessage(this.$t('message.taskSaved'));
+            this.$vuetify.goTo(0);
+
+            return;
+          }
+
+          this.showMessage(this.$t('message.saveFailed'));
+        }
+        catch (error) {
+          this.processError('save', error);
+        }
+
+        this.$emit('isProcessing', false);
+      });
     },
     async settle() {
       try {
