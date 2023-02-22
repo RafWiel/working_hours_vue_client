@@ -61,10 +61,27 @@
             </v-row>
           </v-col>
         </v-row>
+        <!-- Register link portrait -->
+        <v-row
+          v-if="$vuetify.breakpoint.xs"
+          class="no-gutters shrink"
+          justify="center">
+          <v-col cols="12" sm="5">
+            <v-btn
+              @click="register"
+              id="submit"
+              depressed
+              block
+              plain
+              color="primary">
+              {{ $t('loginView.register') }}
+            </v-btn>
+          </v-col>
+        </v-row>
         <!-- Submit Button -->
         <v-row
-          :class="$vuetify.breakpoint.xs ? 'px-3' : ''"
-          class="no-gutters shrink mt-4 pb-3"
+          :class="$vuetify.breakpoint.xs ? 'px-3 mt-2 pb-3' : 'mt-4'"
+          class="no-gutters shrink"
           justify="end">
           <v-col cols="12" sm="5">
             <v-btn
@@ -75,6 +92,23 @@
               color="primary"
               class="save-btn">
               {{ $t('loginView.login') }}
+            </v-btn>
+          </v-col>
+        </v-row>
+        <!-- Register link horizontal -->
+        <v-row
+          v-if="$vuetify.breakpoint.smAndUp"
+          class="no-gutters shrink mt-4"
+          justify="center">
+          <v-col cols="12" sm="5">
+            <v-btn
+              @click="register"
+              id="submit"
+              depressed
+              block
+              plain
+              color="primary">
+              {{ $t('loginView.register') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -177,6 +211,9 @@ export default {
         }
       })
       .catch((error) => this.processError('login', error));
+    },
+    register() {
+      this.$router.push('register');
     },
     focusPasswordOrLogin() {
       // focus next if data not ready

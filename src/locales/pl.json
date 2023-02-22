@@ -48,7 +48,8 @@
     "title": "Logowanie",
     "username": "@:common.username",
     "password": "@:common.password",
-    "login": "Zaloguj się"
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się"
   },
   "taskAddView": {
     "title": "Nowe zadanie",

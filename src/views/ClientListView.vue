@@ -95,10 +95,6 @@ export default {
       this.updateAppTitle();
     });
 
-    this.$root.$on('settleTasks', () => {
-      this.showDatePickerDialog();
-    });
-
     // prevent double fetch on page refresh by user
     if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
       return;

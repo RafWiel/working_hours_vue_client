@@ -238,10 +238,6 @@ export default {
       this.updateAppTitle();
     });
 
-    this.$root.$on('settleTasks', () => {
-      this.showDatePickerDialog();
-    });
-
     this.fetch();
   },
   methods: {
@@ -350,6 +346,7 @@ export default {
       projectsService.getNamesDistinct({
         'task-type': this.$route.meta.type,
         filter: val,
+        client: this.item.client,
       })
       .then((res) => {
         this.projectApi.values = res.data;

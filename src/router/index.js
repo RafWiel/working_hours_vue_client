@@ -29,6 +29,7 @@ const routes = [
     name: 'adTaskAdd',
     component: TaskAddView,
     meta: {
+      isBackButton: true,
       type: taskType.hoursBased,
       middleware: [authorization.validUser, authorization.administrator],
     },
@@ -38,6 +39,7 @@ const routes = [
     name: 'dsTaskAdd',
     component: TaskAddView,
     meta: {
+      isBackButton: true,
       type: taskType.priceBased,
       middleware: [authorization.validUser, authorization.administrator],
     },
@@ -65,13 +67,9 @@ const routes = [
     component: TaskViewEditView,
     props: true,
     meta: {
+      isBackButton: true,
       middleware: [authorization.validUser],
     },
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: TestView,
   },
   {
     path: '/register',
@@ -88,6 +86,11 @@ const routes = [
     meta: {
       isMenuHidden: true,
     },
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: TestView,
   },
 ];
 

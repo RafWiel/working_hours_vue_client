@@ -407,7 +407,7 @@ export default {
         this.$emit('isProcessing', false);
       });
     },
-    async settle() {
+    async settle(date) {
       try {
         this.$emit('isProcessing', true);
 
@@ -415,7 +415,7 @@ export default {
 
         const response = await tasksService.settle({
           idArray: [this.item.id],
-          settlementDate: '2023-01-01',
+          settlementDate: date,
         });
 
         if (response.status === 200) {
@@ -512,6 +512,7 @@ export default {
       projectsService.getNamesDistinct({
         'task-type': this.item.type,
         filter: val,
+        client: this.item.client,
       })
       .then((res) => {
         this.projectApi.values = res.data;
