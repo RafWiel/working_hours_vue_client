@@ -10,12 +10,12 @@
       @filter="filterItems"
       route="tasks"/>
     <!-- Portrait sorting -->
-    <portrait-sorting
+    <!-- <portrait-sorting
       :columns="portraitColumns"
       @sort="sortItems"
       ref="portrait-sorting"
       v-if="$vuetify.breakpoint.xs"
-      class="pl-3 pt-2 pr-13"/>
+      class="pl-3 pt-2 pr-13"/> -->
     <!-- DataGrid -->
     <data-grid
       :columns="columns"
@@ -49,7 +49,7 @@ import logger from '@/plugins/logger';
 import tasksService from '@/services/tasks';
 import DatePickerDialog from '@/components/DatePickerDialog.vue';
 import sortOrder from '@/enums/sortOrder';
-import PortraitSorting from '@/components/PortraitSorting.vue';
+// import PortraitSorting from '@/components/PortraitSorting.vue';
 import TaskListViewFilter from '@/components/TaskListViewFilter.vue';
 import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
@@ -61,7 +61,7 @@ export default {
   components: {
     DataGrid,
     DatePickerDialog,
-    PortraitSorting,
+    // PortraitSorting,
     TaskListViewFilter,
   },
   computed: {
