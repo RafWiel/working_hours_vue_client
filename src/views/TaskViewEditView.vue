@@ -392,7 +392,7 @@ export default {
 
           if (response.status === 200) {
             this.$emit('isProcessing', false);
-            this.showMessage(this.$t('message.taskSaved'));
+            this.showAutoMessage(this.$t('message.taskSaved'));
             this.$vuetify.goTo(0);
 
             return;
@@ -420,7 +420,7 @@ export default {
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
-          this.showMessage(this.$t('message.taskSettled'));
+          this.showAutoMessage(this.$t('message.taskSettled'));
           this.$vuetify.goTo(0);
 
           this.fetch();
@@ -444,7 +444,7 @@ export default {
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
-          this.showMessage(this.$t('message.taskDeleted'));
+          this.showAutoMessage(this.$t('message.taskDeleted'));
           this.$router.go(-1);
 
           return;
@@ -471,6 +471,9 @@ export default {
     },
     showMessage(message) {
       this.$emit('showMessage', this.$t('taskViewEditView.title'), message);
+    },
+    showAutoMessage(message) {
+      this.$emit('showAutoMessage', this.$t('taskAddView.title'), message);
     },
     showQuestion(message, id, callback) {
       this.$emit('showQuestion', this.$t('taskViewEditView.title'), message, parseInt(id, 10), callback);

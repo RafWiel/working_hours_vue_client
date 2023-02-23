@@ -285,7 +285,7 @@ export default {
 
           if (response.status === 200) {
             this.$emit('isProcessing', false);
-            this.showMessage(this.$t('message.taskSaved'));
+            this.showAutoMessage(this.$t('message.taskSaved'));
             this.$vuetify.goTo(0);
 
             // deep copy
@@ -316,6 +316,9 @@ export default {
     },
     showMessage(message) {
       this.$emit('showMessage', this.$t('taskAddView.title'), message);
+    },
+    showAutoMessage(message) {
+      this.$emit('showAutoMessage', this.$t('taskAddView.title'), message);
     },
     updateAppTitle() {
       const title = this.item.type === taskType.hoursBased ? this.$t('taskAddView.titleAd') : this.$t('taskAddView.titleDs');

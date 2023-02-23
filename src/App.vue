@@ -22,6 +22,7 @@
               @isProcessing="isProcessing = $event"
               @showMessage="showMessageDialog"
               @hideMessage="hideMessageDialog"
+              @showAutoMessage="showAutoMessageDialog"
               @showQuestion="showQuestionDialog"
               @hideQuestion="hideQuestionDialog"/>
             <side-bar
@@ -40,6 +41,13 @@
           :message="messageDialog.message"
           :hideRequest="hideMessageDialog"/>
       </v-row>
+      <!-- Auto close message box -->
+      <v-row justify="center" class="no-gutters">
+        <auto-message-dialog
+          :title="autoMessageDialog.title"
+          :isVisible="autoMessageDialog.isVisible"
+          :message="autoMessageDialog.message"/>
+      </v-row>
       <!-- Delete message box -->
       <v-row justify="center" class="no-gutters">
         <question-dialog
@@ -55,12 +63,13 @@
 </template>
 
 <script>
+import userType from '@/enums/userType';
 import LoadingIcon from '@/components/common/LoadingIcon.vue';
 import AppBar from '@/components/common/AppBar.vue';
 import SideBar from '@/components/common/SideBar.vue';
 import MessageDialog from '@/components/message/MessageDialog.vue';
+import AutoMessageDialog from '@/components/message/AutoMessageDialog.vue';
 import QuestionDialog from '@/components/message/QuestionDialog.vue';
-import userType from '@/enums/userType';
 
 export default {
   name: 'App',
@@ -69,6 +78,7 @@ export default {
     AppBar,
     SideBar,
     MessageDialog,
+    AutoMessageDialog,
     QuestionDialog,
   },
   data: () => ({
@@ -77,6 +87,11 @@ export default {
     isNavigationBarOpen: false,
     links: [],
     messageDialog: {
+      title: null,
+      message: null,
+      isVisible: false,
+    },
+    autoMessageDialog: {
       title: null,
       message: null,
       isVisible: false,
@@ -148,6 +163,13 @@ export default {
     },
     hideMessageDialog() {
       this.messageDialog.isVisible = false;
+    },
+    showAutoMessageDialog(title, message) {
+      this.autoMessageDialog.title = title;
+      this.autoMessageDialog.message = message;
+      this.autoMessageDialog.isVisible = true;
+
+      setTimeout(() => { this.autoMessageDialog.isVisible = false; }, 1000);
     },
     showQuestionDialog(title, message, id, callbackFunction) {
       this.questionDialog.id = id;
