@@ -1,51 +1,58 @@
 <template>
-  <v-container fluid class="pa-0 mr-4">
-    <v-row class="no-gutters">
-      <!-- Szukaj -->
-      <v-col
-        cols="6"
-        sm="9"
-        lg="10">
-        <v-text-field
-          :label="$t('filter.search')"
-          @click.stop
-          @keydown.enter.prevent
-          @keyup.space.prevent
-          @input="emitDelayedEvent(true)"
-          ref="search"
-          prepend-inner-icon="mdi-magnify"
-          type="input"
-          clearable
-          hide-details="auto"
-          validate-on-blur
-          v-model.lazy.trim="filter.search"/>
-      </v-col>
-      <!-- Rozliczenie -->
-      <v-col
-        class="pl-2"
-        cols="6"
-        sm="3"
-        lg="2">
-        <v-select
-          :items="settlementTypeItems"
-          :label="$t('filter.settlement')"
-          @click.stop
-          @change="emitEvent"
-          v-model="filter.settlementType"
-          item-value="id"
-          hide-details="auto"/>
-      </v-col>
-    </v-row>
-  </v-container>
+  <client-list-view-filter-layout>
+    <!-- Search -->
+    <template v-slot:search>
+      <v-text-field
+        :label="$t('filter.search')"
+        @click.stop
+        @keydown.enter.prevent
+        @keyup.space.prevent
+        @input="emitDelayedFilterEvent(true)"
+        ref="search"
+        prepend-inner-icon="mdi-magnify"
+        type="input"
+        clearable
+        hide-details="auto"
+        validate-on-blur
+        v-model.lazy.trim="filter.search"/>
+    </template>
+    <!-- Settlement -->
+    <template v-slot:settlement>
+      <v-select
+        :items="settlementTypeItems"
+        :label="$t('filter.settlement')"
+        @click.stop
+        @change="emitFilterEvent"
+        v-model="filter.settlementType"
+        item-value="id"
+        hide-details="auto"/>
+    </template>
+    <!-- Portrait sorting -->
+    <template v-slot:portraitSorting>
+      <portrait-sorting
+        :columns="portraitColumns"
+        @sort="emitSortEvent"
+        ref="portrait-sorting"/>
+    </template>
+  </client-list-view-filter-layout>
 </template>
 
 <script>
 import debounce from 'lodash.debounce'; // debounce - opoznienie
 import settlementType from '@/enums/settlementType';
+import PortraitSorting from '@/components/PortraitSorting.vue';
+import ClientListViewFilterLayout from './ClientListViewFilterLayout.vue';
 
 export default {
   name: 'ClientListViewFilter',
-  props: { route: String },
+  components: {
+    ClientListViewFilterLayout,
+    PortraitSorting,
+  },
+  props: {
+    route: String,
+    portraitColumns: Array,
+  },
   computed: {
     settlementTypeItems() {
       return settlementType.getItems();
@@ -61,7 +68,7 @@ export default {
     //unsettled by default
     if (!this.$route.query['settlement-type']) {
       this.filter.settlementType = settlementType.unsettled;
-      this.emitEvent();
+      this.emitFilterEvent();
     }
   },
   watch: {
@@ -91,10 +98,10 @@ export default {
     },
   },
   methods: {
-    emitDelayedEvent: debounce(function emit() {
-      this.emitEvent();
+    emitDelayedFilterEvent: debounce(function emit() {
+      this.emitFilterEvent();
     }, 500),
-    emitEvent() {
+    emitFilterEvent() {
       const route = {
         name: this.route,
         query: {},
@@ -110,6 +117,9 @@ export default {
 
       this.$router.push(route);
       this.$emit('filter', this.filter);
+    },
+    emitSortEvent(sorting) {
+      this.$emit('sort', sorting);
     },
   },
 };

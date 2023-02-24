@@ -118,7 +118,6 @@
         :columns="portraitColumns"
         @sort="emitSortEvent"
         ref="portrait-sorting"/>
-        <!-- class="pl-3 pt-2 pr-13" -->
     </template>
   </task-list-view-filter-layout>
 </template>

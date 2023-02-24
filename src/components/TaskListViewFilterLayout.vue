@@ -2,8 +2,8 @@
   <div>
     <!-- Lg view -->
     <v-container
-      fluid class="pa-0"
-      v-if="$vuetify.breakpoint.lgAndUp">
+      v-if="$vuetify.breakpoint.lgAndUp"
+      fluid class="pa-0">
       <v-row class="no-gutters">
         <!-- Search -->
         <v-col cols="3" xl="6">
@@ -31,6 +31,7 @@
         </v-col>
       </v-row>
     </v-container>
+    <!-- mdAndDown View -->
     <v-expansion-panels
       v-if="$vuetify.breakpoint.mdAndDown"
       accordion

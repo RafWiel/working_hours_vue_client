@@ -6,15 +6,10 @@
     <!-- Filter -->
     <client-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
+      :portraitColumns="portraitColumns"
       @filter="filterItems"
-      route="clients"/>
-    <!-- Portrait sorting -->
-    <portrait-sorting
-      :columns="portraitColumns"
       @sort="sortItems"
-      ref="portrait-sorting"
-      v-if="$vuetify.breakpoint.xs"
-      class="px-3 pt-2"/>
+      route="clients"/>
     <!-- DataGrid -->
     <data-grid
       :columns="columns"
@@ -37,7 +32,6 @@ import moment from 'moment';
 import logger from '@/plugins/logger';
 import clientsService from '@/services/clients';
 import sortOrder from '@/enums/sortOrder';
-import PortraitSorting from '@/components/PortraitSorting.vue';
 import ClientListViewFilter from '@/components/ClientListViewFilter.vue';
 import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
@@ -47,7 +41,6 @@ export default {
   name: 'ClientListView',
   components: {
     DataGrid,
-    PortraitSorting,
     ClientListViewFilter,
   },
   computed: {

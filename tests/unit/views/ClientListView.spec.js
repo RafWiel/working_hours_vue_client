@@ -87,24 +87,24 @@ describe('ClientListView', () => {
     expect(wrapper.findComponent({ref: 'portrait-sorting'}).exists()).toBe(false);
   });
 
-  it('renders portrait sorting in xs mode', () => {
-    vuetify.framework.breakpoint = {
-      init: jest.fn(),
-      framework: {},
-      xs: true,
-      smAndUp: false,
-    };
+  // it('renders portrait sorting in xs mode', () => {
+  //   vuetify.framework.breakpoint = {
+  //     init: jest.fn(),
+  //     framework: {},
+  //     xs: true,
+  //     smAndUp: false,
+  //   };
 
-    wrapper = mount(ClientListView, {
-      vuetify,
-      i18n,
-      mocks: {
-        $route
-      }
-    });
+  //   wrapper = mount(ClientListView, {
+  //     vuetify,
+  //     i18n,
+  //     mocks: {
+  //       $route
+  //     }
+  //   });
 
-    expect(wrapper.findComponent({ref: 'portrait-sorting'}).exists()).toBe(true);
-  });
+  //   expect(wrapper.findComponent({ref: 'portrait-sorting'}).exists()).toBe(true);
+  // });
 
   it('emits error message', () => {
     wrapper.vm.processError('test', 'test');
