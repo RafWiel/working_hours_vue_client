@@ -1,12 +1,13 @@
 <template>
   <task-list-view-filter-layout>
+    <!-- Search -->
     <template v-slot:search>
       <v-text-field
         @click.stop
         :label="$t('filter.search')"
         @keydown.enter.prevent
         @keyup.space.prevent
-        @input="emitDelayedEvent(true)"
+        @input="emitDelayedFilterEvent(true)"
         ref="search"
         prepend-inner-icon="mdi-magnify"
         type="input"
@@ -15,39 +16,43 @@
         validate-on-blur
         v-model.lazy.trim="filter.search"/>
     </template>
+    <!-- Time period -->
     <template v-slot:period>
       <v-select
         :disabled="!!filter.startDate || !!filter.stopDate"
         :items="timePeriodItems"
         :label="$t('filter.timePeriod')"
         @click.stop
-        @change="emitEvent"
+        @change="emitFilterEvent"
         ref="timePeriod"
         v-model="filter.timePeriod"
         item-value="id"
         hide-details="auto"/>
     </template>
+    <!-- Settlement -->
     <template v-slot:settlement>
       <v-select
         :items="settlementTypeItems"
         :label="$t('filter.settlement')"
         @click.stop
-        @change="emitEvent"
+        @change="emitFilterEvent"
         v-model="filter.settlementType"
         item-value="id"
         hide-details="auto"/>
     </template>
+    <!-- Task type -->
     <template v-slot:taskType>
       <v-select
         :items="taskTypeItems"
         :disabled="!isAdministrator"
         :label="$t('filter.client')"
         @click.stop
-        @change="emitEvent"
+        @change="emitFilterEvent"
         v-model="filter.taskType"
         item-value="id"
         hide-details="auto"/>
     </template>
+    <!-- Start date -->
     <template v-slot:startDate>
       <v-menu
         :close-on-content-click="false"
@@ -61,7 +66,7 @@
           <v-text-field
             :disabled="filter.timePeriod !== 0"
             :label="$t('filter.startDate')"
-            @click:clear="filter.startDate = 0; emitEvent()"
+            @click:clear="filter.startDate = 0; emitFilterEvent()"
             v-model="filter.startDate"
             readonly
             clearable
@@ -72,11 +77,12 @@
         <v-date-picker
           :locale="$t('locale')"
           @input="isStartDatePickerVisible = false"
-          @change="emitEvent"
+          @change="emitFilterEvent"
           v-model="filter.startDate"
           no-title/>
       </v-menu>
     </template>
+    <!-- End date -->
     <template v-slot:endDate>
       <v-menu
         :close-on-content-click="false"
@@ -90,7 +96,7 @@
           <v-text-field
             :disabled="filter.timePeriod !== 0"
             :label="$t('filter.stopDate')"
-            @click:clear="filter.stopDate = 0; emitEvent()"
+            @click:clear="filter.stopDate = 0; emitFilterEvent()"
             v-model="filter.stopDate"
             readonly
             clearable
@@ -101,10 +107,18 @@
         <v-date-picker
           :locale="$t('locale')"
           @input="isStopDatePickerVisible = false"
-          @change="emitEvent"
+          @change="emitFilterEvent"
           v-model="filter.stopDate"
           no-title/>
       </v-menu>
+    </template>
+    <!-- Portrait sorting -->
+    <template v-slot:portraitSorting>
+      <portrait-sorting
+        :columns="portraitColumns"
+        @sort="emitSortEvent"
+        ref="portrait-sorting"/>
+        <!-- class="pl-3 pt-2 pr-13" -->
     </template>
   </task-list-view-filter-layout>
 </template>
@@ -115,14 +129,19 @@ import timePeriod from '@/enums/timePeriod';
 import taskType from '@/enums/taskType';
 import userType from '@/enums/userType';
 import settlementType from '@/enums/settlementType';
+import PortraitSorting from '@/components/PortraitSorting.vue';
 import TaskListViewFilterLayout from './TaskListViewFilterLayout.vue';
 
 export default {
-  components: { TaskListViewFilterLayout },
+  components: {
+    TaskListViewFilterLayout,
+    PortraitSorting,
+  },
   name: 'TaskListViewFilter',
   props: {
     route: String,
     clientId: Number,
+    portraitColumns: Array,
   },
   computed: {
     isAdministrator() {
@@ -162,14 +181,16 @@ export default {
     //unsettled by default
     if (!this.$route.query['settlement-type']) {
       this.filter.settlementType = settlementType.unsettled;
-      this.emitEvent();
+      this.emitFilterEvent();
     }
+
+    console.log(this.portraitColumns);
   },
   methods: {
-    emitDelayedEvent: debounce(function emit() {
-      this.emitEvent();
+    emitDelayedFilterEvent: debounce(function emit() {
+      this.emitFilterEvent();
     }, 500),
-    emitEvent() {
+    emitFilterEvent() {
       const route = {
         name: this.route,
         query: {},
@@ -206,6 +227,9 @@ export default {
 
       this.$router.push(route);
       this.$emit('filter', this.filter);
+    },
+    emitSortEvent(sorting) {
+      this.$emit('sort', sorting);
     },
   },
   watch: {

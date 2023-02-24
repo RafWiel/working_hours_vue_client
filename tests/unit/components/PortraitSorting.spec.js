@@ -5,16 +5,28 @@ import PortraitSorting from '@/components/PortraitSorting.vue';
 
 const columns = [
   {
-    text: 'Data',
     value: 'creationDate',
   },
   {
-    text: 'Klient',
     value: 'client',
   },
   {
-    text: 'Projekt',
     value: 'project',
+  },
+];
+
+const translatedColumns = [
+  {
+    id: 'creationDate',
+    text: 'dataGridColumns.creationDate'
+  },
+  {
+    id: 'client',
+    text: 'dataGridColumns.client'
+  },
+  {
+    id: 'project',
+    text: 'dataGridColumns.project'
   },
 ];
 
@@ -56,7 +68,7 @@ describe('PortraitSorting.vue', () => {
   it('renders v-select items', () => {
     const items = wrapper.findComponent({ref: 'column'}).props('items');
     expect(items.length).toBe(3);
-    expect(items).toStrictEqual(columns);
+    expect(items).toStrictEqual(translatedColumns);
   });
 
   it('has ASC order selected by default', () => {

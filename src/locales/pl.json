@@ -27,9 +27,7 @@
   },
   "sorting": {
     "sorting": "Sortowanie",
-    "order": "Kolejność",
-    "ascending": "Rosnąco",
-    "descending": "Malejąco"
+    "order": "Kolejność"
   },
   "action": {
     "selectAll": "Zaznacz wszystko",
@@ -114,6 +112,10 @@
       "administrator": "Administrator",
       "aldridge": "@:common.aldridge",
       "datasoft": "@:common.datasoft"
+    },
+    "sorting": {
+      "ascending": "Rosnąco",
+      "descending": "Malejąco"
     }
   },
   "rules": {

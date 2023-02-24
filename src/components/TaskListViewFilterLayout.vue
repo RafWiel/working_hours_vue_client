@@ -73,23 +73,54 @@
           <v-container
             fluid
             class="pa-0"
-            :class="$vuetify.breakpoint.mdAndUp ? 'ml-n6' : 'ml-n6 mt-2 mr-n2 pr-n4'">
+            :class="$vuetify.breakpoint.mdAndUp ? 'ml-n6' : 'ml-n6 mr-n2 pr-n4'">
             <v-row class="no-gutters">
-              <!-- Data początkowa -->
+              <!-- Period xs-->
               <v-col
-                :class="$vuetify.breakpoint.smAndUp ? '' : 'mt-1'"
+                v-if="$vuetify.breakpoint.xs"
+                cols="12">
+                <slot name="period"/>
+              </v-col>
+              <!-- Start date -->
+              <v-col
+                :class="$vuetify.breakpoint.xs ? 'mt-2' : ''"
                 cols="6"
-                sm="5"
-                lg="2">
+                md="5"
+                sm="3">
                 <slot name="startDate"/>
               </v-col>
-              <!-- Data końcowa -->
+              <!-- End date -->
               <v-col
+                :class="$vuetify.breakpoint.xs ? 'mt-2' : ''"
+                class="pl-2"
                 cols="6"
-                sm="7"
-                lg="10"
-                :class="$vuetify.breakpoint.smAndUp ? 'pl-2' : 'pl-2 mt-1'">
+                md="7"
+                sm="3">
                 <slot name="endDate"/>
+              </v-col>
+              <!-- Settlement smAndDown -->
+              <v-col
+                v-if="$vuetify.breakpoint.smAndDown"
+                :class="$vuetify.breakpoint.sm ? 'pl-2' : 'mt-2'"
+                cols="6"
+                sm="3">
+                <slot name="settlement"/>
+              </v-col>
+              <!-- Task type smAndDown -->
+              <v-col
+                v-if="$vuetify.breakpoint.smAndDown"
+                :class="$vuetify.breakpoint.sm ? '' : 'mt-2'"
+                class="pl-2"
+                cols="6"
+                sm="3">
+                <slot name="taskType"/>
+              </v-col>
+              <!-- Portrait sorting xs-->
+              <v-col
+                v-if="$vuetify.breakpoint.xs"
+                class="mt-2"
+                cols="12">
+                <slot name="portraitSorting"/>
               </v-col>
             </v-row>
           </v-container>

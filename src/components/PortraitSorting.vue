@@ -5,14 +5,14 @@
       <v-col
         cols="6">
         <v-select
-          :items="columns"
+          :items="translatedColumns"
           :label="$t('sorting.sorting')"
           @click.stop
           @change="emitEvent"
           v-model="sorting.column"
           ref="column"
           item-text="text"
-          item-value="value"
+          item-value="id"
           hide-details="auto"
           clearable/>
       </v-col>
@@ -21,13 +21,13 @@
         cols="6"
         class="pl-2">
         <v-select
-          :items="order"
+          :items="sortOrderItems"
           :label="$t('sorting.order')"
           @click.stop
           @change="emitEvent"
           v-model="sorting.order"
           ref="order"
-          item-text="value"
+          item-text="text"
           item-value="id"
           hide-details="auto"/>
       </v-col>
@@ -42,11 +42,16 @@ export default {
   name: 'PortraitSorting',
   props: { columns: Array },
   computed: {
-    order() {
-      return [
-        { id: 0, value: this.$t('sorting.ascending') },
-        { id: 1, value: this.$t('sorting.descending') },
-      ];
+    translatedColumns() {
+      const columns = [];
+      this.columns.forEach((column) => {
+        columns.push({
+          id: column.value,
+          text: this.$t(`dataGridColumns.${column.value}`),
+        });
+      });
+
+      return columns;
     },
     sortOrderItems() {
       return sortOrder.getItems();

@@ -27,9 +27,7 @@
   },
   "sorting": {
     "sorting": "Sorting",
-    "order": "Order",
-    "ascending": "Ascending",
-    "descending": "Descending"
+    "order": "Order"
   },
   "action": {
     "selectAll": "Select all",
@@ -112,6 +110,10 @@
       "administrator": "Administrator",
       "aldridge": "@:common.aldridge",
       "datasoft": "@:common.datasoft"
+    },
+    "sorting": {
+      "ascending": "Ascending",
+      "descending": "Descending"
     }
   },
   "rules": {
