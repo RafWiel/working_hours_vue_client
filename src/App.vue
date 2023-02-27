@@ -15,8 +15,7 @@
               <!-- <h5 class="px-2 py-1 yellow">Widok portret: Klienci normalna lista. Szerokosc kolumn do poprawy na telefonie</h5>
               <h5 class="px-2 py-1 yellow">Wczytuj wersje po wpisaniu projektu</h5>
               <h5 class="px-2 py-1 yellow">TaskListView usun Ilosc godzin dla DataSoft</h5>
-              <h5 class="px-2 py-1 yellow">Pamietaj filtry przy przeladowaniu</h5>
-              <h5 class="px-2 py-1 yellow">Ikonka</h5> -->
+              <h5 class="px-2 py-1 yellow">Pamietaj filtry przy przeladowaniu</h5> -->
             <router-view
               :key="$route.path"
               @isProcessing="isProcessing = $event"
