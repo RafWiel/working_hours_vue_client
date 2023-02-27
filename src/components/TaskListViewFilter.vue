@@ -185,7 +185,10 @@ export default {
     emitFilterEvent() {
       const route = {
         name: this.route,
-        query: {},
+        query: {
+          sort: this.$route.query.sort,
+          order: this.$route.query.order,
+        },
       };
 
       if (this.filter.search) {
@@ -217,6 +220,9 @@ export default {
         route.query['client-id'] = this.clientId;
       }
 
+      // console.log('before:', this.$route.query);
+      // console.log('after', route.query);
+
       this.saveToLocalStorage();
       this.$router.push(route);
       this.$emit('filter', this.filter);
@@ -225,7 +231,7 @@ export default {
       this.$emit('sort', sorting);
     },
     saveToLocalStorage() {
-      localStorage.setItem('taskListFilter', JSON.stringify(this.filter));
+      localStorage.setItem(`${this.route}Filter`, JSON.stringify(this.filter));
     },
     loadFromLocalStorage() {
       // prevent double fetch on page refresh by user
@@ -233,14 +239,14 @@ export default {
         return;
       }
 
-      const filter = localStorage.getItem('taskListFilter');
+      const filter = localStorage.getItem(`${this.route}Filter`);
       if (filter) {
         this.filter = JSON.parse(filter);
         this.setUserTaskType();
         this.emitFilterEvent();
       }
 
-      // console.log(localStorage.getItem('taskListFilter'));
+      // console.log(localStorage.getItem(`${this.route}Filter`));
     },
     setUserTaskType() {
       if (this.$store && this.$store.state.userType === userType.datasoft) {

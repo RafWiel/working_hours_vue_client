@@ -12,6 +12,7 @@
               @menuClicked="isNavigationBarOpen = !isNavigationBarOpen"
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
+              <h5 class="px-2 py-1 yellow">Zapisz sortowanie dgv</h5>
               <!-- <h5 class="px-2 py-1 yellow">Widok portret: Klienci normalna lista. Szerokosc kolumn do poprawy na telefonie</h5>
               <h5 class="px-2 py-1 yellow">Wczytuj wersje po wpisaniu projektu</h5>
               <h5 class="px-2 py-1 yellow">TaskListView usun Ilosc godzin dla DataSoft</h5>

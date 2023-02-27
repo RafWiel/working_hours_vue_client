@@ -60,12 +60,70 @@ export default {
   data: () => ({
     sorting: {
       column: null,
-      order: 0,
+      order: sortOrder.ascending,
     },
   }),
+  mounted() {
+    this.loadFromLocalStorage();
+  },
   methods: {
     emitEvent() {
+      const route = {
+        name: this.route,
+        query: JSON.parse(JSON.stringify(this.$route.query)),
+      };
+
+      route.query.sort = this.sorting.column ? this.sorting.column : null;
+      route.query.order = this.sorting.column ? this.sorting.order : null;
+
+      this.saveToLocalStorage();
+      this.$router.push(route);
       this.$emit('sort', this.sorting);
+    },
+    saveToLocalStorage() {
+      localStorage.setItem(`${this.route}Sorting`, JSON.stringify(this.sorting));
+    },
+    loadFromLocalStorage() {
+      // prevent double fetch on page refresh by user
+      if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
+        console.log('tutaj sie wywala');
+        return;
+      }
+
+      const sorting = localStorage.getItem(`${this.route}Sorting`);
+      if (sorting) {
+        this.sorting = JSON.parse(sorting);
+        this.emitEvent();
+      }
+
+      console.log(localStorage.getItem(`${this.route}Sorting`));
+    },
+  },
+  watch: {
+    '$route.query': {
+      immediate: true,
+      handler(value) {
+        if (!value) {
+          return;
+        }
+
+        let isRefresh = false;
+
+        if (!!value.sort && this.sorting.column !== value.sort) {
+          this.sorting.column = value.sort;
+          isRefresh = !!this.sorting.column;
+        }
+
+        if (!!value.order && this.sorting.order !== parseInt(value.order, 10)) {
+          this.sorting.order = parseInt(value.order, 10);
+          isRefresh = true;
+        }
+
+        if (isRefresh) {
+          this.saveToLocalStorage();
+          this.$emit('sort', this.sorting);
+        }
+      },
     },
   },
 };

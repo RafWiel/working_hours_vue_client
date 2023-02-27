@@ -79,7 +79,10 @@ export default {
     emitFilterEvent() {
       const route = {
         name: this.route,
-        query: {},
+        query: {
+          sort: this.$route.query.sort,
+          order: this.$route.query.order,
+        },
       };
 
       if (this.filter.search) {
@@ -98,7 +101,7 @@ export default {
       this.$emit('sort', sorting);
     },
     saveToLocalStorage() {
-      localStorage.setItem('clientListFilter', JSON.stringify(this.filter));
+      localStorage.setItem(`${this.route}Filter`, JSON.stringify(this.filter));
     },
     loadFromLocalStorage() {
       // prevent double fetch on page refresh by user
@@ -106,13 +109,13 @@ export default {
         return;
       }
 
-      const filter = localStorage.getItem('clientListFilter');
+      const filter = localStorage.getItem(`${this.route}Filter`);
       if (filter) {
         this.filter = JSON.parse(filter);
         this.emitFilterEvent();
       }
 
-      // console.log(localStorage.getItem('clientListFilter'));
+      // console.log(localStorage.getItem(`${this.route}Filter`));
     },
   },
   watch: {
