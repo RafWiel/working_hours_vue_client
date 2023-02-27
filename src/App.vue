@@ -69,6 +69,7 @@ import SideBar from '@/components/common/SideBar.vue';
 import MessageDialog from '@/components/message/MessageDialog.vue';
 import AutoMessageDialog from '@/components/message/AutoMessageDialog.vue';
 import QuestionDialog from '@/components/message/QuestionDialog.vue';
+import taskType from '@/enums/taskType';
 
 export default {
   name: 'App',
@@ -135,13 +136,21 @@ export default {
         });
       }
 
-      this.links.push({
-        icon: 'mdi-format-list-numbered',
-        value: 'tasks',
-        route: '/tasks',
-      });
+      if (this.$store.state.userType !== userType.administrator) {
+        this.links.push({
+          icon: 'mdi-format-list-numbered',
+          value: 'tasks',
+          route: '/tasks',
+        });
+      }
 
       if (this.$store.state.userType === userType.administrator) {
+        this.links.push({
+          icon: 'mdi-format-list-numbered',
+          value: 'tasks',
+          route: `/tasks?task-type=${taskType.priceBased}`,
+        });
+
         this.links.push({
           icon: 'mdi-playlist-plus',
           value: 'newTaskAd',
