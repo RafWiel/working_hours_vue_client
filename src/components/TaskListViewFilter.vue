@@ -169,21 +169,14 @@ export default {
     isStopDatePickerVisible: false,
   }),
   mounted() {
-    if (this.$store && this.$store.state.userType === userType.datasoft) {
-      this.filter.taskType = taskType.priceBased;
-    }
-
-    if (this.$store && this.$store.state.userType === userType.aldridge) {
-      this.filter.taskType = taskType.hoursBased;
-    }
-
     //unsettled by default
-    if (!this.$route.query['settlement-type']) {
-      this.filter.settlementType = settlementType.unsettled;
-      this.emitFilterEvent();
-    }
+    // if (!this.$route.query['settlement-type']) {
+    //   this.filter.settlementType = settlementType.unsettled;
+    //   this.emitFilterEvent();
+    // }
 
-    console.log(this.portraitColumns);
+    this.setUserTaskType();
+    this.loadFromLocalStorage();
   },
   methods: {
     emitDelayedFilterEvent: debounce(function emit() {
@@ -224,11 +217,39 @@ export default {
         route.query['client-id'] = this.clientId;
       }
 
+      this.saveToLocalStorage();
       this.$router.push(route);
       this.$emit('filter', this.filter);
     },
     emitSortEvent(sorting) {
       this.$emit('sort', sorting);
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('taskListFilter', JSON.stringify(this.filter));
+    },
+    loadFromLocalStorage() {
+      // prevent double fetch on page refresh by user
+      if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
+        return;
+      }
+
+      const filter = localStorage.getItem('taskListFilter');
+      if (filter) {
+        this.filter = JSON.parse(filter);
+        this.setUserTaskType();
+        this.emitFilterEvent();
+      }
+
+      // console.log(localStorage.getItem('taskListFilter'));
+    },
+    setUserTaskType() {
+      if (this.$store && this.$store.state.userType === userType.datasoft) {
+        this.filter.taskType = taskType.priceBased;
+      }
+
+      if (this.$store && this.$store.state.userType === userType.aldridge) {
+        this.filter.taskType = taskType.hoursBased;
+      }
     },
   },
   watch: {
@@ -272,6 +293,7 @@ export default {
         }
 
         if (isRefresh) {
+          this.saveToLocalStorage();
           this.$emit('filter', this.filter);
         }
       },

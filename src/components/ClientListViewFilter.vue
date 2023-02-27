@@ -65,37 +65,12 @@ export default {
     },
   }),
   mounted() {
-    //unsettled by default
-    if (!this.$route.query['settlement-type']) {
-      this.filter.settlementType = settlementType.unsettled;
-      this.emitFilterEvent();
-    }
-  },
-  watch: {
-    '$route.query': {
-      immediate: true,
-      handler(value) {
-        if (!value) {
-          return;
-        }
-
-        let isRefresh = false;
-
-        if (!!value.search && this.filter.search !== value.search) {
-          this.filter.search = value.search;
-          isRefresh = !!this.filter.search;
-        }
-
-        if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
-           this.filter.settlementType = parseInt(value['settlement-type'], 10);
-           isRefresh = this.filter.settlementType !== settlementType.none;
-        }
-
-        if (isRefresh) {
-          this.$emit('filter', this.filter);
-        }
-      },
-    },
+    // unsettled by default
+    // if (!this.$route.query['settlement-type']) {
+    //   this.filter.settlementType = settlementType.unsettled;
+    //   this.emitFilterEvent();
+    // }
+    this.loadFromLocalStorage();
   },
   methods: {
     emitDelayedFilterEvent: debounce(function emit() {
@@ -115,11 +90,56 @@ export default {
         route.query['settlement-type'] = this.filter.settlementType;
       }
 
+      this.saveToLocalStorage();
       this.$router.push(route);
       this.$emit('filter', this.filter);
     },
     emitSortEvent(sorting) {
       this.$emit('sort', sorting);
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('clientListFilter', JSON.stringify(this.filter));
+    },
+    loadFromLocalStorage() {
+      // prevent double fetch on page refresh by user
+      if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
+        return;
+      }
+
+      const filter = localStorage.getItem('clientListFilter');
+      if (filter) {
+        this.filter = JSON.parse(filter);
+        this.emitFilterEvent();
+      }
+
+      // console.log(localStorage.getItem('clientListFilter'));
+    },
+  },
+  watch: {
+    '$route.query': {
+      immediate: true,
+      handler(value) {
+        if (!value) {
+          return;
+        }
+
+        let isRefresh = false;
+
+        if (!!value.search && this.filter.search !== value.search) {
+          this.filter.search = value.search;
+          isRefresh = !!this.filter.search;
+        }
+
+        if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
+          this.filter.settlementType = parseInt(value['settlement-type'], 10);
+          isRefresh = this.filter.settlementType !== settlementType.none;
+        }
+
+        if (isRefresh) {
+          this.saveToLocalStorage();
+          this.$emit('filter', this.filter);
+        }
+      },
     },
   },
 };
