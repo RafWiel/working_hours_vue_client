@@ -1,15 +1,15 @@
 <template>
   <div style="width: 150px">
-  <v-select
-    :items="languages"
-    label="Lang"
-    @click.stop
-    @change="setLocale"
-    v-model="$i18n.locale"
-    item-text="text"
-    item-value="code"
-    hide-details="auto"
-    clearable/>
+    <v-select
+      :items="languages"
+      label="Lang"
+      @click.stop
+      @change="setLocale"
+      v-model="$i18n.locale"
+      item-text="text"
+      item-value="code"
+      hide-details="auto"
+      clearable/>
   </div>
 </template>
 <script>
@@ -19,10 +19,17 @@ import usersService from '@/services/users';
 export default {
   name: 'LocaleChanger',
   data: () => ({
+    isListVisible: false,
     languages: [
       { code: 'en', text: 'English' },
       { code: 'pl', text: 'Polski' },
     ],
+    items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
   }),
   methods: {
     async setLocale() {

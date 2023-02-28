@@ -21,8 +21,8 @@
           :key="column.id"
           :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
           :class="isSelectionCheckbox ? 'header_selection_offset_y' : ''"
-          @click="emitSortEvent(column.value)"
-          @keyup.space="emitSortEvent(column.value)"
+          @click="sort(column.value)"
+          @keyup.space="sort(column.value)"
           class="list_column text_ellipsis"
           style="height: 1.7em;"
           v-ripple>
@@ -263,12 +263,7 @@ export default {
     this.loadFromLocalStorage();
   },
   methods: {
-    emitSortEvent(column) {
-      const route = {
-        name: this.route,
-        query: JSON.parse(JSON.stringify(this.$route.query)),
-      };
-
+    sort(column) {
       if (column !== this.sorting.column) {
         this.sorting.column = column;
         this.sorting.order = sortOrder.ascending;
@@ -280,31 +275,38 @@ export default {
         this.sorting.order = sortOrder.ascending;
       }
 
+      this.emitSortEvent();
+    },
+    emitSortEvent() {
+      const route = {
+        name: this.route,
+        query: JSON.parse(JSON.stringify(this.$route.query)),
+      };
+
       route.query.sort = this.sorting.column ? this.sorting.column : null;
       route.query.order = this.sorting.column ? this.sorting.order : null;
 
       this.saveToLocalStorage();
-      this.$router.push(route);
+      this.$router.replace(route);
       this.$emit('sort', this.sorting);
     },
     saveToLocalStorage() {
-      console.log('save', `${this.$route.name}Sorting`, JSON.stringify(this.sorting));
+      // console.log('save', `${this.$route.name}Sorting`, JSON.stringify(this.sorting));
       localStorage.setItem(`${this.$route.name}Sorting`, JSON.stringify(this.sorting));
     },
     loadFromLocalStorage() {
-      // prevent double fetch on page refresh by user
+      // ignore if query contains data
       if (this.$route.query && this.$route.query.sort) {
-        console.log('break sorting loadFromLocalStorage');
         return;
       }
+
+      // console.log('load', localStorage.getItem(`${this.$route.name}Sorting`));
 
       const sorting = localStorage.getItem(`${this.$route.name}Sorting`);
       if (sorting) {
         this.sorting = JSON.parse(sorting);
         this.emitSortEvent();
       }
-
-      console.log('load', localStorage.getItem(`${this.$route.name}Sorting`));
     },
   },
   watch: {

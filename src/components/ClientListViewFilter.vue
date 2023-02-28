@@ -94,7 +94,7 @@ export default {
       }
 
       this.saveToLocalStorage();
-      this.$router.push(route);
+      this.$router.replace(route);
       this.$emit('filter', this.filter);
     },
     emitSortEvent(sorting) {
@@ -104,7 +104,7 @@ export default {
       localStorage.setItem(`${this.$route.name}Filter`, JSON.stringify(this.filter));
     },
     loadFromLocalStorage() {
-      // prevent double fetch on page refresh by user
+      // ignore if query contains data
       if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
         return;
       }

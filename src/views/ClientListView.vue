@@ -28,6 +28,7 @@
 
 <script>
 import DataGrid from '@/components/common/DataGrid.vue';
+import debounce from 'lodash.debounce';
 import moment from 'moment';
 import logger from '@/plugins/logger';
 import clientsService from '@/services/clients';
@@ -88,12 +89,7 @@ export default {
       this.updateAppTitle();
     });
 
-    // prevent double fetch on page refresh by user
-    if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
-      return;
-    }
-
-    this.fetch();
+    this.beginFetch();
   },
   methods: {
     async fetch() {
@@ -133,6 +129,10 @@ export default {
 
       this.$emit('isProcessing', false);
     },
+    beginFetch: debounce(function fetch() {
+      // called 3 times on reload, run only once
+      this.fetch();
+    }, 50),
     intersect(entries, observer, isIntersecting) {
       if (!isIntersecting) {
         return;
@@ -161,7 +161,7 @@ export default {
       this.sorting.order = sorting.order;
 
       // refresh with new sorting
-      this.fetch();
+      this.beginFetch();
     },
     filterItems(filter) {
       // reset items
@@ -170,7 +170,7 @@ export default {
       this.filter = filter;
 
       // refresh with new filter
-      this.fetch();
+      this.beginFetch();
     },
     calculateSum() {
       this.columns.filter((u) => u.isSum)

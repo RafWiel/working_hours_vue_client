@@ -77,16 +77,15 @@ export default {
       route.query.order = this.sorting.column ? this.sorting.order : null;
 
       this.saveToLocalStorage();
-      this.$router.push(route);
+      this.$router.replace(route);
       this.$emit('sort', this.sorting);
     },
     saveToLocalStorage() {
       localStorage.setItem(`${this.$route.name}Sorting`, JSON.stringify(this.sorting));
     },
     loadFromLocalStorage() {
-      // prevent double fetch on page refresh by user
+      // // ignore if query contains data
       if (this.$route.query && Object.keys(this.$route.query).length !== 0) {
-        console.log('tutaj sie wywala');
         return;
       }
 
