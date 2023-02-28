@@ -21,8 +21,8 @@
           :key="column.id"
           :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
           :class="isSelectionCheckbox ? 'header_selection_offset_y' : ''"
-          @click="onSort(column.value)"
-          @keyup.space="onSort(column.value)"
+          @click="emitSortEvent(column.value)"
+          @keyup.space="emitSortEvent(column.value)"
           class="list_column text_ellipsis"
           style="height: 1.7em;"
           v-ripple>
@@ -259,8 +259,16 @@ export default {
     sortOrder,
     isAllSelected: false,
   }),
+  mounted() {
+    this.loadFromLocalStorage();
+  },
   methods: {
-    onSort(column) {
+    emitSortEvent(column) {
+      const route = {
+        name: this.route,
+        query: JSON.parse(JSON.stringify(this.$route.query)),
+      };
+
       if (column !== this.sorting.column) {
         this.sorting.column = column;
         this.sorting.order = sortOrder.ascending;
@@ -272,19 +280,60 @@ export default {
         this.sorting.order = sortOrder.ascending;
       }
 
+      route.query.sort = this.sorting.column ? this.sorting.column : null;
+      route.query.order = this.sorting.column ? this.sorting.order : null;
+
+      this.saveToLocalStorage();
+      this.$router.push(route);
       this.$emit('sort', this.sorting);
     },
+    saveToLocalStorage() {
+      console.log('save', `${this.$route.name}Sorting`, JSON.stringify(this.sorting));
+      localStorage.setItem(`${this.$route.name}Sorting`, JSON.stringify(this.sorting));
+    },
+    loadFromLocalStorage() {
+      // prevent double fetch on page refresh by user
+      if (this.$route.query && this.$route.query.sort) {
+        console.log('break sorting loadFromLocalStorage');
+        return;
+      }
+
+      const sorting = localStorage.getItem(`${this.$route.name}Sorting`);
+      if (sorting) {
+        this.sorting = JSON.parse(sorting);
+        this.emitSortEvent();
+      }
+
+      console.log('load', localStorage.getItem(`${this.$route.name}Sorting`));
+    },
   },
-  // filters: {
-  //   itemFilter(value, filterName) {
-  //     if (filterName === 'formatDate') {
-  //       if (value < 10) {
-  //         return `0${value}`;
-  //       }
-  //     }
-  //     return value;
-  //   },
-  // },
+  watch: {
+    '$route.query': {
+      immediate: true,
+      handler(value) {
+        if (!value) {
+          return;
+        }
+
+        let isRefresh = false;
+
+        if (!!value.sort && this.sorting.column !== value.sort) {
+          this.sorting.column = value.sort;
+          isRefresh = !!this.sorting.column;
+        }
+
+        if (!!value.order && this.sorting.order !== parseInt(value.order, 10)) {
+          this.sorting.order = parseInt(value.order, 10);
+          isRefresh = true;
+        }
+
+        if (isRefresh) {
+          this.saveToLocalStorage();
+          this.$emit('sort', this.sorting);
+        }
+      },
+    },
+  },
 };
 </script>
 

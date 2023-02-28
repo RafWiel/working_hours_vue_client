@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import debounce from 'lodash.debounce'; // debounce - opoznienie
+import debounce from 'lodash.debounce';
 import timePeriod from '@/enums/timePeriod';
 import taskType from '@/enums/taskType';
 import userType from '@/enums/userType';
@@ -231,7 +231,7 @@ export default {
       this.$emit('sort', sorting);
     },
     saveToLocalStorage() {
-      localStorage.setItem(`${this.route}Filter`, JSON.stringify(this.filter));
+      localStorage.setItem(`${this.$route.name}Filter`, JSON.stringify(this.filter));
     },
     loadFromLocalStorage() {
       // prevent double fetch on page refresh by user
@@ -239,14 +239,14 @@ export default {
         return;
       }
 
-      const filter = localStorage.getItem(`${this.route}Filter`);
+      const filter = localStorage.getItem(`${this.$route.name}Filter`);
       if (filter) {
         this.filter = JSON.parse(filter);
         this.setUserTaskType();
         this.emitFilterEvent();
       }
 
-      // console.log(localStorage.getItem(`${this.route}Filter`));
+      // console.log(localStorage.getItem(`${this.$route.name}Filter`));
     },
     setUserTaskType() {
       if (this.$store && this.$store.state.userType === userType.datasoft) {

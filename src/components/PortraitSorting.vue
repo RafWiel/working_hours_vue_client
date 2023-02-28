@@ -81,7 +81,7 @@ export default {
       this.$emit('sort', this.sorting);
     },
     saveToLocalStorage() {
-      localStorage.setItem(`${this.route}Sorting`, JSON.stringify(this.sorting));
+      localStorage.setItem(`${this.$route.name}Sorting`, JSON.stringify(this.sorting));
     },
     loadFromLocalStorage() {
       // prevent double fetch on page refresh by user
@@ -90,13 +90,13 @@ export default {
         return;
       }
 
-      const sorting = localStorage.getItem(`${this.route}Sorting`);
+      const sorting = localStorage.getItem(`${this.$route.name}Sorting`);
       if (sorting) {
         this.sorting = JSON.parse(sorting);
         this.emitEvent();
       }
 
-      console.log(localStorage.getItem(`${this.route}Sorting`));
+      console.log(localStorage.getItem(`${this.$route.name}Sorting`));
     },
   },
   watch: {
