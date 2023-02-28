@@ -1,5 +1,30 @@
 <template>
-  <div style="width: 150px">
+  <v-menu
+    v-model="isListVisible"
+    offset-y
+    nudge-left="80"
+    nudge-bottom="12"
+    transition="slide-y-transition"
+    class="pa-0"
+    min-width="auto">
+    <template v-slot:activator="{ on, attrs }">
+      <v-icon
+        v-bind="attrs"
+        v-on="on"
+        color="grey lighten-2">
+        mdi-web
+      </v-icon>
+    </template>
+    <v-list>
+      <v-list-item
+        v-for="(item, index) in items"
+        :key="index"
+        :value="index">
+        <v-list-item-title>{{ item.title }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
+  <!-- <div style="width: 150px">
     <v-select
       :items="languages"
       label="Lang"
@@ -10,7 +35,7 @@
       item-value="code"
       hide-details="auto"
       clearable/>
-  </div>
+  </div> -->
 </template>
 <script>
 import logger from '@/plugins/logger';
