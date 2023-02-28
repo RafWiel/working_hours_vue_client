@@ -224,7 +224,7 @@ export default {
     beginFetch: debounce(function fetch() {
       // called 3 times on reload, run only once
       this.fetch();
-    }, 0),
+    }, 50),
     intersect(entries, observer, isIntersecting) {
       if (!isIntersecting) {
         return;
