@@ -134,7 +134,7 @@ describe('TaskListView', () => {
     expect(wrapper.emitted().showMessage).toBeTruthy();
   });
 
-  it('settles', () => {
+  it('settles', async () => {
     const selectedItems = [
       {
         id: 1,
@@ -147,7 +147,10 @@ describe('TaskListView', () => {
     ];
 
     wrapper.vm.$data.items = JSON.parse(JSON.stringify(selectedItems));
-    wrapper.vm.settleTasks();
+    wrapper.vm.settleTasks(new Date());
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
 
     expect(tasksService.settle).toHaveBeenCalled();
     expect(fetchMethod).toHaveBeenCalled();
