@@ -15,7 +15,8 @@
     "settlement": "Settlement",
     "username": "Username",
     "password": "Password",
-    "error": "Error"
+    "error": "Error",
+    "language": "Language"
   },
   "filter": {
     "search": "Search",

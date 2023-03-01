@@ -1,12 +1,12 @@
 <template>
+
   <v-menu
     v-model="isListVisible"
     offset-y
-    nudge-left="80"
     nudge-bottom="12"
     transition="slide-y-transition"
     class="pa-0"
-    min-width="auto">
+    min-width="120">
     <template v-slot:activator="{ on, attrs }">
       <v-icon
         v-bind="attrs"
@@ -15,27 +15,20 @@
         mdi-web
       </v-icon>
     </template>
-    <v-list>
-      <v-list-item
-        v-for="(item, index) in items"
-        :key="index"
-        :value="index">
-        <v-list-item-title>{{ item.title }}</v-list-item-title>
-      </v-list-item>
+    <v-list dense>
+      <v-subheader>{{ $t('common.language') }}</v-subheader>
+      <v-list-item-group
+        @change="setLocale"
+        v-model="selectedItem"
+        color="primary">
+        <v-list-item
+          v-for="(language, i) in languages"
+          :key="i">
+          {{ language.text }}
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-menu>
-  <!-- <div style="width: 150px">
-    <v-select
-      :items="languages"
-      label="Lang"
-      @click.stop
-      @change="setLocale"
-      v-model="$i18n.locale"
-      item-text="text"
-      item-value="code"
-      hide-details="auto"
-      clearable/>
-  </div> -->
 </template>
 <script>
 import logger from '@/plugins/logger';
@@ -45,20 +38,20 @@ export default {
   name: 'LocaleChanger',
   data: () => ({
     isListVisible: false,
+    selectedItem: null,
     languages: [
-      { code: 'en', text: 'English' },
-      { code: 'pl', text: 'Polski' },
+      { id: 0, code: 'en', text: 'English' },
+      { id: 1, code: 'pl', text: 'Polski' },
     ],
-    items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
-      ],
   }),
+  mounted() {
+    this.setSelectedItem();
+  },
   methods: {
     async setLocale() {
       this.$emit('isProcessing', true);
+
+      this.$i18n.locale = this.selectedItem ? this.languages[this.selectedItem].code : 'en';
 
       await usersService.setLocale({
         username: this.$store.state.username,
@@ -88,6 +81,11 @@ export default {
         }
       })
       .catch((error) => this.processError('setLocale', error));
+    },
+    setSelectedItem() {
+      const { id } = this.languages.filter((u) => u.code === this.$i18n.locale)[0];
+
+      this.selectedItem = id;
     },
     processError(method, error) {
       this.$emit('isProcessing', false);

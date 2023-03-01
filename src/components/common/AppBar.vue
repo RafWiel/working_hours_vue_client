@@ -20,7 +20,6 @@
     <v-app-bar-title class="px-0 grey--text text--lighten-2 flex text-center">
       {{ title }} &nbsp;
     </v-app-bar-title>
-    <locale-changer />
     <v-btn
       :disabled="!isApplyEnabled"
       @click="$emit('applyClicked')"
@@ -28,6 +27,7 @@
       icon>
       <v-icon color="grey lighten-2">mdi-check</v-icon>
     </v-btn>
+    <locale-changer />
   </v-app-bar>
 </template>
 <script>

@@ -15,7 +15,8 @@
     "settlement": "Rozliczenie",
     "username": "Użytkownik",
     "password": "Hasło",
-    "error": "Błąd"
+    "error": "Błąd",
+    "language": "Język"
   },
   "filter": {
     "search": "Szukaj",
