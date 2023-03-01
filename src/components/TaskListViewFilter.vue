@@ -169,12 +169,6 @@ export default {
     isStopDatePickerVisible: false,
   }),
   mounted() {
-    //unsettled by default
-    // if (!this.$route.query['settlement-type']) {
-    //   this.filter.settlementType = settlementType.unsettled;
-    //   this.emitFilterEvent();
-    // }
-
     this.setUserTaskType();
     this.loadFromLocalStorage();
   },
@@ -244,9 +238,15 @@ export default {
         this.filter = JSON.parse(filter);
         this.setUserTaskType();
         this.emitFilterEvent();
+
+        return;
       }
 
-      // console.log(localStorage.getItem(`${this.$route.name}Filter`));
+      // unsettled by default
+      if (!this.$route.query['settlement-type']) {
+        this.filter.settlementType = settlementType.unsettled;
+        this.emitFilterEvent();
+      }
     },
     setUserTaskType() {
       if (this.$store && this.$store.state.userType === userType.datasoft) {

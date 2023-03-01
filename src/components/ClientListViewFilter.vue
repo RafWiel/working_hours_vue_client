@@ -113,6 +113,14 @@ export default {
       if (filter) {
         this.filter = JSON.parse(filter);
         this.emitFilterEvent();
+
+        return;
+      }
+
+      // unsettled by default
+      if (!this.$route.query['settlement-type']) {
+        this.filter.settlementType = settlementType.unsettled;
+        this.emitFilterEvent();
       }
 
       // console.log(localStorage.getItem(`${this.$route.name}Filter`));
