@@ -69,7 +69,7 @@
                 :style="`width: ${getColumnWidth(column)}%`"
                 :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                 class="list_column text_ellipsis">
-                {{ column.isIndex ? index + 1 : getItemValue(item, column) }}
+                {{ column.isIndex ? index + 1 : formatValue(item, column) }}
               </div>
             </v-col>
             <v-col cols="auto">
@@ -102,7 +102,7 @@
                 :style="`width: ${getColumnWidth(column)}%`"
                 :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                 class="list_column text_ellipsis font-weight-bold">
-                {{ column.isSum ? getItemSum(column) : '&nbsp;' }}
+                {{ column.isSum ? formatSum(column) : '&nbsp;' }}
               </div>
             </v-col>
           </v-row>
@@ -224,18 +224,30 @@ export default {
 
       return column.width.xs;
     },
-    getItemValue(item, column) {
+    formatValue(item, column) {
       const value = item[column.value];
 
       if (value && (column.decimalDigits || column.decimalDigits === 0)) {
+        // prevent rounding up to integer
+        if (parseFloat(value) !== parseInt(value, 10) && column.decimalDigits === 0) {
+          return parseFloat(value).toFixed(1);
+        }
+
         return parseFloat(value).toFixed(column.decimalDigits);
       }
 
       return value;
     },
-    getItemSum(column) {
+    formatSum(column) {
+      const value = column.sum;
+
       if (column.decimalDigits || column.decimalDigits === 0) {
-        return parseFloat(column.sum).toFixed(column.decimalDigits);
+        // prevent rounding up to integer
+        if (parseFloat(value) !== parseInt(value, 10) && column.decimalDigits === 0) {
+          return parseFloat(value).toFixed(1);
+        }
+
+        return parseFloat(value).toFixed(column.decimalDigits);
       }
 
       return column.sum;

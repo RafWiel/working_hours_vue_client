@@ -361,7 +361,12 @@ export default {
         this.item = response.data;
 
         this.item.creationDate = moment(this.item.creationDate).format('YYYY-MM-DD');
-        if (this.item.settlementDate != null) this.item.settlementDate = moment(this.item.settlementDate).format('YYYY-MM-DD');
+        this.item.price = this.formatValue(this.item.price);
+        this.item.hours = this.formatValue(this.item.hours);
+
+        if (this.item.settlementDate != null) {
+          this.item.settlementDate = moment(this.item.settlementDate).format('YYYY-MM-DD');
+        }
 
         this.updateAppTitle();
       })
@@ -490,6 +495,18 @@ export default {
     updateAppTitle() {
       const title = this.item.type === taskType.priceBased ? this.$t('taskViewEditView.titleDs') : this.$t('taskViewEditView.titleAd');
       this.$root.$emit('updateAppTitle', title);
+    },
+    formatValue(value) {
+      if (!value) {
+        return null;
+      }
+
+      // prevent rounding to integer
+      if (parseFloat(value) !== parseInt(value, 10)) {
+        return parseFloat(value).toFixed(1);
+      }
+
+      return parseFloat(value).toFixed(0);
     },
   },
   watch: {
