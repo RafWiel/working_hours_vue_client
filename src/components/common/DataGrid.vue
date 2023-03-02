@@ -1,11 +1,8 @@
 <template>
-  <v-container
-    fluid
-    :class="$vuetify.breakpoint.smAndUp ? 'pt-3' : ''"
-    class="pa-0">
+  <v-container fluid class="pa-0 pt-3">
     <!-- Header -->
     <v-row
-      v-if="$vuetify.breakpoint.smAndUp && items.length > 0"
+      v-if="items.length > 0"
       class="no-gutters px-4">
       <!-- 12 columns is to little, thats why one column and inside divs with percentage width -->
       <v-col class="pl-0 py-0 text-body-2 grey--text ">
@@ -17,9 +14,9 @@
           hide-details
           class="shrink list_column mt-0"/>
         <div
-          v-for="column in $vuetify.breakpoint.lgAndUp ? columns : limitedColumns"
+          v-for="column in computedColumns"
           :key="column.id"
-          :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
+          :style="`width: ${getColumnWidth(column)}%`"
           :class="isSelectionCheckbox ? 'header_selection_offset_y' : ''"
           @click="sort(column.value)"
           @keyup.space="sort(column.value)"
@@ -45,112 +42,10 @@
       </v-col>
     </v-row>
     <v-divider
-      v-if="$vuetify.breakpoint.smAndUp && items.length > 0"
+      v-if="items.length > 0"
       class="mt-0 py-0"/>
-    <!-- Rows portrait view -->
-    <v-container
-      v-if="$vuetify.breakpoint.xs"
-      fluid
-      class="pa-0">
-      <v-row class="no-gutters">
-        <v-col class="mx-3 mt-3">
-          <v-checkbox
-            :disabled="isSelectionDisabled"
-            :label="$t('action.selectAll')"
-            @click="$emit('selectAll', isAllSelected)"
-            v-if="isSelectionCheckbox && items.length > 0"
-            v-model="isAllSelected"
-            hide-details
-            class="shrink list_column mt-0"/>
-        </v-col>
-      </v-row>
-      <v-divider
-        v-if="isSelectionCheckbox && items.length > 0"
-        class="mt-2"/>
-      <v-row
-        :key="item.id"
-        @click="$emit('itemClick', item.id)"
-        v-for="(item, index) in items"
-        v-ripple
-        justify="center"
-        class="no-gutters list_row pt-2">
-        <v-col>
-          <v-row class="no-gutters px-3 mb-2" align="center">
-            <v-col v-if="isSelectionCheckbox">
-              <v-checkbox
-                @click.stop="$emit('selectionChanged')"
-                :disabled="item.isSelectionDisabled"
-                v-model="item.isSelected"
-                hide-details
-                class="shrink list_column mt-0"/>
-            </v-col>
-            <v-col cols="11">
-              <v-row
-                :key="column.id"
-                v-for="column in limitedColumns"
-                class="no-gutters pa-0"
-                align="center">
-                <!-- Name column -->
-                <v-col :cols="portraitCols" class="text_ellipsis label pr-1">
-                  {{ $t(`dataGridColumns.${column.value}`) }}
-                </v-col>
-                <!-- Value column -->
-                <v-col class="text_ellipsis">
-                  {{ column.isIndex ? index + 1 : item[column.value] }}
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col v-if="isDeleteButton">
-              <v-icon
-                class="deleteButton"
-                @click.stop="$emit('itemDeleteClick', item.id)">
-                mdi-close
-              </v-icon>
-            </v-col>
-          </v-row>
-          <!-- Divider (except last row) -->
-          <v-divider
-            v-if="index != items.length - 1"/>
-          <div v-else/>
-        </v-col>
-      </v-row>
-      <!-- Summary -->
-      <v-row
-        v-if="isSummary && items.length > 0"
-        class="no-gutters"
-        align="center" justify="center">
-        <v-col>
-          <v-divider class="px-0 py-0 black"/>
-        </v-col>
-      </v-row>
-      <v-row
-        v-if="isSummary && items.length > 0"
-        class="no-gutters py-2">
-        <v-col
-          v-if="isSelectionCheckbox"
-          class="shrink list_column ml-4 mr-3 mt-2">&nbsp;</v-col>
-        <v-col cols="11">
-          <v-row
-            :key="column.id"
-            v-for="column in portraitSummaryColumns"
-            class="no-gutters px-3 text_ellipsis font-weight-bold"
-            align="center">
-            <v-col cols="4" class="label">
-              {{ $t(`dataGridColumns.${column.value}`) }}
-            </v-col>
-            <v-col>
-              {{ column.sum }}
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-container>
-    <!-- Rows horizontal view -->
-    <v-container
-      v-if="$vuetify.breakpoint.smAndUp"
-      fluid
-      class="pa-0">
-      <!-- Rows -->
+    <!-- Rows -->
+    <v-container fluid class="pa-0">
       <v-row
         v-for="(item, index) in items"
         :key="item.id"
@@ -169,12 +64,12 @@
                 hide-details
                 class="shrink list_column mt-0"/>
               <div
-                v-for="column in $vuetify.breakpoint.lgAndUp ? columns : limitedColumns"
+                v-for="column in computedColumns"
                 :key="column.id"
-                :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
+                :style="`width: ${getColumnWidth(column)}%`"
                 :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                 class="list_column text_ellipsis">
-                {{ column.isIndex ? index + 1 : item[column.value] }}
+                {{ column.isIndex ? index + 1 : getItemValue(item, column) }}
               </div>
             </v-col>
             <v-col cols="auto">
@@ -202,12 +97,12 @@
                 v-if="isSelectionCheckbox"
                 class="shrink list_column ml-4 mr-3 mt-2">&nbsp;</div>
               <div
-                v-for="column in $vuetify.breakpoint.lgAndUp ? columns : limitedColumns"
+                v-for="column in computedColumns"
                 :key="column.id"
-                :style="`width: ${$vuetify.breakpoint.mdAndDown ? column.limitedWidth : column.fullWidth}%`"
+                :style="`width: ${getColumnWidth(column)}%`"
                 :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                 class="list_column text_ellipsis font-weight-bold">
-                {{ column.isSum ? column.sum : '&nbsp;' }}
+                {{ column.isSum ? getItemSum(column) : '&nbsp;' }}
               </div>
             </v-col>
           </v-row>
@@ -230,19 +125,25 @@ export default {
   props: {
     items: Array,
     columns: Array,
-    portraitCols: Number,
     isDeleteButton: Boolean,
     isSelectionCheckbox: Boolean,
     isSummary: Boolean,
   },
   computed: {
-    limitedColumns() {
-      // filter headers for mobile portrait view
-      return this.columns.filter((item) => item.limitedWidth !== undefined);
-    },
-    portraitSummaryColumns() {
-      // filter headers for mobile portrait view
-      return this.columns.filter((item) => item.isSum);
+    computedColumns() {
+      if (this.$vuetify.breakpoint.xl) {
+        return this.columns.filter((u) => !!u.width.xl === true);
+      }
+
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        return this.columns.filter((u) => !!u.width.md === true);
+      }
+
+      if (this.$vuetify.breakpoint.smAndUp) {
+        return this.columns.filter((u) => !!u.width.sm === true);
+      }
+
+      return this.columns.filter((u) => !!u.width.xs === true);
     },
     isSelectionDisabled() {
       // filter headers for mobile portrait view
@@ -307,6 +208,37 @@ export default {
         this.sorting = JSON.parse(sorting);
         this.emitSortEvent();
       }
+    },
+    getColumnWidth(column) {
+      if (this.$vuetify.breakpoint.xl && column.width.xl) {
+        return column.width.xl;
+      }
+
+      if (this.$vuetify.breakpoint.mdAndUp && column.width.md) {
+        return column.width.md;
+      }
+
+      if (this.$vuetify.breakpoint.smAndUp && column.width.sm) {
+        return column.width.sm;
+      }
+
+      return column.width.xs;
+    },
+    getItemValue(item, column) {
+      const value = item[column.value];
+
+      if (value && (column.decimalDigits || column.decimalDigits === 0)) {
+        return parseFloat(value).toFixed(column.decimalDigits);
+      }
+
+      return value;
+    },
+    getItemSum(column) {
+      if (column.decimalDigits || column.decimalDigits === 0) {
+        return parseFloat(column.sum).toFixed(column.decimalDigits);
+      }
+
+      return column.sum;
     },
   },
   watch: {

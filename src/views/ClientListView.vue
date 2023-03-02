@@ -14,7 +14,6 @@
     <data-grid
       :columns="columns"
       :items="items"
-      :portraitCols="4"
       :isSummary="true"
       @sort="sortItems"
       @itemClick="navigate"
@@ -60,17 +59,25 @@ export default {
       {
         id: 0,
         value: 'client',
-        limitedWidth: 15,
-        fullWidth: 15,
+        width: {
+          xl: 10,
+          md: 15,
+          sm: 25,
+          xs: 50,
+        },
       },
       {
         id: 1,
         value: 'amount',
-        limitedWidth: 14,
-        fullWidth: 12,
         isSum: true,
         sum: 0,
-        decimalDigits: 2,
+        decimalDigits: 0,
+        width: {
+          xl: 90,
+          md: 85,
+          sm: 75,
+          xs: 50,
+        },
       },
     ],
     datePickerDialog: {
@@ -116,8 +123,8 @@ export default {
         // console.log(response.data);
 
         // format values
-        response.data.clients.forEach((item) => {
-          this.items.push(item);
+        response.data.clients.forEach((client) => {
+          this.items.push(client);
         });
 
         this.calculateSum();
@@ -179,10 +186,6 @@ export default {
         const items = this.items.filter((u) => u[column.value]);
 
         column.sum = items.reduce((part, u) => part + parseFloat(u[column.value]), 0);
-
-        if (column.decimalDigits) {
-          column.sum = column.sum.toFixed(column.decimalDigits);
-        }
       });
     },
     navigate(id) {

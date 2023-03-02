@@ -15,7 +15,6 @@
     <data-grid
       :columns="columns"
       :items="items"
-      :portraitCols="4"
       :isSelectionCheckbox="isAdministrator"
       :isSummary="true"
       @selectAll="selectAllItems"
@@ -76,50 +75,89 @@ export default {
     columns: [
       {
         id: 0,
-        value: 'creationDate',
-        limitedWidth: 15,
-        fullWidth: 15,
+        value: 'name',
+        width: {
+          xl: null,
+          md: null,
+          sm: null,
+          xs: 63,
+        },
       },
       {
         id: 1,
-        value: 'client',
-        limitedWidth: 15,
-        fullWidth: 15,
+        value: 'creationDate',
+        width: {
+          xl: 12,
+          md: 13,
+          sm: 19,
+          xs: null,
+        },
       },
       {
         id: 2,
-        value: 'project',
-        limitedWidth: 15,
-        fullWidth: 15,
+        value: 'client',
+        width: {
+          xl: 13,
+          md: 16,
+          sm: 15,
+          xs: null,
+        },
       },
       {
         id: 3,
-        value: 'version',
-        limitedWidth: 10,
-        fullWidth: 12,
+        value: 'project',
+        width: {
+          xl: 20,
+          md: 30,
+          sm: 26,
+          xs: null,
+        },
       },
       {
         id: 4,
-        value: 'price',
-        limitedWidth: 14,
-        fullWidth: 12,
-        isSum: true,
-        sum: 0,
-        decimalDigits: 2,
+        value: 'version',
+        width: {
+          xl: 12,
+          md: 10,
+          sm: 11,
+          xs: null,
+        },
       },
       {
         id: 5,
-        value: 'hours',
-        limitedWidth: 14,
-        fullWidth: 12,
+        value: 'price',
         isSum: true,
         sum: 0,
+        decimalDigits: 0,
+        width: {
+          xl: 12,
+          md: 7,
+          sm: 11,
+          xs: 15,
+        },
       },
       {
         id: 6,
+        value: 'hours',
+        isSum: true,
+        sum: 0,
+        decimalDigits: 0,
+        width: {
+          xl: 12,
+          md: 8,
+          sm: 12,
+          xs: 12,
+        },
+      },
+      {
+        id: 7,
         value: 'settlementDate',
-        limitedWidth: 13,
-        fullWidth: 15,
+        width: {
+          xl: 15,
+          md: 11,
+          sm: null,
+          xs: null,
+        },
       },
     ],
     datePickerDialog: {
@@ -203,6 +241,7 @@ export default {
           item.isSelectionDisabled = !!item.settlementDate;
           item.creationDate = moment(item.creationDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
           item.settlementDate = item.settlementDate !== null ? moment(item.settlementDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD') : '';
+          item.name = `${item.client ? item.client : ''} ${item.project} ${item.version}`;
 
           this.items.push(item);
         });
@@ -324,10 +363,6 @@ export default {
         const items = this.items.filter((u) => u[column.value]);
 
         column.sum = items.reduce((part, u) => part + parseFloat(u[column.value]), 0);
-
-        if (column.decimalDigits) {
-          column.sum = column.sum.toFixed(column.decimalDigits);
-        }
       });
     },
     navigate(id) {

@@ -16,7 +16,8 @@
     "username": "Użytkownik",
     "password": "Hasło",
     "error": "Błąd",
-    "language": "Język"
+    "language": "Język",
+    "name": "Nazwa"
   },
   "filter": {
     "search": "Szukaj",
@@ -156,7 +157,8 @@
     "version": "@:common.version",
     "price": "@:common.price",
     "hours": "@:common.hours",
-    "settlementDate": "@:common.settlement"
+    "settlementDate": "@:common.settlement",
+    "name": "@:common.name"
   },
   "menuItems": {
     "clients": "Klienci",

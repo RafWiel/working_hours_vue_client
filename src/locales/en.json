@@ -16,7 +16,8 @@
     "username": "Username",
     "password": "Password",
     "error": "Error",
-    "language": "Language"
+    "language": "Language",
+    "name": "Name"
   },
   "filter": {
     "search": "Search",
@@ -155,7 +156,8 @@
     "version": "@:common.version",
     "price": "@:common.price",
     "hours": "@:common.hours",
-    "settlementDate": "@:common.settlement"
+    "settlementDate": "@:common.settlement",
+    "name": "@:common.name"
   },
   "menuItems": {
     "clients": "Clients",
