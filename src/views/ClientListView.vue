@@ -60,7 +60,7 @@ export default {
         id: 0,
         value: 'client',
         width: {
-          xl: 10,
+          xl: 12,
           md: 15,
           sm: 25,
           xs: 50,
@@ -73,10 +73,10 @@ export default {
         sum: 0,
         decimalDigits: 0,
         width: {
-          xl: 90,
-          md: 85,
-          sm: 75,
-          xs: 50,
+          xl: 20,
+          md: 20,
+          sm: 20,
+          xs: 40,
         },
       },
     ],

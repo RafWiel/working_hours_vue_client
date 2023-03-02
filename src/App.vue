@@ -13,6 +13,7 @@
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
               <!--
+              <h5 class="px-2 py-1 yellow">Aldridge XS nierowny row, na dole za duzo</h5>
               <h5 class="px-2 py-1 yellow">Wczytuj wersje po wpisaniu projektu</h5>
               <h5 class="px-2 py-1 yellow">TaskListView usun Ilosc godzin dla DataSoft</h5>
               -->
