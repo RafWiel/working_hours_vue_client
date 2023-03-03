@@ -63,14 +63,14 @@
                 v-model="item.isSelected"
                 hide-details
                 class="shrink list_column mt-0"/>
-              <div
-                v-for="column in computedColumns"
-                :key="column.id"
-                :style="`width: ${getColumnWidth(column)}%`"
-                :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
-                class="list_column text_ellipsis">
-                {{ column.isIndex ? index + 1 : formatValue(item, column) }}
-              </div>
+                <div
+                  v-for="column in computedColumns"
+                  :key="column.id"
+                  :style="`width: ${getColumnWidth(column)}%`"
+                  :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
+                  class="list_column py-0 text_ellipsis">
+                  {{ column.isIndex ? index + 1 : formatValue(item, column) }}
+                </div>
             </v-col>
             <v-col cols="auto">
               <v-icon
@@ -290,11 +290,6 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-right: 10px;
-
-    @media (max-width: 600px) {
-      overflow: hidden;
-      padding-right: 0;
-    }
   }
 
   .list_row {
