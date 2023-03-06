@@ -27,31 +27,21 @@
         item-value="id"
         hide-details="auto"/>
     </template>
-    <!-- Portrait sorting -->
-    <template v-slot:portraitSorting>
-      <portrait-sorting
-        :columns="portraitColumns"
-        @sort="emitSortEvent"
-        ref="portrait-sorting"/>
-    </template>
   </client-list-view-filter-layout>
 </template>
 
 <script>
 import debounce from 'lodash.debounce'; // debounce - opoznienie
 import settlementType from '@/enums/settlementType';
-import PortraitSorting from '@/components/PortraitSorting.vue';
 import ClientListViewFilterLayout from './ClientListViewFilterLayout.vue';
 
 export default {
   name: 'ClientListViewFilter',
   components: {
     ClientListViewFilterLayout,
-    PortraitSorting,
   },
   props: {
     route: String,
-    portraitColumns: Array,
   },
   computed: {
     settlementTypeItems() {
@@ -65,11 +55,6 @@ export default {
     },
   }),
   mounted() {
-    // unsettled by default
-    // if (!this.$route.query['settlement-type']) {
-    //   this.filter.settlementType = settlementType.unsettled;
-    //   this.emitFilterEvent();
-    // }
     this.loadFromLocalStorage();
   },
   methods: {

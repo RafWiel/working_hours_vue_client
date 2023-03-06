@@ -48,10 +48,6 @@
               <v-col cols="12" class="mt-2">
                 <slot name="settlement"/>
               </v-col>
-              <!-- Portrait sorting -->
-              <v-col cols="12" class="mt-2">
-                <slot name="portraitSorting"/>
-              </v-col>
             </v-row>
           </v-container>
         </v-expansion-panel-content>

@@ -6,7 +6,6 @@
     <!-- Filter -->
     <client-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
-      :portraitColumns="portraitColumns"
       @filter="filterItems"
       @sort="sortItems"
       route="clients"/>
@@ -47,10 +46,6 @@ export default {
     isSelection() {
       return this.items.filter((u) => u.isSelected).length > 0;
     },
-    portraitColumns() {
-      // filter headers for mobile portrait view
-      return this.columns.filter((item) => item.limitedWidth !== undefined);
-    },
   },
   data: () => ({
     page: 1,
@@ -63,7 +58,7 @@ export default {
           xl: 12,
           md: 15,
           sm: 25,
-          xs: 50,
+          xs: 78,
         },
       },
       {
@@ -76,7 +71,7 @@ export default {
           xl: 20,
           md: 20,
           sm: 20,
-          xs: 40,
+          xs: 22,
         },
       },
     ],

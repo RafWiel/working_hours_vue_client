@@ -112,13 +112,6 @@
           no-title/>
       </v-menu>
     </template>
-    <!-- Portrait sorting -->
-    <template v-slot:portraitSorting>
-      <portrait-sorting
-        :columns="portraitColumns"
-        @sort="emitSortEvent"
-        ref="portrait-sorting"/>
-    </template>
   </task-list-view-filter-layout>
 </template>
 
@@ -128,19 +121,16 @@ import timePeriod from '@/enums/timePeriod';
 import taskType from '@/enums/taskType';
 import userType from '@/enums/userType';
 import settlementType from '@/enums/settlementType';
-import PortraitSorting from '@/components/PortraitSorting.vue';
 import TaskListViewFilterLayout from './TaskListViewFilterLayout.vue';
 
 export default {
   components: {
     TaskListViewFilterLayout,
-    PortraitSorting,
   },
   name: 'TaskListViewFilter',
   props: {
     route: String,
     clientId: Number,
-    portraitColumns: Array,
   },
   computed: {
     isAdministrator() {

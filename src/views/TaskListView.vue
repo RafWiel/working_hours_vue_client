@@ -7,7 +7,6 @@
     <task-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
       :clientId="client.id"
-      :portraitColumns="portraitColumns"
       @filter="filterItems"
       @sort="sortItems"
       route="tasks"/>
@@ -61,10 +60,6 @@ export default {
     isSelection() {
       return this.items.filter((u) => u.isSelected).length > 0;
     },
-    portraitColumns() {
-      // filter headers for mobile portrait view
-      return this.columns.filter((item) => item.limitedWidth !== undefined);
-    },
     isAdministrator() {
       return this.$store && this.$store.state.userType === userType.administrator;
     },
@@ -80,7 +75,7 @@ export default {
           xl: null,
           md: null,
           sm: null,
-          xs: 63,
+          xs: 60,
         },
       },
       {
@@ -129,11 +124,12 @@ export default {
         isSum: true,
         sum: 0,
         decimalDigits: 0,
+        isVisible: false,
         width: {
           xl: 12,
           md: 7,
           sm: 11,
-          xs: 15,
+          xs: 17,
         },
       },
       {
@@ -142,11 +138,12 @@ export default {
         isSum: true,
         sum: 0,
         decimalDigits: 0,
+        isVisible: true,
         width: {
           xl: 12,
           md: 8,
           sm: 12,
-          xs: 12,
+          xs: 13,
         },
       },
       {
@@ -353,6 +350,8 @@ export default {
       this.page = 1;
       this.filter = filter;
 
+      this.hidePriceHoursColumns();
+
       // refresh with new filter
       this.beginFetch();
     },
@@ -376,6 +375,33 @@ export default {
 
       this.client.name = client;
       this.$root.$emit('updateAppTitle', title);
+    },
+    hidePriceHoursColumns() {
+      const nameColumn = this.columns.find((u) => u.value === 'name');
+      const priceColumn = this.columns.find((u) => u.value === 'price');
+      const hoursColumn = this.columns.find((u) => u.value === 'hours');
+      const isAdministrator = this.$store && this.$store.state.userType === userType.administrator;
+
+      switch (this.filter.taskType) {
+        case taskType.priceBased:
+          priceColumn.isVisible = true;
+          nameColumn.width.xs = isAdministrator ? 71 : 80; // checkbox in admin mode
+          priceColumn.width.xs = 20;
+          hoursColumn.isVisible = false;
+          break;
+        case taskType.hoursBased:
+          priceColumn.isVisible = false;
+          hoursColumn.isVisible = true;
+          nameColumn.width.xs = isAdministrator ? 74 : 78; // checkbox in admin mode
+          hoursColumn.width.xs = isAdministrator ? 17 : 22; // checkbox in admin mode
+          break;
+        default:
+          priceColumn.isVisible = true;
+          hoursColumn.isVisible = true;
+          nameColumn.width.xs = 60;
+          priceColumn.width.xs = 17;
+          hoursColumn.width.xs = 13;
+      }
     },
   },
 };

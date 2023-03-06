@@ -132,18 +132,18 @@ export default {
   computed: {
     computedColumns() {
       if (this.$vuetify.breakpoint.xl) {
-        return this.columns.filter((u) => !!u.width.xl === true);
+        return this.columns.filter((u) => !!u.width.xl === true && (u.isVisible || u.isVisible === undefined));
       }
 
       if (this.$vuetify.breakpoint.mdAndUp) {
-        return this.columns.filter((u) => !!u.width.md === true);
+        return this.columns.filter((u) => !!u.width.md === true && (u.isVisible || u.isVisible === undefined));
       }
 
       if (this.$vuetify.breakpoint.smAndUp) {
-        return this.columns.filter((u) => !!u.width.sm === true);
+        return this.columns.filter((u) => !!u.width.sm === true && (u.isVisible || u.isVisible === undefined));
       }
 
-      return this.columns.filter((u) => !!u.width.xs === true);
+      return this.columns.filter((u) => !!u.width.xs === true && (u.isVisible || u.isVisible === undefined));
     },
     isSelectionDisabled() {
       // filter headers for mobile portrait view

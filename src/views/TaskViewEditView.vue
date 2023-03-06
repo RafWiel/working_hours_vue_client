@@ -501,7 +501,7 @@ export default {
         return null;
       }
 
-      // prevent rounding to integer
+      // prevent rounding up to integer
       if (parseFloat(value) !== parseInt(value, 10)) {
         return parseFloat(value).toFixed(1);
       }

@@ -116,13 +116,6 @@
                 sm="3">
                 <slot name="taskType"/>
               </v-col>
-              <!-- Portrait sorting xs-->
-              <v-col
-                v-if="$vuetify.breakpoint.xs"
-                class="mt-2"
-                cols="12">
-                <slot name="portraitSorting"/>
-              </v-col>
             </v-row>
           </v-container>
         </v-expansion-panel-content>
