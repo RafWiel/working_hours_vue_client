@@ -238,7 +238,10 @@ export default {
       this.updateAppTitle();
     });
 
-    this.fetch();
+    // hours based tasks are common, load last one
+    if (this.$route.meta.type === this.taskType.hoursBased) {
+      this.fetch();
+    }
   },
   methods: {
     fetch() {
@@ -246,15 +249,19 @@ export default {
       this.$emit('isProcessing', true);
 
       // get item
-      tasksService.getLast({ type: this.$route.meta.type })
+      tasksService.getLast({
+        type: this.$route.meta.type,
+        client: this.item.client,
+        project: this.item.project,
+      })
       .then((response) => {
         if (!response.data) return;
-        // console.log(response.data);
 
         // copy project and version
         this.item.client = response.data.client;
         this.item.project = response.data.project;
         this.item.version = response.data.version;
+        this.item.description = response.data.description;
       })
       .catch((error) => this.processError('fetch', error));
 
@@ -357,6 +364,7 @@ export default {
       .catch((error) => logger.error(error))
       .finally(() => {
         this.projectApi.isLoading = false;
+        this.fetch();
       });
     }, 500, { maxWait: 5000 }),
   },

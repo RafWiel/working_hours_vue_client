@@ -341,6 +341,10 @@ export default {
       this.sorting.column = sorting.column;
       this.sorting.order = sorting.order;
 
+      if (this.sorting.column === 'name') {
+        this.sorting.column = 'project';
+      }
+
       // refresh with new sorting
       this.beginFetch();
     },
@@ -385,14 +389,14 @@ export default {
       switch (this.filter.taskType) {
         case taskType.priceBased:
           priceColumn.isVisible = true;
-          nameColumn.width.xs = isAdministrator ? 71 : 80; // checkbox in admin mode
+          nameColumn.width.xs = isAdministrator ? 70 : 80; // checkbox in admin mode
           priceColumn.width.xs = 20;
           hoursColumn.isVisible = false;
           break;
         case taskType.hoursBased:
           priceColumn.isVisible = false;
           hoursColumn.isVisible = true;
-          nameColumn.width.xs = isAdministrator ? 74 : 78; // checkbox in admin mode
+          nameColumn.width.xs = isAdministrator ? 73 : 78; // checkbox in admin mode
           hoursColumn.width.xs = isAdministrator ? 17 : 22; // checkbox in admin mode
           break;
         default:
