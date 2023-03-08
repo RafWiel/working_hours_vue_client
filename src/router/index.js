@@ -25,7 +25,7 @@ const routes = [
     redirect: '/',
   },
   {
-    path: '/tasks/ad',
+    path: '/add-task/ad',
     name: 'adTaskAdd',
     component: TaskAddView,
     meta: {
@@ -35,7 +35,7 @@ const routes = [
     },
   },
   {
-    path: '/tasks/ds',
+    path: '/add-task/ds',
     name: 'dsTaskAdd',
     component: TaskAddView,
     meta: {

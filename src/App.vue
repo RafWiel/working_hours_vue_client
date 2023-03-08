@@ -13,7 +13,7 @@
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
               <!--
-              <h5 class="px-2 py-1 yellow">Wczytuj wersje po wpisaniu projektu</h5>
+              <h5 class="px-2 py-1 yellow">Pamietaj route z ktorego przyszlo zadanie logowania</h5>
               <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
               -->
             <router-view
@@ -143,13 +143,13 @@ export default {
         this.links.push({
           icon: 'mdi-playlist-plus',
           value: 'newTaskAd',
-          route: '/tasks/ad',
+          route: '/add-task/ad',
         });
 
         this.links.push({
           icon: 'mdi-playlist-plus',
           value: 'newTaskDs',
-          route: '/tasks/ds',
+          route: '/add-task/ds',
         });
       }
     },

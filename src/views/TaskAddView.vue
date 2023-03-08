@@ -226,6 +226,7 @@ export default {
       float: rules.float,
     },
     taskType,
+    isProcessing: false,
   }),
   created() {
     this.item.creationDate = moment(new Date()).format('YYYY-MM-DD');
@@ -247,6 +248,7 @@ export default {
     fetch() {
       // set loading icon
       this.$emit('isProcessing', true);
+      this.isProcessing = true;
 
       // get item
       tasksService.getLast({
@@ -263,9 +265,13 @@ export default {
         this.item.version = response.data.version;
         this.item.description = response.data.description;
       })
-      .catch((error) => this.processError('fetch', error));
-
-      this.$emit('isProcessing', false);
+      .catch((error) => this.processError('fetch', error))
+      .finally(() => {
+        this.$emit('isProcessing', false);
+        setTimeout(() => {
+          this.isProcessing = false;
+        }, 1000);
+      });
     },
     save() {
       // workaround: Combobox change event is delayed if button clicked right after, run save code next cycle to get proper values
@@ -332,16 +338,29 @@ export default {
 
       this.$root.$emit('updateAppTitle', title);
     },
+    resetForm() {
+      this.item.version = null;
+      this.item.description = null;
+      this.item.price = null;
+      this.item.hours = null;
+
+      this.$refs.form.resetValidation();
+    },
   },
   watch: {
     'clientApi.searchInput': debounce(async function searchInput(val) {
       if (this.clientApi.isLoading) return;
+      if (this.isProcessing) return;
 
       this.clientApi.isLoading = true;
 
       clientsService.getNamesDistinct({ filter: val })
       .then((res) => {
         this.clientApi.values = res.data;
+
+        this.projectApi.values = [];
+        this.item.project = null;
+        this.resetForm();
       })
       .catch((error) => logger.error(error))
       .finally(() => {
@@ -350,6 +369,7 @@ export default {
     }, 500, { maxWait: 5000 }),
     'projectApi.searchInput': debounce(async function searchInput(val) {
       if (this.projectApi.isLoading) return;
+      if (this.isProcessing) return;
 
       this.projectApi.isLoading = true;
 
@@ -360,11 +380,16 @@ export default {
       })
       .then((res) => {
         this.projectApi.values = res.data;
+        this.resetForm();
+
+        //get last task by project
+        if (this.item.project && (this.item.client || this.$route.meta.type === taskType.hoursBased)) {
+          this.fetch();
+        }
       })
       .catch((error) => logger.error(error))
       .finally(() => {
         this.projectApi.isLoading = false;
-        this.fetch();
       });
     }, 500, { maxWait: 5000 }),
   },
