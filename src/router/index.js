@@ -55,6 +55,24 @@ const routes = [
     },
   },
   {
+    path: '/tasks',
+    name: 'tasksAd',
+    component: TaskListView,
+    meta: {
+      isTaskListView: true,
+      middleware: [authorization.validUser],
+    },
+  },
+  {
+    path: '/tasks',
+    name: 'tasksDs',
+    component: TaskListView,
+    meta: {
+      isTaskListView: true,
+      middleware: [authorization.validUser],
+    },
+  },
+  {
     path: '/clients',
     name: 'clients',
     component: ClientListView,

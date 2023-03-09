@@ -108,7 +108,7 @@ export default {
         'stop-date': this.filter && this.filter.stopDate ? moment(this.filter.stopDate).add(1, 'd').utc().format('YYYY-MM-DD HH:mm:ss.SSS Z') : null,
         'time-period': this.filter && this.filter.timePeriod !== timePeriod.all ? this.filter.timePeriod : null,
         'task-type': this.filter && this.filter.taskType !== taskType.all ? this.filter.taskType : null,
-        'settlement-type': this.filter && this.filter.settlementType !== settlementType.all ? this.filter.settlementType : null,
+        'settlement-type': this.filter && this.filter.settlementType > settlementType.all ? this.filter.settlementType : null,
       })
       .then((response) => {
         if (!response.data) return;

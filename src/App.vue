@@ -13,7 +13,7 @@
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
               <!--
-              <h5 class="px-2 py-1 yellow">Pamietaj route z ktorego przyszlo zadanie logowania</h5>
+              <h5 class="px-2 py-1 yellow">Sidebar menu naglowek Aldridge i DataSoft</h5>
               <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
               -->
             <router-view
@@ -133,13 +133,27 @@ export default {
         });
       }
 
-      this.links.push({
-        icon: 'mdi-format-list-numbered',
-        value: 'tasks',
-        route: '/tasks',
-      });
+      if (this.$store.state.userType !== userType.administrator) {
+        this.links.push({
+          icon: 'mdi-format-list-numbered',
+          value: 'tasks',
+          route: '/tasks',
+        });
+      }
 
       if (this.$store.state.userType === userType.administrator) {
+        this.links.push({
+          icon: 'mdi-format-list-numbered',
+          value: 'tasksAd',
+          route: '/tasks?task-type=2',
+        });
+
+        this.links.push({
+          icon: 'mdi-format-list-numbered',
+          value: 'tasksDs',
+          route: '/tasks?task-type=1',
+        });
+
         this.links.push({
           icon: 'mdi-playlist-plus',
           value: 'newTaskAd',

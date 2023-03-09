@@ -163,6 +163,8 @@
   "menuItems": {
     "clients": "Klienci",
     "tasks": "Zadania",
+    "tasksAd": "Zadania Aldridge",
+    "tasksDs": "Zadania DataSoft",
     "newTaskAd": "Nowe zadanie @:common.aldridge",
     "newTaskDs": "Nowe zadanie @:common.datasoft"
   }
