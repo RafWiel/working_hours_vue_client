@@ -200,8 +200,12 @@ export default {
           // store user info
           this.$store.dispatch('setUser', userInfo);
 
-          // redirect to main page
-          this.$router.replace({ name: 'main' });
+          console.log('load: ', this.$store.state.routePath);
+          // redirect to previous page
+          const path = this.$store.state.routePath ? this.$store.state.routePath : '/';
+
+          this.$router.replace(path);
+          console.log('replace: ', path);
 
           //refresh sidebar links
           this.$root.$emit('refreshSidebar');

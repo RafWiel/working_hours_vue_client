@@ -13,6 +13,7 @@ export default new Vuex.Store({
     userType: null,
     locale: null,
     isUserLoggedIn: false,
+    routePath: null,
   },
   mutations: {
     setToken(state, value) {
@@ -28,20 +29,11 @@ export default new Vuex.Store({
     setLocale(state, value) {
       state.locale = value;
     },
+    setRoutePath(state, value) {
+      state.routePath = value;
+    },
   },
   actions: {
-    // setToken({ commit }, value) {
-    //   commit('setToken', value);
-    // },
-    // setUsername({ commit }, value) {
-    //   commit('setUsername', value);
-    // },
-    // setUserType({ commit }, value) {
-    //   commit('setUserType', value);
-    // },
-    setLocale({ commit }, value) {
-      commit('setLocale', value);
-    },
     setUser({ commit }, user) {
       // console.log('setUser: ', user.username);
       commit('setToken', user.token);
@@ -54,6 +46,9 @@ export default new Vuex.Store({
       commit('setUsername', null);
       commit('setUserType', null);
       commit('setLocale', null);
+    },
+    setRoutePath({ commit }, value) {
+      commit('setRoutePath', value);
     },
   },
 });

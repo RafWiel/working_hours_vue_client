@@ -9,6 +9,7 @@ import TaskViewEditView from '../views/TaskViewEditView.vue';
 import UserRegisterView from '../views/UserRegisterView.vue';
 import LoginView from '../views/LoginView.vue';
 import authorization from '../middleware/authorization';
+import store from '../plugins/store';
 
 Vue.use(VueRouter);
 
@@ -125,8 +126,10 @@ router.beforeEach((to, from, next) => {
       to,
     };
 
-    const nextMiddleware = nextFactory(context, middleware, 1);
+    // save path in case of authorization
+    store.dispatch('setRoutePath', to.fullPath);
 
+    const nextMiddleware = nextFactory(context, middleware, 1);
     return middleware[0]({ ...context, next: nextMiddleware });
   }
 
