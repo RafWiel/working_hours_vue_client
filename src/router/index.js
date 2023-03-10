@@ -36,7 +36,7 @@ const routes = [
     },
   },
   {
-    path: '/add-task/ds',
+    path: '/add-task/ds/',
     name: 'dsTaskAdd',
     component: TaskAddView,
     meta: {
@@ -55,7 +55,7 @@ const routes = [
     },
   },
   {
-    path: '/tasks/ad/',
+    path: '/tasks/ad',
     name: 'tasksAd',
     component: TaskListView,
     meta: {
@@ -64,7 +64,7 @@ const routes = [
     },
   },
   {
-    path: '/tasks/ds/',
+    path: '/tasks/ds',
     name: 'tasksDs',
     component: TaskListView,
     meta: {

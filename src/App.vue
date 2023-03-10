@@ -13,6 +13,9 @@
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
               <!--
+                Aldridge ukryj klienta na liscie
+                Filtr podmienia sciezke, ucina /ad
+                Lista nie dziala zapamietywanie filtrow
               <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
               -->
             <router-view
@@ -149,7 +152,7 @@ export default {
         this.links.push({
           icon: 'mdi-format-list-numbered',
           value: 'tasksAd',
-          route: '/tasks/ad?task-type=2',
+          route: '/tasks/ad',
         });
 
         this.links.push({
@@ -172,7 +175,7 @@ export default {
         this.links.push({
           icon: 'mdi-format-list-numbered',
           value: 'tasksDs',
-          route: '/tasks/ds?task-type=1',
+          route: '/tasks/ds',
         });
 
         this.links.push({
