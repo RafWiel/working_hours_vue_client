@@ -18,13 +18,20 @@
             :key="link.id"
             router
             :to="link.route">
-            <v-list-item-action class="mr-4">
+            <v-list-item-action
+              v-if="!!link.isHeader === false"
+              class="mr-4">
               <v-icon class="grey--text text--lighten-2">{{ link.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title class="grey--text text--lighten-2">
+              <v-list-item-title
+                :class="link.isHeader ? 'text-h6' : ''"
+                class="grey--text text--lighten-2">
                 {{ $t(`menuItems.${link.value}`) }}
               </v-list-item-title>
+              <v-divider
+                v-if="link.isHeader"
+                class="px-1 py-0 mt-0 grey lighten-1" />
             </v-list-item-content>
           </v-list-item>
         </v-list>

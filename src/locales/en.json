@@ -162,8 +162,10 @@
   "menuItems": {
     "clients": "Clients",
     "tasks": "Tasks",
-    "tasksAd": "Aldridge Tasks",
-    "tasksDs": "DataSoft Tasks",
+    "tasksAd": "@:menuItems.tasks",
+    "tasksDs": "@:menuItems.tasks",
+    "aldridge": "@:common.aldridge",
+    "datasoft": "@:common.datasoft",
     "newTaskAd": "New @:common.aldridge task",
     "newTaskDs": "New @:common.datasoft task"
   }

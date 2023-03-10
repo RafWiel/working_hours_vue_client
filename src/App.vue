@@ -13,7 +13,6 @@
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
               <!--
-              <h5 class="px-2 py-1 yellow">Sidebar menu naglowek Aldridge i DataSoft</h5>
               <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
               -->
             <router-view
@@ -125,15 +124,15 @@ export default {
     initializeSidebar() {
       this.links = [];
 
-      if (this.$store.state.userType !== userType.aldridge) {
-        this.links.push({
-          icon: 'mdi-account-multiple',
-          value: 'clients',
-          route: '/clients',
-        });
-      }
-
       if (this.$store.state.userType !== userType.administrator) {
+        if (this.$store.state.userType !== userType.aldridge) {
+          this.links.push({
+            icon: 'mdi-account-multiple',
+            value: 'clients',
+            route: '/clients',
+          });
+        }
+
         this.links.push({
           icon: 'mdi-format-list-numbered',
           value: 'tasks',
@@ -143,21 +142,37 @@ export default {
 
       if (this.$store.state.userType === userType.administrator) {
         this.links.push({
-          icon: 'mdi-format-list-numbered',
-          value: 'tasksAd',
-          route: '/tasks?task-type=2',
+          value: 'aldridge',
+          isHeader: true,
         });
 
         this.links.push({
           icon: 'mdi-format-list-numbered',
-          value: 'tasksDs',
-          route: '/tasks?task-type=1',
+          value: 'tasksAd',
+          route: '/tasks/ad?task-type=2',
         });
 
         this.links.push({
           icon: 'mdi-playlist-plus',
           value: 'newTaskAd',
           route: '/add-task/ad',
+        });
+
+        this.links.push({
+          value: 'datasoft',
+          isHeader: true,
+        });
+
+        this.links.push({
+          icon: 'mdi-account-multiple',
+          value: 'clients',
+          route: '/clients',
+        });
+
+        this.links.push({
+          icon: 'mdi-format-list-numbered',
+          value: 'tasksDs',
+          route: '/tasks/ds?task-type=1',
         });
 
         this.links.push({
