@@ -13,10 +13,9 @@
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
               <!--
-                Aldridge ukryj klienta na liscie
-                Filtr podmienia sciezke, ucina /ad
-                Lista nie dziala zapamietywanie filtrow
-              <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
+                <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
+                Piotr rozliczanie klientow
+                Checkbox suma
               -->
             <router-view
               :key="$route.path"

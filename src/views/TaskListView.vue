@@ -9,7 +9,7 @@
       :clientId="client.id"
       @filter="filterItems"
       @sort="sortItems"
-      route="tasks"/>
+      :route="$route.name"/>
     <!-- DataGrid -->
     <data-grid
       :columns="columns"
@@ -97,6 +97,7 @@ export default {
           sm: 15,
           xs: null,
         },
+        hidden: userType.aldridge,
       },
       {
         id: 3,
@@ -171,7 +172,7 @@ export default {
     },
   }),
   created() {
-    //console.log('created ', this.$route.query);
+    // console.log('created ', this.$route.name);
     this.client.id = this.$route.query && this.$route.query['client-id'] ? parseInt(this.$route.query['client-id'], 10) : null;
   },
   mounted() {
@@ -375,7 +376,18 @@ export default {
       });
     },
     updateAppTitle(client) {
-      const title = client ? this.$t('taskListView.titleClient', { client }) : this.$t('taskListView.title');
+      let title = client ? this.$t('taskListView.titleClient', { client }) : this.$t('taskListView.title');
+      if (!client) {
+        if (this.$route.name === 'tasksAd') {
+          const name = this.$t('common.aldridge');
+          title = this.$t('taskListView.titleName', { name });
+        }
+
+        if (this.$route.name === 'tasksDs') {
+          const name = this.$t('common.datasoft');
+          title = this.$t('taskListView.titleName', { name });
+        }
+      }
 
       this.client.name = client;
       this.$root.$emit('updateAppTitle', title);

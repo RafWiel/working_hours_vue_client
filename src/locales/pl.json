@@ -58,7 +58,8 @@
   },
   "taskListView": {
     "title": "Zadania",
-    "titleClient": "Zadania {client}"
+    "titleClient": "Zadania {client}",
+    "titleName": "Zadania {name}"
   },
   "taskView": {
     "date": "@:common.date",
