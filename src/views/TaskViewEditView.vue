@@ -179,7 +179,6 @@
                   cols="12"
                   class="mt-2">
                   <v-text-field
-                    :rules="[rules.required]"
                     :label="$t('taskView.settlement')"
                     v-if="!isAdministrator"
                     v-model.lazy="item.settlementDate"
