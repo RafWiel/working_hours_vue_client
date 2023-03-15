@@ -16,6 +16,9 @@ export default {
   settle(request) {
     return api().post('tasks/settle', request);
   },
+  invoice(request) {
+    return api().post('tasks/invoice', request);
+  },
   getOne(id) {
     return api().get(`tasks/${id}`);
   },

@@ -16,6 +16,8 @@
                 <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
                 Piotr rozliczanie klientow
                 Checkbox suma
+                Po ustaleniu klienta wczytaj jego projekty, nie czekaj na litere
+                Gdy nowy klient, to wczytuje wszystkie projekty zamiast zadnego
               -->
             <router-view
               :key="$route.path"

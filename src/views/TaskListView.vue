@@ -14,7 +14,7 @@
     <data-grid
       :columns="columns"
       :items="items"
-      :isSelectionCheckbox="isAdministrator"
+      :isSelectionCheckbox="isSettlement"
       :isSummary="true"
       @selectAll="selectAllItems"
       @selectionChanged="notifySelection"
@@ -60,8 +60,10 @@ export default {
     isSelection() {
       return this.items.filter((u) => u.isSelected).length > 0;
     },
-    isAdministrator() {
-      return this.$store && this.$store.state.userType === userType.administrator;
+    isSettlement() {
+      return this.$store && (
+        this.$store.state.userType === userType.administrator
+        || this.$store.state.userType === userType.datasoft);
     },
   },
   data: () => ({
@@ -149,10 +151,20 @@ export default {
       },
       {
         id: 7,
+        value: 'invoiceDate',
+        width: {
+          xl: 10,
+          md: 10,
+          sm: null,
+          xs: null,
+        },
+      },
+      {
+        id: 8,
         value: 'settlementDate',
         width: {
           xl: 15,
-          md: 11,
+          md: 10,
           sm: null,
           xs: null,
         },
@@ -232,13 +244,17 @@ export default {
           this.updateAppTitle(client);
         }
 
+        const isAdmin = this.$store.state.userType === userType.administrator;
+        const isDatasoft = this.$store.state.userType === userType.datasoft;
+
         // format values
         tasks.forEach((task) => {
           const item = task;
           item.isSelected = false;
-          item.isSelectionDisabled = !!item.settlementDate;
+          item.isSelectionDisabled = (isAdmin && !!item.settlementDate) || (isDatasoft && !!item.invoiceDate);
           item.creationDate = moment(item.creationDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
           item.settlementDate = item.settlementDate !== null ? moment(item.settlementDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD') : '';
+          item.invoiceDate = item.invoiceDate !== null ? moment(item.invoiceDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD') : '';
           item.name = `${item.client ? item.client : ''} ${item.project} ${item.version}`;
 
           this.items.push(item);
@@ -277,15 +293,23 @@ export default {
       this.showMessage(this.$t(`htmlError.${error.response.status}`));
     },
     showMessage(message) {
-      this.$emit('showMessage', this.$t('taskListView.metaTitle'), message);
+      this.$emit('showMessage', this.$t('taskListView.title'), message);
     },
     showAutoMessage(message) {
       this.$emit('showAutoMessage', this.$t('taskListView.title'), message);
     },
     selectAllItems(value) {
+      const isAdmin = this.$store.state.userType === userType.administrator;
+      const isDatasoft = this.$store.state.userType === userType.datasoft;
+
       this.items.forEach((task) => {
         const item = task;
-        if (!!item.settlementDate === false) {
+
+        if (isAdmin && !!item.settlementDate === false) {
+          item.isSelected = value;
+        }
+
+        if (isDatasoft && !!item.invoiceDate === false) {
           item.isSelected = value;
         }
       });
@@ -301,13 +325,27 @@ export default {
           return;
         }
 
-        const response = await tasksService.settle({
-          idArray,
-          settlementDate: date,
-        });
+        let response = null;
+        const isAdmin = this.$store.state.userType === userType.administrator;
+        const isDatasoft = this.$store.state.userType === userType.datasoft;
+
+        if (isAdmin) {
+          response = await tasksService.settle({
+            idArray,
+            settlementDate: date,
+          });
+        }
+
+        if (isDatasoft) {
+          response = await tasksService.invoice({
+            idArray,
+            invoiceDate: date,
+          });
+        }
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);
+
           this.showAutoMessage(this.$tc('message.taskSettledPlural', idArray.length));
 
           // refresh
@@ -396,20 +434,22 @@ export default {
       const nameColumn = this.columns.find((u) => u.value === 'name');
       const priceColumn = this.columns.find((u) => u.value === 'price');
       const hoursColumn = this.columns.find((u) => u.value === 'hours');
-      const isAdministrator = this.$store && this.$store.state.userType === userType.administrator;
+      const isSettlement = this.$store && (
+          this.$store.state.userType === userType.administrator
+          || this.$store.state.userType === userType.datasoft);
 
       switch (this.filter.taskType) {
         case taskType.priceBased:
           priceColumn.isVisible = true;
-          nameColumn.width.xs = isAdministrator ? 70 : 80; // checkbox in admin mode
+          nameColumn.width.xs = isSettlement ? 70 : 80; // checkbox in admin mode
           priceColumn.width.xs = 20;
           hoursColumn.isVisible = false;
           break;
         case taskType.hoursBased:
           priceColumn.isVisible = false;
           hoursColumn.isVisible = true;
-          nameColumn.width.xs = isAdministrator ? 73 : 78; // checkbox in admin mode
-          hoursColumn.width.xs = isAdministrator ? 17 : 22; // checkbox in admin mode
+          nameColumn.width.xs = isSettlement ? 73 : 78; // checkbox in admin mode
+          hoursColumn.width.xs = isSettlement ? 17 : 22; // checkbox in admin mode
           break;
         default:
           priceColumn.isVisible = true;

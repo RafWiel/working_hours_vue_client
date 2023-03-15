@@ -148,7 +148,6 @@ export default {
       return columns.filter((u) => !!u.width.xs === true && (u.isVisible || u.isVisible === undefined));
     },
     isSelectionDisabled() {
-      // filter headers for mobile portrait view
       const disabledItemsCount = this.items.filter((item) => item.isSelectionDisabled).length;
 
       return this.items.length === disabledItemsCount;

@@ -17,7 +17,8 @@
     "password": "Password",
     "error": "Error",
     "language": "Language",
-    "name": "Name"
+    "name": "Name",
+    "invoice": "Invoice"
   },
   "filter": {
     "search": "Search",
@@ -158,6 +159,7 @@
     "price": "@:common.price",
     "hours": "@:common.hours",
     "settlementDate": "@:common.settlement",
+    "invoiceDate": "@:common.invoice",
     "name": "@:common.name"
   },
   "menuItems": {
