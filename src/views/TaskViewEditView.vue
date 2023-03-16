@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pa-0">
-    <!-- Horizontal Delete Button -->
+    <!-- Horizontal Settle Button -->
     <v-row
       v-if="$vuetify.breakpoint.smAndUp"
       class="no-gutters mt-2 mr-2"
@@ -13,11 +13,11 @@
           block
           class="save-btn"
           @click="showDatePickerDialog">
-          {{!!item.settlementDate ? item.settlementDate : $t('action.settle')}}
+          {{$t('action.settle')}}
         </v-btn>
       </v-col>
     </v-row>
-    <!-- Horizontal Settle Button -->
+    <!-- Horizontal Delete Button -->
     <v-row
       v-if="$vuetify.breakpoint.smAndUp"
       class="no-gutters mt-1 mr-2"
@@ -174,13 +174,24 @@
                     hide-details="auto"
                     validate-on-blur/>
                 </v-col>
+                <!-- Invoice date -->
+                <v-col
+                  cols="12"
+                  class="mt-2">
+                  <v-text-field
+                    :label="$t('taskView.invoice')"
+                    v-model.lazy="item.invoiceDate"
+                    type="input"
+                    hide-details="auto"
+                    validate-on-blur
+                    readonly/>
+                </v-col>
                 <!-- Settlement date -->
                 <v-col
                   cols="12"
                   class="mt-2">
                   <v-text-field
                     :label="$t('taskView.settlement')"
-                    v-if="!isAdministrator"
                     v-model.lazy="item.settlementDate"
                     type="input"
                     hide-details="auto"
@@ -206,7 +217,24 @@
               </v-btn>
             </v-col>
           </v-row>
-          <!-- Portrait Delete Button -->
+          <!-- Invoice Button -->
+          <v-row
+            :class="$vuetify.breakpoint.xs ? 'px-3' : ''"
+            class="no-gutters shrink mt-4"
+            justify="end">
+            <v-col cols="12" sm="5">
+              <v-btn
+                :disabled="!!item.invoiceDate"
+                @click="showDatePickerDialog"
+                v-if="isDsf"
+                depressed
+                block
+                class="save-btn">
+                {{$t('action.invoice')}}
+              </v-btn>
+            </v-col>
+          </v-row>
+          <!-- Portrait Settle Button -->
           <v-row
             v-if="$vuetify.breakpoint.xs"
             class="no-gutters shrink mt-1 px-3"
@@ -219,11 +247,11 @@
                 depressed
                 block
                 class="save-btn">
-                {{!!item.settlementDate ? item.settlementDate : $t('action.settle')}}
+                {{$t('action.settle')}}
               </v-btn>
             </v-col>
           </v-row>
-          <!-- Portrait Settle Button -->
+          <!-- Portrait Delete Button -->
           <v-row
             v-if="$vuetify.breakpoint.xs"
             class="no-gutters shrink mt-1 px-3 pb-3"
@@ -277,15 +305,18 @@ export default {
     computed_width() {
       switch (this.$vuetify.breakpoint.name) {
           case 'xs': return '';
-          case 'sm': return 'width: 75%;';
-          case 'md': return 'width: 50%;';
-          case 'lg': return 'width: 40%;';
-          case 'xl': return 'width: 30%;';
+          case 'sm': return 'width: 80%;';
+          case 'md': return 'width: 70%;';
+          case 'lg': return 'width: 60%;';
+          case 'xl': return 'width: 50%;';
           default: return '';
         }
     },
     isAdministrator() {
       return this.$store && this.$store.state.userType === userType.administrator;
+    },
+    isDsf() {
+      return this.$store && this.$store.state.userType === userType.dsf;
     },
   },
   data: () => ({
@@ -367,6 +398,10 @@ export default {
           this.item.settlementDate = moment(this.item.settlementDate).format('YYYY-MM-DD');
         }
 
+        if (this.item.invoiceDate != null) {
+          this.item.invoiceDate = moment(this.item.invoiceDate).format('YYYY-MM-DD');
+        }
+
         this.updateAppTitle();
       })
       .catch((error) => this.processError('fetch', error));
@@ -417,10 +452,23 @@ export default {
 
         // console.log(JSON.stringify(this.item));
 
-        const response = await tasksService.settle({
-          idArray: [this.item.id],
-          settlementDate: date,
-        });
+        let response = null;
+        const isAdmin = this.$store.state.userType === userType.administrator;
+        const isDsf = this.$store.state.userType === userType.dsf;
+
+        if (isAdmin) {
+          response = await tasksService.settle({
+            idArray: [this.item.id],
+            settlementDate: date,
+          });
+        }
+
+        if (isDsf) {
+          response = await tasksService.invoice({
+            idArray: [this.item.id],
+            invoiceDate: date,
+          });
+        }
 
         if (response.status === 200) {
           this.$emit('isProcessing', false);

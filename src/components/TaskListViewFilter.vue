@@ -239,12 +239,16 @@ export default {
       }
     },
     setUserTaskType() {
-      if (this.$store && this.$store.state.userType === userType.datasoft) {
+      if (this.$store && this.$store.state.userType === userType.dsf) {
         this.filter.taskType = taskType.priceBased;
       }
 
-      if (this.$store && this.$store.state.userType === userType.aldridge) {
+      if (this.$store && this.$store.state.userType === userType.ald) {
         this.filter.taskType = taskType.hoursBased;
+      }
+
+      if (this.clientId) {
+        this.filter.taskType = taskType.priceBased;
       }
     },
   },

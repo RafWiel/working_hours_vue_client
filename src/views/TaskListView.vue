@@ -63,7 +63,7 @@ export default {
     isSettlement() {
       return this.$store && (
         this.$store.state.userType === userType.administrator
-        || this.$store.state.userType === userType.datasoft);
+        || this.$store.state.userType === userType.dsf);
     },
   },
   data: () => ({
@@ -99,7 +99,7 @@ export default {
           sm: 15,
           xs: null,
         },
-        hidden: userType.aldridge,
+        hidden: userType.ald,
       },
       {
         id: 3,
@@ -116,7 +116,7 @@ export default {
         value: 'version',
         width: {
           xl: 12,
-          md: 10,
+          md: 7,
           sm: 11,
           xs: null,
         },
@@ -129,7 +129,7 @@ export default {
         decimalDigits: 0,
         isVisible: false,
         width: {
-          xl: 12,
+          xl: 10,
           md: 7,
           sm: 11,
           xs: 17,
@@ -143,8 +143,8 @@ export default {
         decimalDigits: 0,
         isVisible: true,
         width: {
-          xl: 12,
-          md: 8,
+          xl: 10,
+          md: 7,
           sm: 12,
           xs: 13,
         },
@@ -154,7 +154,7 @@ export default {
         value: 'invoiceDate',
         width: {
           xl: 10,
-          md: 10,
+          md: 8,
           sm: null,
           xs: null,
         },
@@ -163,8 +163,8 @@ export default {
         id: 8,
         value: 'settlementDate',
         width: {
-          xl: 15,
-          md: 10,
+          xl: 10,
+          md: 8,
           sm: null,
           xs: null,
         },
@@ -208,10 +208,10 @@ export default {
       let taskTypeFilter = null;
 
       switch (this.$store.state.userType) {
-        case userType.aldridge:
+        case userType.ald:
           taskTypeFilter = taskType.hoursBased;
           break;
-        case userType.datasoft:
+        case userType.dsf:
           taskTypeFilter = taskType.priceBased;
           break;
         default:
@@ -245,13 +245,13 @@ export default {
         }
 
         const isAdmin = this.$store.state.userType === userType.administrator;
-        const isDatasoft = this.$store.state.userType === userType.datasoft;
+        const isDsf = this.$store.state.userType === userType.dsf;
 
         // format values
         tasks.forEach((task) => {
           const item = task;
           item.isSelected = false;
-          item.isSelectionDisabled = (isAdmin && !!item.settlementDate) || (isDatasoft && !!item.invoiceDate);
+          item.isSelectionDisabled = (isAdmin && !!item.settlementDate) || (isDsf && !!item.invoiceDate);
           item.creationDate = moment(item.creationDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD');
           item.settlementDate = item.settlementDate !== null ? moment(item.settlementDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD') : '';
           item.invoiceDate = item.invoiceDate !== null ? moment(item.invoiceDate, 'YYYY-MM-DD hh:mm:ss.SSS Z').format('YYYY-MM-DD') : '';
@@ -300,7 +300,7 @@ export default {
     },
     selectAllItems(value) {
       const isAdmin = this.$store.state.userType === userType.administrator;
-      const isDatasoft = this.$store.state.userType === userType.datasoft;
+      const isDsf = this.$store.state.userType === userType.dsf;
 
       this.items.forEach((task) => {
         const item = task;
@@ -309,7 +309,7 @@ export default {
           item.isSelected = value;
         }
 
-        if (isDatasoft && !!item.invoiceDate === false) {
+        if (isDsf && !!item.invoiceDate === false) {
           item.isSelected = value;
         }
       });
@@ -327,7 +327,7 @@ export default {
 
         let response = null;
         const isAdmin = this.$store.state.userType === userType.administrator;
-        const isDatasoft = this.$store.state.userType === userType.datasoft;
+        const isDsf = this.$store.state.userType === userType.dsf;
 
         if (isAdmin) {
           response = await tasksService.settle({
@@ -336,7 +336,7 @@ export default {
           });
         }
 
-        if (isDatasoft) {
+        if (isDsf) {
           response = await tasksService.invoice({
             idArray,
             invoiceDate: date,
@@ -417,12 +417,12 @@ export default {
       let title = client ? this.$t('taskListView.titleClient', { client }) : this.$t('taskListView.title');
       if (!client) {
         if (this.$route.name === 'tasksAd') {
-          const name = this.$t('common.aldridge');
+          const name = this.$t('common.ald');
           title = this.$t('taskListView.titleName', { name });
         }
 
         if (this.$route.name === 'tasksDs') {
-          const name = this.$t('common.datasoft');
+          const name = this.$t('common.dsf');
           title = this.$t('taskListView.titleName', { name });
         }
       }
@@ -436,7 +436,11 @@ export default {
       const hoursColumn = this.columns.find((u) => u.value === 'hours');
       const isSettlement = this.$store && (
           this.$store.state.userType === userType.administrator
-          || this.$store.state.userType === userType.datasoft);
+          || this.$store.state.userType === userType.dsf);
+
+      if (this.client.id) {
+        this.filter.taskType = taskType.priceBased;
+      }
 
       switch (this.filter.taskType) {
         case taskType.priceBased:

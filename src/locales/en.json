@@ -3,8 +3,8 @@
   "common": {
     "yes": "Yes",
     "no": "No",
-    "aldridge": "Aldridge",
-    "datasoft": "DataSoft",
+    "ald": "Aldridge",
+    "dsf": "DataSoft",
     "date": "Date",
     "client": "Client",
     "project": "Project",
@@ -40,7 +40,8 @@
     "save": "Save",
     "settle": "Settle",
     "delete": "Delete",
-    "add": "Add"
+    "add": "Add",
+    "invoice": "@:common.invoice"
   },
   "clientListView": {
     "title": "Clients"
@@ -54,8 +55,8 @@
   },
   "taskAddView": {
     "title": "New task",
-    "titleAd": "New @:common.aldridge task",
-    "titleDs": "New @:common.datasoft task"
+    "titleAd": "New @:common.ald task",
+    "titleDs": "New @:common.dsf task"
   },
   "taskListView": {
     "title": "Tasks",
@@ -70,12 +71,13 @@
     "description": "@:common.description",
     "price": "@:common.price",
     "hours": "@:common.hours",
-    "settlement": "@:common.settlement"
+    "settlement": "@:common.settlement",
+    "invoice": "@:common.invoice"
   },
   "taskViewEditView": {
     "title": "Task",
-    "titleAd": "@:common.aldridge task",
-    "titleDs": "@:common.datasoft task"
+    "titleAd": "@:common.ald task",
+    "titleDs": "@:common.dsf task"
   },
   "userRegisterView": {
     "title": "Registration",
@@ -107,13 +109,13 @@
     },
     "taskType": {
       "all": "@:enums.common.all",
-      "priceBased": "@:common.datasoft",
-      "hoursBased": "@:common.aldridge"
+      "priceBased": "@:common.dsf",
+      "hoursBased": "@:common.ald"
     },
     "userType": {
       "administrator": "Administrator",
-      "aldridge": "@:common.aldridge",
-      "datasoft": "@:common.datasoft"
+      "ald": "@:common.ald",
+      "dsf": "@:common.dsf"
     },
     "sorting": {
       "ascending": "Ascending",
@@ -167,9 +169,9 @@
     "tasks": "Tasks",
     "tasksAd": "@:menuItems.tasks",
     "tasksDs": "@:menuItems.tasks",
-    "aldridge": "@:common.aldridge",
-    "datasoft": "@:common.datasoft",
-    "newTaskAd": "New @:common.aldridge task",
-    "newTaskDs": "New @:common.datasoft task"
+    "ald": "@:common.ald",
+    "dsf": "@:common.dsf",
+    "newTaskAd": "New @:common.ald task",
+    "newTaskDs": "New @:common.dsf task"
   }
 }

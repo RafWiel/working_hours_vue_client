@@ -4,7 +4,8 @@ import userType from '../enums/userType';
 export default {
   validUser({ next, router }) {
     if (!localStorage.getItem('userInfo')) {
-      return router.replace({ name: 'login' });
+      router.replace({ name: 'login' });
+      return next();
     }
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -12,7 +13,8 @@ export default {
     // require login each day
     const loginTimestamp = new Date(parseInt(userInfo.timestamp, 10));
     if ((!loginTimestamp || loginTimestamp.getDate() !== new Date().getDate())) {
-      return router.replace({ name: 'login' });
+      router.replace({ name: 'login' });
+      return next();
     }
 
     // set store user info
@@ -27,9 +29,9 @@ export default {
 
     return next();
   },
-  datasoft({ next, router }) {
+  dsf({ next, router }) {
     if (store.state.userType !== userType.administrator
-      && store.state.userType !== userType.datasoft) {
+      && store.state.userType !== userType.dsf) {
       return router.replace({ name: 'main' });
     }
 

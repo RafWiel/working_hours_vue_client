@@ -13,11 +13,9 @@
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
               <!--
+                DS Filtrowanie faktura
                 <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
-                Piotr rozliczanie klientow
                 Checkbox suma
-                Po ustaleniu klienta wczytaj jego projekty, nie czekaj na litere
-                Gdy nowy klient, to wczytuje wszystkie projekty zamiast zadnego
               -->
             <router-view
               :key="$route.path"
@@ -129,7 +127,7 @@ export default {
       this.links = [];
 
       if (this.$store.state.userType !== userType.administrator) {
-        if (this.$store.state.userType !== userType.aldridge) {
+        if (this.$store.state.userType === userType.dsf) {
           this.links.push({
             icon: 'mdi-account-multiple',
             value: 'clients',
@@ -146,7 +144,7 @@ export default {
 
       if (this.$store.state.userType === userType.administrator) {
         this.links.push({
-          value: 'aldridge',
+          value: 'ald',
           isHeader: true,
         });
 
@@ -163,7 +161,7 @@ export default {
         });
 
         this.links.push({
-          value: 'datasoft',
+          value: 'dsf',
           isHeader: true,
         });
 

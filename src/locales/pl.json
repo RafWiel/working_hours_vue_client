@@ -3,8 +3,8 @@
   "common": {
     "yes": "Tak",
     "no": "Nie",
-    "aldridge": "Aldridge",
-    "datasoft": "DataSoft",
+    "ald": "Aldridge",
+    "dsf": "DataSoft",
     "date": "Data",
     "client": "Klient",
     "project": "Projekt",
@@ -40,7 +40,8 @@
     "save": "Zapisz",
     "settle": "Rozlicz",
     "delete": "Usuń",
-    "add": "Dodaj"
+    "add": "Dodaj",
+    "invoice": "Ustaw fakturę"
   },
   "clientListView": {
     "title": "Klienci"
@@ -54,8 +55,8 @@
   },
   "taskAddView": {
     "title": "Nowe zadanie",
-    "titleAd": "Nowe zadanie @:common.aldridge",
-    "titleDs": "Nowe zadanie @:common.datasoft"
+    "titleAd": "Nowe zadanie @:common.ald",
+    "titleDs": "Nowe zadanie @:common.dsf"
   },
   "taskListView": {
     "title": "Zadania",
@@ -70,12 +71,13 @@
     "description": "@:common.description",
     "price": "@:common.price",
     "hours": "@:common.hours",
-    "settlement": "@:common.settlement"
+    "settlement": "@:common.settlement",
+    "invoice": "@:common.invoice"
   },
   "taskViewEditView": {
     "title": "Zadanie",
-    "titleAd": "Zadanie @:common.aldridge",
-    "titleDs": "Zadanie @:common.datasoft"
+    "titleAd": "Zadanie @:common.ald",
+    "titleDs": "Zadanie @:common.dsf"
   },
   "userRegisterView": {
     "title": "Rejestracja",
@@ -92,9 +94,7 @@
   },
   "enums": {
     "common": {
-      "all": "Wszystkie",
-      "aldridge": "Aldridge",
-      "datasoft": "DataSoft"
+      "all": "Wszystkie"
     },
     "timePeriod": {
       "all": "@:enums.common.all",
@@ -109,13 +109,13 @@
     },
     "taskType": {
       "all": "Wszyscy",
-      "priceBased": "@:common.datasoft",
-      "hoursBased": "@:common.aldridge"
+      "priceBased": "@:common.dsf",
+      "hoursBased": "@:common.ald"
     },
     "userType": {
       "administrator": "Administrator",
-      "aldridge": "@:common.aldridge",
-      "datasoft": "@:common.datasoft"
+      "ald": "@:common.ald",
+      "dsf": "@:common.dsf"
     },
     "sorting": {
       "ascending": "Rosnąco",
@@ -168,9 +168,9 @@
     "tasks": "Zadania",
     "tasksAd": "@:menuItems.tasks",
     "tasksDs": "@:menuItems.tasks",
-    "aldridge": "@:common.aldridge",
-    "datasoft": "@:common.datasoft",
-    "newTaskAd": "Nowe zadanie @:common.aldridge",
-    "newTaskDs": "Nowe zadanie @:common.datasoft"
+    "ald": "@:common.ald",
+    "dsf": "@:common.dsf",
+    "newTaskAd": "Nowe zadanie @:common.ald",
+    "newTaskDs": "Nowe zadanie @:common.dsf"
   }
 }

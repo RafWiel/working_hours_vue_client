@@ -45,7 +45,7 @@ export default
     isSettleTaskButton() {
       return this.$route.meta.isTaskListView && this.$store && (
         this.$store.state.userType === userType.administrator
-        || this.$store.state.userType === userType.datasoft);
+        || this.$store.state.userType === userType.dsf);
     },
   },
   data: () => ({

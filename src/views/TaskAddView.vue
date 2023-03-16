@@ -175,10 +175,10 @@ export default {
     computed_width() {
       switch (this.$vuetify.breakpoint.name) {
           case 'xs': return '';
-          case 'sm': return 'width: 75%;';
-          case 'md': return 'width: 50%;';
-          case 'lg': return 'width: 40%;';
-          case 'xl': return 'width: 30%;';
+          case 'sm': return 'width: 80%;';
+          case 'md': return 'width: 70%;';
+          case 'lg': return 'width: 60%;';
+          case 'xl': return 'width: 50%;';
           default: return '';
         }
     },
@@ -346,28 +346,7 @@ export default {
 
       this.$refs.form.resetValidation();
     },
-  },
-  watch: {
-    'clientApi.searchInput': debounce(async function searchInput(val) {
-      if (this.clientApi.isLoading) return;
-      if (this.isProcessing) return;
-
-      this.clientApi.isLoading = true;
-
-      clientsService.getNamesDistinct({ filter: val })
-      .then((res) => {
-        this.clientApi.values = res.data;
-
-        this.projectApi.values = [];
-        this.item.project = null;
-        this.resetForm();
-      })
-      .catch((error) => logger.error(error))
-      .finally(() => {
-        this.clientApi.isLoading = false;
-      });
-    }, 500, { maxWait: 5000 }),
-    'projectApi.searchInput': debounce(async function searchInput(val) {
+    loadProjectNames(val) {
       if (this.projectApi.isLoading) return;
       if (this.isProcessing) return;
 
@@ -391,6 +370,31 @@ export default {
       .finally(() => {
         this.projectApi.isLoading = false;
       });
+    },
+  },
+  watch: {
+    'clientApi.searchInput': debounce(async function searchInput(val) {
+      if (this.clientApi.isLoading) return;
+      if (this.isProcessing) return;
+
+      this.clientApi.isLoading = true;
+
+      clientsService.getNamesDistinct({ filter: val })
+      .then((res) => {
+        this.clientApi.values = res.data;
+
+        this.projectApi.values = [];
+        this.item.project = null;
+        this.resetForm();
+        this.loadProjectNames();
+      })
+      .catch((error) => logger.error(error))
+      .finally(() => {
+        this.clientApi.isLoading = false;
+      });
+    }, 500, { maxWait: 5000 }),
+    'projectApi.searchInput': debounce(async function searchInput(val) {
+      this.loadProjectNames(val);
     }, 500, { maxWait: 5000 }),
   },
 };

@@ -1,17 +1,17 @@
 import i18n from '@/plugins/i18n';
 
 const administrator = 0;
-const datasoft = 1;
-const aldridge = 2;
+const dsf = 1;
+const ald = 2;
 
 export default {
   administrator,
-  datasoft,
-  aldridge,
+  dsf,
+  ald,
   items: [
     { id: administrator, text: 'Administrator' },
-    { id: aldridge, text: 'Aldridge' },
-    { id: datasoft, text: 'DataSoft' },
+    { id: ald, text: 'Ald' },
+    { id: dsf, text: 'Dsf' },
   ],
   getText(id) {
     const item = this.items.find((u) => u.id === id);
@@ -20,8 +20,8 @@ export default {
   getItems() {
     return [
       { id: administrator, text: i18n.t('enums.userType.administrator') },
-      { id: aldridge, text: i18n.t('enums.userType.aldridge') },
-      { id: datasoft, text: i18n.t('enums.userType.datasoft') },
+      { id: ald, text: i18n.t('enums.userType.ald') },
+      { id: dsf, text: i18n.t('enums.userType.dsf') },
     ];
   },
 };
