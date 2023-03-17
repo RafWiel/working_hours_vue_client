@@ -48,6 +48,7 @@ import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
 import userType from '@/enums/userType';
 import settlementType from '@/enums/settlementType';
+import invoiceType from '@/enums/invoiceType';
 
 export default {
   name: 'TaskListView',
@@ -229,6 +230,7 @@ export default {
         'time-period': this.filter && this.filter.timePeriod !== timePeriod.all ? this.filter.timePeriod : null,
         'task-type': taskTypeFilter,
         'settlement-type': this.filter && this.filter.settlementType > settlementType.all ? this.filter.settlementType : null,
+        'invoice-type': this.filter && this.filter.invoiceType > invoiceType.all ? this.filter.invoiceType : null,
         'client-id': this.client.id,
       })
       .then((response) => {

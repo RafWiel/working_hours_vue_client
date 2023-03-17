@@ -29,6 +29,17 @@
         item-value="id"
         hide-details="auto"/>
     </template>
+    <!-- Invoice -->
+    <template v-slot:invoice>
+      <v-select
+        :items="invoiceTypeItems"
+        :label="$t('filter.invoice')"
+        @click.stop
+        @change="emitFilterEvent"
+        v-model="filter.invoiceType"
+        item-value="id"
+        hide-details="auto"/>
+    </template>
     <!-- Settlement -->
     <template v-slot:settlement>
       <v-select
@@ -120,6 +131,7 @@ import debounce from 'lodash.debounce';
 import timePeriod from '@/enums/timePeriod';
 import taskType from '@/enums/taskType';
 import userType from '@/enums/userType';
+import invoiceType from '@/enums/invoiceType';
 import settlementType from '@/enums/settlementType';
 import TaskListViewFilterLayout from './TaskListViewFilterLayout.vue';
 
@@ -139,6 +151,9 @@ export default {
     timePeriodItems() {
       return timePeriod.getItems();
     },
+    invoiceTypeItems() {
+      return invoiceType.getItems();
+    },
     settlementTypeItems() {
       return settlementType.getItems();
     },
@@ -149,11 +164,12 @@ export default {
   data: () => ({
     filter: {
       search: '',
-      timePeriod: 0,
+      timePeriod: timePeriod.none,
       startDate: null,
       stopDate: null,
-      taskType: 0,
-      settlementType: 0,
+      taskType: taskType.none,
+      settlementType: settlementType.none,
+      invoiceType: invoiceType.none,
     },
     isStartDatePickerVisible: false,
     isStopDatePickerVisible: false,

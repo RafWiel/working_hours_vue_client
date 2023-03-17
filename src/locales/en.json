@@ -23,6 +23,7 @@
   "filter": {
     "search": "Search",
     "timePeriod": "Time period",
+    "invoice": "@:common.invoice",
     "settlement": "@:common.settlement",
     "client": "Client",
     "startDate": "Start date",
@@ -106,6 +107,11 @@
       "all": "@:enums.common.all",
       "settled": "Settled",
       "unsettled": "Unsettled"
+    },
+    "invoiceType": {
+      "all": "@:enums.common.all",
+      "issued": "Issued",
+      "notIssued": "Not issued"
     },
     "taskType": {
       "all": "@:enums.common.all",
