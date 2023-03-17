@@ -164,12 +164,12 @@ export default {
   data: () => ({
     filter: {
       search: '',
-      timePeriod: timePeriod.none,
+      timePeriod: timePeriod.all,
       startDate: null,
       stopDate: null,
-      taskType: taskType.none,
+      taskType: taskType.all,
       settlementType: settlementType.none,
-      invoiceType: invoiceType.none,
+      invoiceType: invoiceType.all,
     },
     isStartDatePickerVisible: false,
     isStopDatePickerVisible: false,
@@ -205,6 +205,10 @@ export default {
 
       if (this.filter.settlementType !== settlementType.none) {
         route.query['settlement-type'] = this.filter.settlementType;
+      }
+
+      if (this.filter.invoiceType !== invoiceType.none) {
+        route.query['invoice-type'] = this.filter.invoiceType;
       }
 
       if (this.filter.startDate) {
@@ -296,6 +300,11 @@ export default {
         if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
           this.filter.settlementType = parseInt(value['settlement-type'], 10);
           isRefresh = this.filter.settlementType !== settlementType.none;
+        }
+
+        if (!!value['invoice-type'] && this.filter.invoiceType !== parseInt(value['invoice-type'], 10)) {
+          this.filter.invoiceType = parseInt(value['invoice-type'], 10);
+          isRefresh = this.filter.invoiceType !== invoiceType.none;
         }
 
         if (!!value['start-date'] && this.filter.startDate !== value['start-date']) {
