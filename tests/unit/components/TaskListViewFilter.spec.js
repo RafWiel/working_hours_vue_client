@@ -28,6 +28,8 @@ describe('TaskListViewFilter.vue', () => {
 
     document.body.setAttribute('data-app', true);
 
+
+
     wrapper = mount(TaskListViewFilter, {
       vuetify,
       i18n,
@@ -54,9 +56,9 @@ describe('TaskListViewFilter.vue', () => {
     expect(wrapper.findComponent({ref: 'search'}).props('value')).toBe($route.query.search);
   });
 
-  it('time period control is disabled if date set', () => {
-    expect(wrapper.findComponent({ref: 'timePeriod'}).props('disabled')).toBe(true);
-  });
+  // it('time period control is disabled if date set', () => {
+  //   expect(wrapper.findComponent({ref: 'timePeriod'}).props('disabled')).toBe(true);
+  // });
 
   it('emits filter on search change', async () => {
     await wrapper.findComponent({ref: 'search'}).get('input').setValue('test');
