@@ -16,6 +16,17 @@
         validate-on-blur
         v-model.lazy.trim="filter.search"/>
     </template>
+    <!-- Invoice -->
+    <template v-slot:invoice>
+      <v-select
+        :items="invoiceTypeItems"
+        :label="$t('filter.invoice')"
+        @click.stop
+        @change="emitFilterEvent"
+        v-model="filter.invoiceType"
+        item-value="id"
+        hide-details="auto"/>
+    </template>
     <!-- Settlement -->
     <template v-slot:settlement>
       <v-select
@@ -33,6 +44,7 @@
 <script>
 import debounce from 'lodash.debounce'; // debounce - opoznienie
 import settlementType from '@/enums/settlementType';
+import invoiceType from '@/enums/invoiceType';
 import ClientListViewFilterLayout from './ClientListViewFilterLayout.vue';
 
 export default {
@@ -44,6 +56,9 @@ export default {
     route: String,
   },
   computed: {
+    invoiceTypeItems() {
+      return invoiceType.getItems();
+    },
     settlementTypeItems() {
       return settlementType.getItems();
     },
@@ -51,7 +66,8 @@ export default {
   data: () => ({
     filter: {
       search: '',
-      settlementType: 0,
+      settlementType: settlementType.none,
+      invoiceType: invoiceType.all,
     },
   }),
   mounted() {
@@ -76,6 +92,10 @@ export default {
 
       if (this.filter.settlementType !== settlementType.none) {
         route.query['settlement-type'] = this.filter.settlementType;
+      }
+
+      if (this.filter.invoiceType !== invoiceType.none) {
+        route.query['invoice-type'] = this.filter.invoiceType;
       }
 
       this.saveToLocalStorage();
@@ -129,6 +149,11 @@ export default {
         if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
           this.filter.settlementType = parseInt(value['settlement-type'], 10);
           isRefresh = this.filter.settlementType !== settlementType.none;
+        }
+
+        if (!!value['invoice-type'] && this.filter.invoiceType !== parseInt(value['invoice-type'], 10)) {
+          this.filter.invoiceType = parseInt(value['invoice-type'], 10);
+          isRefresh = this.filter.invoiceType !== invoiceType.none;
         }
 
         if (isRefresh) {

@@ -35,6 +35,7 @@ import ClientListViewFilter from '@/components/ClientListViewFilter.vue';
 import taskType from '@/enums/taskType';
 import timePeriod from '@/enums/timePeriod';
 import settlementType from '@/enums/settlementType';
+import invoiceType from '@/enums/invoiceType';
 
 export default {
   name: 'ClientListView',
@@ -109,6 +110,7 @@ export default {
         'time-period': this.filter && this.filter.timePeriod !== timePeriod.all ? this.filter.timePeriod : null,
         'task-type': this.filter && this.filter.taskType !== taskType.all ? this.filter.taskType : null,
         'settlement-type': this.filter && this.filter.settlementType > settlementType.all ? this.filter.settlementType : null,
+        'invoice-type': this.filter && this.filter.invoiceType > invoiceType.all ? this.filter.invoiceType : null,
       })
       .then((response) => {
         if (!response.data) return;
@@ -189,6 +191,7 @@ export default {
         query: {
           'client-id': id,
           'settlement-type': this.filter ? this.filter.settlementType : settlementType.all,
+          'invoice-type': this.filter ? this.filter.invoiceType : invoiceType.all,
         },
       });
     },

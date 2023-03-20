@@ -13,7 +13,6 @@
               @applyClicked="$root.$emit('settleTasks')"
               :isApplyEnabled="isTaskListSelection"/>
               <!--
-                DS Filtrowanie faktura
                 <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
                 Checkbox suma
               -->

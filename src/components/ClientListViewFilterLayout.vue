@@ -7,10 +7,18 @@
       <v-row class="no-gutters">
         <!-- Search -->
         <v-col
-          cols="8"
-          lg="10"
-          md="9">
+          cols="4"
+          lg="8"
+          md="6">
           <slot name="search"/>
+        </v-col>
+        <!-- Invoice md -->
+        <v-col
+          class="pl-2"
+          cols="4"
+          lg="2"
+          md="3">
+          <slot name="invoice"/>
         </v-col>
         <!-- Settlement -->
         <v-col
@@ -44,8 +52,12 @@
             fluid
             class="pa-0 ml-n6 mr-n2 pr-n4">
             <v-row class="no-gutters">
+              <!-- Invoice -->
+              <v-col cols="6" class="mt-2">
+                <slot name="invoice"/>
+              </v-col>
               <!-- Settlement -->
-              <v-col cols="12" class="mt-2">
+              <v-col cols="6" class="mt-2 pl-2">
                 <slot name="settlement"/>
               </v-col>
             </v-row>
