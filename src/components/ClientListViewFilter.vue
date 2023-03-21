@@ -102,9 +102,9 @@ export default {
       this.$router.replace(route);
       this.$emit('filter', this.filter);
     },
-    emitSortEvent(sorting) {
-      this.$emit('sort', sorting);
-    },
+    // emitSortEvent(sorting) {
+    //   this.$emit('sort', sorting);
+    // },
     saveToLocalStorage() {
       localStorage.setItem(`${this.$route.name}Filter`, JSON.stringify(this.filter));
     },
@@ -142,17 +142,23 @@ export default {
         let isRefresh = false;
 
         if (!!value.search && this.filter.search !== value.search) {
-          this.filter.search = value.search;
+          this.filter.search = value.search.substring(0, 20);
           isRefresh = !!this.filter.search;
         }
 
-        if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
-          this.filter.settlementType = parseInt(value['settlement-type'], 10);
+        const settlementTypeValue = parseInt(value['settlement-type'], 10);
+        if (!!settlementTypeValue
+        && this.filter.settlementType !== settlementTypeValue
+        && settlementType.isValid(settlementTypeValue)) {
+          this.filter.settlementType = settlementTypeValue;
           isRefresh = this.filter.settlementType !== settlementType.none;
         }
 
-        if (!!value['invoice-type'] && this.filter.invoiceType !== parseInt(value['invoice-type'], 10)) {
-          this.filter.invoiceType = parseInt(value['invoice-type'], 10);
+        const invoiceTypeValue = parseInt(value['invoice-type'], 10);
+        if (!!invoiceTypeValue
+        && this.filter.invoiceType !== invoiceTypeValue
+        && invoiceType.isValid(invoiceTypeValue)) {
+          this.filter.invoiceType = invoiceTypeValue;
           isRefresh = this.filter.invoiceType !== invoiceType.none;
         }
 

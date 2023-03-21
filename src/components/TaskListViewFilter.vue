@@ -128,6 +128,7 @@
 
 <script>
 import debounce from 'lodash.debounce';
+import moment from 'moment';
 import timePeriod from '@/enums/timePeriod';
 import taskType from '@/enums/taskType';
 import userType from '@/enums/userType';
@@ -231,9 +232,9 @@ export default {
       this.$router.replace(route);
       this.$emit('filter', this.filter);
     },
-    emitSortEvent(sorting) {
-      this.$emit('sort', sorting);
-    },
+    // emitSortEvent(sorting) {
+    //   this.$emit('sort', sorting);
+    // },
     saveToLocalStorage() {
       localStorage.setItem(`${this.$route.name}Filter`, JSON.stringify(this.filter));
     },
@@ -283,38 +284,56 @@ export default {
         let isRefresh = false;
 
         if (!!value.search && this.filter.search !== value.search) {
-          this.filter.search = value.search;
+          this.filter.search = value.search.substring(0, 20);
           isRefresh = !!this.filter.search;
         }
 
-        if (!!value['time-period'] && this.filter.timePeriod !== parseInt(value['time-period'], 10)) {
-          this.filter.timePeriod = parseInt(value['time-period'], 10);
+        const timePeriodValue = parseInt(value['time-period'], 10);
+        if (!!timePeriodValue
+        && this.filter.timePeriod !== timePeriodValue
+        && timePeriod.isValid(timePeriodValue)) {
+          this.filter.timePeriod = timePeriodValue;
           isRefresh = this.filter.timePeriod !== timePeriod.all;
         }
 
-        if (!!value['task-type'] && this.filter.taskType !== parseInt(value['task-type'], 10)) {
-          this.filter.taskType = parseInt(value['task-type'], 10);
+        const taskTypeValue = parseInt(value['task-type'], 10);
+        if (!!taskTypeValue
+        && this.filter.taskType !== taskTypeValue
+        && taskType.isValid(taskTypeValue)) {
+          this.filter.taskType = taskTypeValue;
           isRefresh = this.filter.taskType !== taskType.all;
         }
 
-        if (!!value['settlement-type'] && this.filter.settlementType !== parseInt(value['settlement-type'], 10)) {
-          this.filter.settlementType = parseInt(value['settlement-type'], 10);
+        const settlementTypeValue = parseInt(value['settlement-type'], 10);
+        if (!!settlementTypeValue
+        && this.filter.settlementType !== settlementTypeValue
+        && settlementType.isValid(settlementTypeValue)) {
+          this.filter.settlementType = settlementTypeValue;
           isRefresh = this.filter.settlementType !== settlementType.none;
         }
 
-        if (!!value['invoice-type'] && this.filter.invoiceType !== parseInt(value['invoice-type'], 10)) {
-          this.filter.invoiceType = parseInt(value['invoice-type'], 10);
+        const invoiceTypeValue = parseInt(value['invoice-type'], 10);
+        if (!!invoiceTypeValue
+        && this.filter.invoiceType !== invoiceTypeValue
+        && invoiceType.isValid(invoiceTypeValue)) {
+          this.filter.invoiceType = invoiceTypeValue;
           isRefresh = this.filter.invoiceType !== invoiceType.none;
         }
 
-        if (!!value['start-date'] && this.filter.startDate !== value['start-date']) {
-          this.filter.startDate = value['start-date'];
-          isRefresh = !!this.filter.startDate;
+        const startDate = value['start-date'];
+        if (!!startDate
+        && this.filter.startDate !== startDate
+        && moment(startDate, 'YYYY-MM-DD', true).isValid()) {
+          this.filter.startDate = startDate;
+          isRefresh = true;
         }
 
-        if (!!value['stop-date'] && this.filter.stopDate !== value['stop-date']) {
-          this.filter.stopDate = value['stop-date'];
-          isRefresh = !!this.filter.stopDate;
+        const stopDate = value['stop-date'];
+        if (!!stopDate
+        && this.filter.stopDate !== stopDate
+        && moment(stopDate, 'YYYY-MM-DD', true).isValid()) {
+          this.filter.stopDate = stopDate;
+          isRefresh = true;
         }
 
         if (isRefresh) {

@@ -21,4 +21,7 @@ export default {
       { id: unsettled, text: i18n.t('enums.settlementType.unsettled') },
     ];
   },
+  isValid(value) {
+    return value >= none && value <= unsettled;
+  },
 };

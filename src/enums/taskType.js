@@ -19,4 +19,7 @@ export default {
       { id: hoursBased, text: i18n.t('enums.taskType.hoursBased') },
     ];
   },
+  isValid(value) {
+    return value >= all && value <= hoursBased;
+  },
 };

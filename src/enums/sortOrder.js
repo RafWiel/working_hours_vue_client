@@ -16,4 +16,7 @@ export default {
       { id: descending, text: i18n.t('enums.sorting.descending') },
     ];
   },
+  isValid(value) {
+    return value >= ascending && value <= descending;
+  },
 };

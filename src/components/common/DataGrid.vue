@@ -264,13 +264,19 @@ export default {
 
         let isRefresh = false;
 
-        if (!!value.sort && this.sorting.column !== value.sort) {
-          this.sorting.column = value.sort;
-          isRefresh = !!this.sorting.column;
+        const sortColumnValue = value.sort;
+        if (!!sortColumnValue
+        && this.sorting.column !== sortColumnValue
+        && !!this.columns.filter((u) => u.value === sortColumnValue).length > 0) {
+          this.sorting.column = sortColumnValue;
+          isRefresh = true;
         }
 
-        if (!!value.order && this.sorting.order !== parseInt(value.order, 10)) {
-          this.sorting.order = parseInt(value.order, 10);
+        const sortOrderValue = parseInt(value.order, 10);
+        if (!!sortOrderValue
+        && this.sorting.order !== sortOrderValue
+        && sortOrder.isValid(sortOrderValue)) {
+          this.sorting.order = sortOrderValue;
           isRefresh = true;
         }
 

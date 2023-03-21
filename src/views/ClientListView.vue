@@ -7,7 +7,6 @@
     <client-list-view-filter
       :class="$vuetify.breakpoint.mdAndUp ? 'px-4 pt-2 pb-2' : 'px-3 py-2'"
       @filter="filterItems"
-      @sort="sortItems"
       route="clients"/>
     <!-- DataGrid -->
     <data-grid

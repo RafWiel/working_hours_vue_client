@@ -21,4 +21,7 @@ export default {
       { id: notIssued, text: i18n.t('enums.invoiceType.notIssued') },
     ];
   },
+  isValid(value) {
+    return value >= none && value <= notIssued;
+  },
 };

@@ -22,4 +22,7 @@ export default {
       { id: previousMonth, text: i18n.t('enums.timePeriod.previousMonth') },
     ];
   },
+  isValid(value) {
+    return value >= all && value <= previousMonth;
+  },
 };
