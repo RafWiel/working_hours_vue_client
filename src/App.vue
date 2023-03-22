@@ -14,7 +14,6 @@
               :isApplyEnabled="isTaskListSelection"/>
               <!--
                 <h5 class="px-2 py-1 yellow">Wpisz glupoty w polu wyszukiwania</h5>
-                Checkbox suma
               -->
             <router-view
               :key="$route.path"

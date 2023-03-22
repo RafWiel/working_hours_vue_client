@@ -198,6 +198,8 @@ export default {
       this.showDatePickerDialog();
     });
 
+    this.$route.meta.isBackButton = !!this.client.id;
+
     this.beginFetch();
   },
   methods: {
