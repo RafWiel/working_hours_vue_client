@@ -58,31 +58,41 @@
                   validate-on-blur
                   v-model.lazy="input.password"/>
               </v-col>
+              <!-- Register link portrait -->
+              <v-col
+                v-if="$vuetify.breakpoint.xs"
+                cols="12"
+                class="mt-6">
+                <v-btn
+                  @click="register"
+                  id="submit"
+                  depressed
+                  block
+                  plain
+                  color="primary">
+                  {{ $t('loginView.register') }}
+                </v-btn>
+              </v-col>
             </v-row>
-          </v-col>
-        </v-row>
-        <!-- Register link portrait -->
-        <v-row
-          v-if="$vuetify.breakpoint.xs"
-          class="no-gutters shrink"
-          justify="center">
-          <v-col cols="12" sm="5">
-            <v-btn
-              @click="register"
-              id="submit"
-              depressed
-              block
-              plain
-              color="primary">
-              {{ $t('loginView.register') }}
-            </v-btn>
           </v-col>
         </v-row>
         <!-- Submit Button -->
         <v-row
           :class="$vuetify.breakpoint.xs ? 'px-3 mt-2 pb-3' : 'mt-4'"
-          class="no-gutters shrink"
-          justify="end">
+          class="no-gutters shrink justify-space-between">
+          <v-col
+            v-if="$vuetify.breakpoint.smAndUp"
+            cols="5"
+            class="mt-1 ml-n4">
+            <v-btn
+              @click="register"
+              id="submit"
+              depressed
+              plain
+              color="primary">
+              {{ $t('loginView.register') }}
+            </v-btn>
+          </v-col>
           <v-col cols="12" sm="5">
             <v-btn
               @click="login"
@@ -92,23 +102,6 @@
               color="primary"
               class="save-btn">
               {{ $t('loginView.login') }}
-            </v-btn>
-          </v-col>
-        </v-row>
-        <!-- Register link horizontal -->
-        <v-row
-          v-if="$vuetify.breakpoint.smAndUp"
-          class="no-gutters shrink mt-4"
-          justify="center">
-          <v-col cols="12" sm="5">
-            <v-btn
-              @click="register"
-              id="submit"
-              depressed
-              block
-              plain
-              color="primary">
-              {{ $t('loginView.register') }}
             </v-btn>
           </v-col>
         </v-row>

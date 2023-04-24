@@ -163,6 +163,12 @@ export default {
   }),
   mounted() {
     this.loadFromLocalStorage();
+
+    this.$root.$on('selectionChanged', (value) => {
+      if (!value) {
+        this.isAllSelected = false;
+      }
+    });
   },
   methods: {
     sort(column) {
