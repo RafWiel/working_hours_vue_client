@@ -65,7 +65,6 @@
                 class="mt-6">
                 <v-btn
                   @click="register"
-                  id="submit"
                   depressed
                   block
                   plain
@@ -86,7 +85,6 @@
             class="mt-1 ml-n4">
             <v-btn
               @click="register"
-              id="submit"
               depressed
               plain
               color="primary">
