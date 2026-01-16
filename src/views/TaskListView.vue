@@ -126,6 +126,7 @@ export default {
         value: 'price',
         isSum: true,
         sum: 0,
+        selectedSum: 0,
         decimalDigits: 0,
         isVisible: false,
         width: {
@@ -140,6 +141,7 @@ export default {
         value: 'hours',
         isSum: true,
         sum: 0,
+        selectedSum: 0,
         decimalDigits: 0,
         isVisible: true,
         width: {
@@ -264,6 +266,7 @@ export default {
         });
 
         this.calculateSum();
+        this.calculateSelectedSum();
 
         // increment page number for next fetch
         this.page += 1;
@@ -370,6 +373,7 @@ export default {
     },
     notifySelection() {
       this.$root.$emit('selectionChanged', this.isSelection);
+      this.calculateSelectedSum();
     },
     showDatePickerDialog() {
       this.datePickerDialog.isVisible = true;
@@ -408,6 +412,15 @@ export default {
         const items = this.items.filter((u) => u[column.value]);
 
         column.sum = items.reduce((part, u) => part + parseFloat(u[column.value]), 0);
+      });
+    },
+    calculateSelectedSum() {
+      this.columns.filter((u) => u.isSum)
+      .forEach((item) => {
+        const column = item;
+        const items = this.items.filter((u) => u[column.value] && u.isSelected);
+
+        column.selectedSum = items.reduce((part, u) => part + parseFloat(u[column.value]), 0);
       });
     },
     navigate(id) {

@@ -66,6 +66,7 @@ export default {
         value: 'amount',
         isSum: true,
         sum: 0,
+        selectedSum: 0,
         decimalDigits: 0,
         width: {
           xl: 20,

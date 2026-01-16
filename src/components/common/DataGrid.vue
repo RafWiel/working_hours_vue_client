@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-0 pt-3">
+  <v-container fluid class="pa-0 pt-3 checkbox_container">
     <!-- Header -->
     <v-row
       v-if="items.length > 0"
@@ -45,7 +45,7 @@
       v-if="items.length > 0"
       class="mt-0 py-0"/>
     <!-- Rows -->
-    <v-container fluid class="pa-0">
+    <v-container fluid class="pa-0 checkbox_container">
       <v-row
         v-for="(item, index) in items"
         :key="item.id"
@@ -102,7 +102,15 @@
                 :style="`width: ${getColumnWidth(column)}%`"
                 :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                 class="list_column text_ellipsis font-weight-bold">
-                {{ column.isSum ? formatSum(column) : '&nbsp;' }}
+                <span v-if="column.isSum && column.selectedSum > 0" class="selection_summary">
+                  {{ formatSelectedSum(column) }}
+                </span>
+                <span v-if="column.isSum && column.selectedSum > 0" class="selection_slash">
+                  /
+                </span>
+                <span v-if="column.isSum">
+                  {{ formatSum(column) }}
+                </span>
               </div>
             </v-col>
           </v-row>
@@ -259,6 +267,20 @@ export default {
 
       return column.sum;
     },
+    formatSelectedSum(column) {
+      const value = column.selectedSum;
+
+      if (column.decimalDigits || column.decimalDigits === 0) {
+        // prevent rounding up to integer
+        if (parseFloat(value) !== parseInt(value, 10) && column.decimalDigits === 0) {
+          return parseFloat(value).toFixed(1);
+        }
+
+        return parseFloat(value).toFixed(column.decimalDigits);
+      }
+
+      return column.selectedSum;
+    },
   },
   watch: {
     '$route.query': {
@@ -297,7 +319,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
   .text_ellipsis {
     overflow: clip;
     text-overflow: ellipsis;
@@ -350,5 +371,19 @@ export default {
     margin-top: -10px;
     vertical-align: middle;
   }
+
+  .selection_summary {
+    color: #2b5ebb;
+  }
+
+  .selection_slash {
+    color: #8f8f8f;
+  }
+
+  .checkbox_container {
+    .v-input--checkbox {
+      color: lightgray;
+    }
+}
 
 </style>
