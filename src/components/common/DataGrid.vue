@@ -69,7 +69,9 @@
                   :style="`width: ${getColumnWidth(column)}%`"
                   :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                   class="list_column py-0 text_ellipsis">
-                  {{ column.isIndex ? index + 1 : formatValue(item, column) }}
+                  <span :class="item.isSelected ? 'selection_text' : ''">
+                    {{ column.isIndex ? index + 1 : formatValue(item, column) }}
+                  </span>
                 </div>
             </v-col>
             <v-col cols="auto">
@@ -102,7 +104,7 @@
                 :style="`width: ${getColumnWidth(column)}%`"
                 :class="isSelectionCheckbox ? 'selection_offset_y' : ''"
                 class="list_column text_ellipsis font-weight-bold">
-                <span v-if="column.isSum && column.selectedSum > 0" class="selection_summary">
+                <span v-if="column.isSum && column.selectedSum > 0" class="selection_text">
                   {{ formatSelectedSum(column) }}
                 </span>
                 <span v-if="column.isSum && column.selectedSum > 0" class="selection_slash">
@@ -319,6 +321,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  $selection-text-color: #2b5ebb;
+
   .text_ellipsis {
     overflow: clip;
     text-overflow: ellipsis;
@@ -372,8 +376,8 @@ export default {
     vertical-align: middle;
   }
 
-  .selection_summary {
-    color: #2b5ebb;
+  .selection_text {
+    color: $selection-text-color;
   }
 
   .selection_slash {
